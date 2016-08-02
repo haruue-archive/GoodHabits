@@ -1,0 +1,3 @@
+D:/Android/Project/GoodHabits/app/externalNativeBuild/cmake/debug/mips64/CMakeFiles/native-lib.dir
+D:/Android/Project/GoodHabits/app/externalNativeBuild/cmake/debug/mips64/CMakeFiles/edit_cache.dir
+D:/Android/Project/GoodHabits/app/externalNativeBuild/cmake/debug/mips64/CMakeFiles/rebuild_cache.dir

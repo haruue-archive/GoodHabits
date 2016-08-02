@@ -1,0 +1,15 @@
+Executable : D:\Android\sdk\cmake\3.6\bin\cmake.exe
+arguments : 
+-HD:\Android\Project\GoodHabits\app
+-BD:\Android\Project\GoodHabits\app\externalNativeBuild\cmake\release\x86
+-GAndroid Gradle - Ninja
+-DANDROID_ABI=x86
+-DANDROID_NDK=D:\Android\sdk\ndk-bundle
+-DCMAKE_LIBRARY_OUTPUT_DIRECTORY=D:\Android\Project\GoodHabits\app\build\intermediates\cmake\release\obj\x86
+-DCMAKE_BUILD_TYPE=Release
+-DCMAKE_MAKE_PROGRAM=D:\Android\sdk\cmake\3.6\bin\ninja.exe
+-DCMAKE_TOOLCHAIN_FILE=D:\Android\sdk\cmake\3.6\android.toolchain.cmake
+-DANDROID_NATIVE_API_LEVEL=14
+-DCMAKE_CXX_FLAGS=-frtti -fexceptions
+jvmArgs : 
+

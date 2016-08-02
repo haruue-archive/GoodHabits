@@ -1,0 +1,38 @@
+
+{
+	"buildFiles" : [ "D:/Android/Project/GoodHabits/app/CMakeLists.txt" ],
+	"cleanCommands" : 
+	[
+		"D:\\Android\\sdk\\cmake\\3.6\\bin\\cmake.exe --build D:\\Android\\Project\\GoodHabits\\app\\externalNativeBuild\\cmake\\debug\\armeabi --target clean"
+	],
+	"cppFileExtensions" : [ "cpp" ],
+	"libraries" : 
+	{
+		"native-lib-Debug-armeabi" : 
+		{
+			"abi" : "armeabi",
+			"artifactName" : "native-lib",
+			"buildCommand" : "D:\\Android\\sdk\\cmake\\3.6\\bin\\cmake.exe --build D:\\Android\\Project\\GoodHabits\\app\\externalNativeBuild\\cmake\\debug\\armeabi --target native-lib",
+			"buildType" : "debug",
+			"files" : 
+			[
+				
+				{
+					"flags" : "  -Dnative_lib_EXPORTS -isystem D:\\Android\\sdk\\ndk-bundle\\sources\\cxx-stl\\gnu-libstdc++\\4.9\\include -isystem D:\\Android\\sdk\\ndk-bundle\\sources\\cxx-stl\\gnu-libstdc++\\4.9\\libs\\armeabi\\include -isystem D:\\Android\\sdk\\ndk-bundle\\sources\\cxx-stl\\gnu-libstdc++\\4.9\\include\\backward  -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -march=armv5te -mtune=xscale -msoft-float -fno-integrated-as -mthumb -Wa,--noexecstack -Wformat -Werror=format-security -fno-exceptions -fno-rtti -frtti -fexceptions -O0 -fno-limit-debug-info  -fPIC      ",
+					"src" : "D:/Android/Project/GoodHabits/app/src/main/cpp/native-lib.cpp",
+					"workingDirectory" : "D:/Android/Project/GoodHabits/app/externalNativeBuild/cmake/debug/armeabi"
+				}
+			],
+			"output" : "D:/Android/Project/GoodHabits/app/build/intermediates/cmake/debug/obj/armeabi/libnative-lib.so",
+			"toolchain" : "423535169"
+		}
+	},
+	"toolchains" : 
+	{
+		"423535169" : 
+		{
+			"cCompilerExecutable" : "D:/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe",
+			"cppCompilerExecutable" : "D:/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe"
+		}
+	}
+}

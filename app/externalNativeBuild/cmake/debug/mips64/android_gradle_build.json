@@ -1,0 +1,38 @@
+
+{
+	"buildFiles" : [ "D:/Android/Project/GoodHabits/app/CMakeLists.txt" ],
+	"cleanCommands" : 
+	[
+		"D:\\Android\\sdk\\cmake\\3.6\\bin\\cmake.exe --build D:\\Android\\Project\\GoodHabits\\app\\externalNativeBuild\\cmake\\debug\\mips64 --target clean"
+	],
+	"cppFileExtensions" : [ "cpp" ],
+	"libraries" : 
+	{
+		"native-lib-Debug-mips64" : 
+		{
+			"abi" : "mips64",
+			"artifactName" : "native-lib",
+			"buildCommand" : "D:\\Android\\sdk\\cmake\\3.6\\bin\\cmake.exe --build D:\\Android\\Project\\GoodHabits\\app\\externalNativeBuild\\cmake\\debug\\mips64 --target native-lib",
+			"buildType" : "debug",
+			"files" : 
+			[
+				
+				{
+					"flags" : "  -Dnative_lib_EXPORTS -isystem D:\\Android\\sdk\\ndk-bundle\\sources\\cxx-stl\\gnu-libstdc++\\4.9\\include -isystem D:\\Android\\sdk\\ndk-bundle\\sources\\cxx-stl\\gnu-libstdc++\\4.9\\libs\\mips64\\include -isystem D:\\Android\\sdk\\ndk-bundle\\sources\\cxx-stl\\gnu-libstdc++\\4.9\\include\\backward  -g -DANDROID -ffunction-sections -funwind-tables -fstack-protector-strong -no-canonical-prefixes -Wa,--noexecstack -Wformat -Werror=format-security -fno-exceptions -fno-rtti -frtti -fexceptions -O0 -fno-limit-debug-info  -fPIC      ",
+					"src" : "D:/Android/Project/GoodHabits/app/src/main/cpp/native-lib.cpp",
+					"workingDirectory" : "D:/Android/Project/GoodHabits/app/externalNativeBuild/cmake/debug/mips64"
+				}
+			],
+			"output" : "D:/Android/Project/GoodHabits/app/build/intermediates/cmake/debug/obj/mips64/libnative-lib.so",
+			"toolchain" : "423535169"
+		}
+	},
+	"toolchains" : 
+	{
+		"423535169" : 
+		{
+			"cCompilerExecutable" : "D:/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang.exe",
+			"cppCompilerExecutable" : "D:/Android/sdk/ndk-bundle/toolchains/llvm/prebuilt/windows-x86_64/bin/clang++.exe"
+		}
+	}
+}
