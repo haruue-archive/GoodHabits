@@ -1,4 +1,5 @@
 apply plugin: 'com.android.application'
+apply plugin: 'me.tatarka.retrolambda'
 
 android {
     compileSdkVersion 24
@@ -36,4 +37,28 @@ dependencies {
     })
     compile 'com.android.support:appcompat-v7:24.1.1'
     testCompile 'junit:junit:4.12'
+    //=========External Dependencies========//
+    // RxJava & RxAndroid https://github.com/ReactiveX/RxAndroid
+    compile 'io.reactivex:rxandroid:1.2.1'
+    compile 'io.reactivex:rxjava:1.1.6'
+    // OkHttp3 https://github.com/square/okhttp
+    compile 'com.squareup.okhttp3:okhttp:3.4.1'
+    // Retrofit2 https://github.com/square/retrofit
+    compile 'com.squareup.retrofit2:retrofit:2.1.0'
+    // BugHD https://bughd.com/
+    compile 'im.fir:fir-sdk:latest.integration@aar'
+    // Jude95/Utils https://github.com/Jude95/Utils
+    compile 'com.jude:utils:1.2.1'
+    // EasyRecyclerView https://github.com/Jude95/EasyRecyclerView
+    compile 'com.jude:easyrecyclerview:4.0.6'
+    // FastJson https://github.com/alibaba/fastjson
+    compile 'com.alibaba:fastjson:1.1.52.android'
+    // FastJson Converter https://github.com/ligboy/retrofit-converter-fastjson
+    compile 'org.ligboy.retrofit2:converter-fastjson-android:2.1.0'
+    // RxPermissions https://github.com/tbruyelle/RxPermissions
+    compile 'com.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar'
+    // RxBinding https://github.com/JakeWharton/RxBinding
+    compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
+    // Universal Image Loader https://github.com/nostra13/Android-Universal-Image-Loader
+    compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
 }
