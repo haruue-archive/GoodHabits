@@ -3,6 +3,10 @@
 buildscript {
     repositories {
         jcenter()
+        maven {
+            // LeanCloud https://leancloud.cn/docs/sdk_setup-android.html#Gradle
+            url "http://mvn.leancloud.cn/nexus/content/repositories/releases"
+        }
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:2.2.0-alpha7'
@@ -20,6 +24,10 @@ allprojects {
         maven {
             // BugHD https://bughd.com/
             url "http://maven.bughd.com/public"
+        }
+        maven {
+            // LeanCloud https://leancloud.cn/docs/sdk_setup-android.html#Gradle
+            url "http://mvn.leancloud.cn/nexus/content/repositories/releases"
         }
     }
 }

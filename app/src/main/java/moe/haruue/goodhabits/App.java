@@ -2,6 +2,7 @@ package moe.haruue.goodhabits;
 
 import android.app.Application;
 
+import com.avos.avoscloud.AVOSCloud;
 import com.jude.utils.JActivityManager;
 import com.jude.utils.JUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
@@ -24,6 +25,8 @@ public class App extends Application {
         registerActivityLifecycleCallbacks(JActivityManager.getActivityLifecycleCallbacks());
         // BugHD
         FIR.init(this);
+        // LeanCloud
+        AVOSCloud.initialize(this, "OLR6WcgAdRG09PKf2dnkN4ab-gzGzoHsz", "IxmvxbCw28dGnQNpbLFQsjHt");
         // Universal-Image-Loader
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
                 .build();

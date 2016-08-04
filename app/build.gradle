@@ -36,7 +36,20 @@ dependencies {
         exclude group: 'com.android.support', module: 'support-annotations'
     })
     compile 'com.android.support:appcompat-v7:24.1.1'
+    compile ('com.android.support:support-v4:24.1.1')
     testCompile 'junit:junit:4.12'
+    //========LeanCloud SDK========//
+    // LeanCloud 基础包
+    compile ('cn.leancloud.android:avoscloud-sdk:v3.+')
+    // 推送与实时聊天需要的包
+    compile ('cn.leancloud.android:avoscloud-push:v3.+@aar'){transitive = true}
+    // LeanCloud 统计包
+    compile ('cn.leancloud.android:avoscloud-statistics:v3.+')
+    // LeanCloud 用户反馈包
+    compile ('cn.leancloud.android:avoscloud-feedback:v3.+@aar')
+    // avoscloud-sns：LeanCloud 第三方登录包
+    compile ('cn.leancloud.android:avoscloud-sns:v3.+@aar')
+    compile ('cn.leancloud.android:qq-sdk:1.6.1-leancloud')
     //=========External Dependencies========//
     // RxJava & RxAndroid https://github.com/ReactiveX/RxAndroid
     compile 'io.reactivex:rxandroid:1.2.1'

@@ -28,4 +28,12 @@ public class BaseActivity extends AppCompatActivity {
         return (T) findViewById(res);
     }
 
+    /**
+     * 获取 Content View
+     * @return ContentView
+     */
+    public View getContentView() {
+        return getWindow().getDecorView().findViewById(android.R.id.content);
+    }
+
 }
