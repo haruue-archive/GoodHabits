@@ -1,5 +1,6 @@
+<?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="moe.haruue.goodhabits">
+          package="moe.haruue.goodhabits">
 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE"/>
     <uses-permission android:name="android.permission.ACCESS_WIFI_STATE"/>
@@ -7,15 +8,29 @@
     <uses-permission android:name="android.permission.READ_PHONE_STATE"/>
     <uses-permission android:name="android.permission.GET_TASKS"/>
 
-    <application android:allowBackup="true"
+    <application
         android:name=".App"
-        android:label="@string/app_name"
+        android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
+        android:label="@string/app_name"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <meta-data
+            android:name="BUG_HD_SDK_GENERAL_KEY"
+            android:value="bdea4347a22d2df62bdaa2a7e1a24112"/>
 
-        <meta-data android:value="bdea4347a22d2df62bdaa2a7e1a24112" android:name="BUG_HD_SDK_GENERAL_KEY" />
+        <activity
+            android:name=".ui.activity.LauncherActivity"
+            android:theme="@style/FitSystemWindowLayoutAppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN"/>
 
+                <category android:name="android.intent.category.LAUNCHER"/>
+            </intent-filter>
+        </activity>
+        <activity android:name=".ui.activity.MainActivity"
+            android:theme="@style/FitSystemWindowLayoutAppTheme">
+        </activity>
     </application>
 
 </manifest>

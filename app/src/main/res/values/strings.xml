@@ -1,3 +1,19 @@
 <resources>
-    <string name="app_name">"Good Habits "</string>
+    <string name="app_name">"Good Habits"</string>
+    <string name="main_page">主页面</string>
+    <string name="account">账户</string>
+    <string name="setting">设置</string>
+    <string name="register">注册</string>
+    <string name="login">登录</string>
+    <string name="logout">注销登录</string>
+    <string name="about">关于</string>
+    <string name="username">用户名</string>
+    <string name="password">密码</string>
+    <string name="cqupt">重庆邮电大学</string>
+    <string name="student_num">学号</string>
+    <string name="class_schedule">课程表</string>
+    <string name="task">任务</string>
+    <string name="add_task">增加任务</string>
+    <string name="calendar">日历</string>
+    <string name="square">广场</string>
 </resources>

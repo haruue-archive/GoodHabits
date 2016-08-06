@@ -9,6 +9,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import im.fir.sdk.FIR;
+import moe.haruue.goodhabits.util.ResourcesLoader;
 
 /**
  * @author Haruue Icymoon haruue@caoyue.com.cn
@@ -23,6 +24,8 @@ public class App extends Application {
         JUtils.initialize(this);
         JUtils.setDebug(BuildConfig.DEBUG, BuildConfig.APPLICATION_ID);
         registerActivityLifecycleCallbacks(JActivityManager.getActivityLifecycleCallbacks());
+        // ResourceLoader
+        ResourcesLoader.initialize(this);
         // BugHD
         FIR.init(this);
         // LeanCloud

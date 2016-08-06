@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <item
+        android:id="@+id/item_main_page"
+        android:title="@string/main_page"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:checked="true"/>
+
+    <group>
+        <item
+            android:id="@+id/item_account"
+            android:title="@string/account"
+            android:icon="@drawable/ic_account_circle_black_24dp"
+            android:checkable="false"/>
+    </group>
+
+    <item android:title="@string/setting">
+        <menu>
+            <item android:id="@+id/item_settings"
+                  android:title="@string/setting"
+                  android:icon="@drawable/ic_settings_black_24dp"
+                  android:checkable="false"/>
+            <item android:id="@+id/item_about"
+                  android:title="@string/about"
+                  android:checkable="false"/>
+        </menu>
+    </item>
+
+</menu>
