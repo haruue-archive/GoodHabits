@@ -3,13 +3,19 @@
 buildscript {
     repositories {
         jcenter()
+        repositories {
+            mavenCentral()
+        }
+        dependencies {
+            classpath 'com.neenbedankt.gradle.plugins:android-apt:1.8'
+        }
         maven {
             // LeanCloud https://leancloud.cn/docs/sdk_setup-android.html#Gradle
             url "http://mvn.leancloud.cn/nexus/content/repositories/releases"
         }
     }
     dependencies {
-        classpath 'com.android.tools.build:gradle:2.2.0-alpha7'
+        classpath 'com.android.tools.build:gradle:2.2.0-beta1'
         classpath 'me.tatarka:gradle-retrolambda:3.2.5'
 
         // NOTE: Do not place your application dependencies here; they belong
@@ -21,6 +27,7 @@ allprojects {
     repositories {
         jcenter()
         mavenCentral()
+        maven { url "https://jitpack.io" }
         maven {
             // BugHD https://bughd.com/
             url "http://maven.bughd.com/public"

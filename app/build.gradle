@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'me.tatarka.retrolambda'
+apply plugin: 'android-apt'
 
 android {
     compileSdkVersion 24
@@ -79,4 +80,8 @@ dependencies {
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
     // FitSystemWindowLayout https://github.com/Jude95/FitSystemWindowLayout
     compile 'com.jude:fitsystemwindowlayout:2.1.5'
+    //ui
+    compile 'com.github.JakeWharton:ViewPagerIndicator:2.4.1'
+    compile 'com.jakewharton:butterknife:8.2.1'
+    apt 'com.jakewharton:butterknife-compiler:8.2.1'
 }
