@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#3F51B5</color>
     <color name="colorPrimaryDark">#303F9F</color>
-    <color name="colorAccent">#FF4081</color>
+    <color name="colorAccent">#ff007b</color>
 
     <!-- material design colors -->
     <!-- see: https://www.google.com/design/spec/style/color.html#color-color-palette -->
@@ -301,5 +301,8 @@
     <!-- black & white -->
     <color name="material_color_black">#000000</color>
     <color name="material_color_white">#FFFFFF</color>
+
+    <color name="darkOrange">#ed8faf</color>
+    <color name="pink">#ff258e</color>
 
 </resources>
