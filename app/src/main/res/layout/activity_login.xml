@@ -20,7 +20,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/rv_login_title0"
-        android:layout_marginTop="16dp">
+        android:layout_marginTop="10dp">
 
         <android.support.v7.widget.AppCompatEditText
             android:id="@+id/et_login_user_name"
@@ -50,8 +50,9 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/etl_login_user_password"
-        android:layout_marginTop="16dp"
+        android:layout_marginTop="26dp"
         android:text="可选项"/>
+
     <android.support.design.widget.TextInputLayout
         android:id="@+id/etl_login_student_number"
         android:layout_width="match_parent"
@@ -62,11 +63,22 @@
             android:id="@+id/et_login_student_number"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="输入你的密码"
+            android:hint="输入你的学号"
             android:imeOptions="actionNext"
             android:inputType="textPassword"
             android:maxLength="10"/>
+
     </android.support.design.widget.TextInputLayout>
 
-
+    <Button
+        android:text="开始全新的旅程"
+        android:textColor="@color/material_color_white"
+        android:background="@color/colorPrimaryDark"
+        android:id="@+id/login_submit"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@+id/etl_login_student_number"
+        android:layout_alignParentRight="true"
+        android:layout_alignParentEnd="true"
+        android:layout_marginTop="56dp"/>
 </RelativeLayout>
