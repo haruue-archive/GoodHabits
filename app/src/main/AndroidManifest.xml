@@ -28,8 +28,13 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".guide.GuideActivity"/>
-        <activity android:name=".ui.activity.MainActivity"
+        <activity android:name=".guide.GuideActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity
+            android:name=".login.LoginActivity">
+        </activity>
+        <activity
+            android:name=".ui.activity.MainActivity"
             android:theme="@style/FitSystemWindowLayoutAppTheme">
         </activity>
     </application>

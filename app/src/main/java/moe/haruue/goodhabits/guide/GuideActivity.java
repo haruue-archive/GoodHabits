@@ -93,7 +93,7 @@ public class GuideActivity extends AppCompatActivity {
         private float mParallaxCoefficient;
         private float mDistanceCoefficient;
 
-        public ParallaxTransformer(float parallaxCoefficient, float distanceCoefficient) {
+        ParallaxTransformer(float parallaxCoefficient, float distanceCoefficient) {
             mParallaxCoefficient = parallaxCoefficient;
             mDistanceCoefficient = distanceCoefficient;
         }
@@ -113,7 +113,7 @@ public class GuideActivity extends AppCompatActivity {
 
         private int mPageWidth, mTotalScrollWidth, mGuideStartBackgroundColor, mGuideEndBackgroundColor;
 
-        public PageChangeListener() {
+        PageChangeListener() {
             mColorEvaluator = new ArgbEvaluator();
             Point p = new Point();
             getWindowManager().getDefaultDisplay().getSize(p);
