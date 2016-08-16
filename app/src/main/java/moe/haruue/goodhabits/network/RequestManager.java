@@ -6,14 +6,33 @@ import com.avos.avoscloud.LogInCallback;
 import com.avos.avoscloud.RequestPasswordResetCallback;
 import com.avos.avoscloud.SignUpCallback;
 
+import java.util.List;
+
+import io.rx_cache.DynamicKey;
+import io.rx_cache.EvictDynamicKey;
+import io.rx_cache.internal.RxCache;
+import io.victoralbertos.jolyglot.GsonSpeaker;
+import moe.haruue.goodhabits.App;
+import moe.haruue.goodhabits.config.Const;
+import moe.haruue.goodhabits.model.Course;
 import moe.haruue.goodhabits.model.CurrentUser;
 import moe.haruue.goodhabits.network.callback.LoginCallback;
 import moe.haruue.goodhabits.network.callback.RegisterCallback;
 import moe.haruue.goodhabits.network.callback.ResetPasswordCallback;
+import moe.haruue.goodhabits.network.exception.RedrockApiException;
+import moe.haruue.goodhabits.network.func.CacheMapFunc;
+import moe.haruue.goodhabits.network.func.RedrockApiWrapperFunc;
+import moe.haruue.goodhabits.network.func.UserCourseFilterFunc;
 import moe.haruue.goodhabits.network.redrock.RedrockApi;
+import moe.haruue.goodhabits.network.setting.CacheProviders;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava.RxJavaCallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
+import rx.Observable;
+import rx.Subscriber;
+import rx.Subscription;
+import rx.android.schedulers.AndroidSchedulers;
+import rx.schedulers.Schedulers;
 
 /**
  * @author Haruue Icymoon haruue@caoyue.com.cn
@@ -29,6 +48,7 @@ public enum  RequestManager {
 
     Retrofit retrofit;
     RedrockApi redrockApi;
+    CacheProviders cacheProviders;
 
     private RequestManager() {
         retrofit = new Retrofit.Builder()
@@ -37,6 +57,12 @@ public enum  RequestManager {
                 .build();
 
         redrockApi = retrofit.create(RedrockApi.class);
+
+
+        cacheProviders = new RxCache.Builder()
+                .persistence(App.getContext().getFilesDir(), new GsonSpeaker())
+                .using(CacheProviders.class);
+
     }
 
     public void putMessage() {
@@ -97,4 +123,36 @@ public enum  RequestManager {
         });
 
     }
+
+    public Subscription getNowWeek(Subscriber<Integer> subscriber, String stuNum, String idNum) {
+        Observable<Integer> observable = redrockApi.getCourse(stuNum, idNum, "0")
+
+                .map(courseWrapper -> {
+                    if (courseWrapper.status != Const.REDROCK_API_STATUS_SUCCESS) {
+                        throw new RedrockApiException();
+                    }
+                    return Integer.parseInt(courseWrapper.nowWeek);
+                });
+        return emitObservable(observable, subscriber);
+    }
+
+    public Subscription getCourseList(Subscriber<List<Course>> subscriber, String stuNum, String idNum, int week, boolean update) {
+        Observable<List<Course>> observable = cacheProviders.getCachedCourseList(getCourseList(stuNum, idNum), new DynamicKey(stuNum), new EvictDynamicKey(update))
+                .map(new CacheMapFunc<>())
+                .map(new UserCourseFilterFunc(week));
+
+        return emitObservable(observable, subscriber);
+    }
+
+    private <T> Subscription emitObservable(Observable<T> o, Subscriber<T> s) {
+        return o.subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(s);
+    }
+
+    public Observable<List<Course>> getCourseList(String stuNum, String idNum) {
+        return redrockApi.getCourse(stuNum, idNum, "0").map(new RedrockApiWrapperFunc<>());
+    }
+
 }
