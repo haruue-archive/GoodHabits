@@ -1,6 +1,8 @@
 package moe.haruue.goodhabits;
 
 import android.app.Application;
+import android.content.Context;
+import android.content.SharedPreferences;
 
 import com.avos.avoscloud.AVOSCloud;
 import com.jude.utils.JActivityManager;
@@ -17,9 +19,12 @@ import moe.haruue.goodhabits.util.ResourcesLoader;
 
 public class App extends Application {
 
+    private static Context context;
+
     @Override
     public void onCreate() {
         super.onCreate();
+        context = this;
         // JUtils
         JUtils.initialize(this);
         JUtils.setDebug(BuildConfig.DEBUG, BuildConfig.APPLICATION_ID);
@@ -35,4 +40,13 @@ public class App extends Application {
                 .build();
         ImageLoader.getInstance().init(config);
     }
+
+    public static Context getContext() {
+        return context;
+    }
+
+    public static SharedPreferences getCommonSharedPreferences() {
+        return context.getSharedPreferences("common", MODE_PRIVATE);
+    }
+
 }
