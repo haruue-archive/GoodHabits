@@ -1,4 +1,4 @@
-package moe.haruue.goodhabits.modle;
+package moe.haruue.goodhabits.model;
 
 /**
  * Created by simonla on 2016/8/13.

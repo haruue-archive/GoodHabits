@@ -4,7 +4,7 @@ apply plugin: 'android-apt'
 
 android {
     compileSdkVersion 24
-    buildToolsVersion "24.0.0"
+    buildToolsVersion "24.0.1"
     defaultConfig {
         applicationId "moe.haruue.goodhabits"
         minSdkVersion 14
@@ -85,4 +85,5 @@ dependencies {
     compile 'com.github.JakeWharton:ViewPagerIndicator:2.4.1'
     compile 'com.jakewharton:butterknife:8.2.1'
     apt 'com.jakewharton:butterknife-compiler:8.2.1'
+    compile 'com.github.dmytrodanylyk.circular-progress-button:library:1.1.3'
 }

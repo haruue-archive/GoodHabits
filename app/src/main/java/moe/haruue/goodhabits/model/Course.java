@@ -1,4 +1,4 @@
-package moe.haruue.goodhabits.modle;
+package moe.haruue.goodhabits.model;
 
 import java.util.ArrayList;
 

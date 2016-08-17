@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/activity_login"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -57,6 +58,7 @@
         android:id="@+id/etl_login_student_number"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginTop="16dp"
         android:layout_below="@id/tv_login_title1">
 
         <android.support.v7.widget.AppCompatEditText
@@ -65,13 +67,15 @@
             android:layout_height="wrap_content"
             android:hint="输入你的学号"
             android:imeOptions="actionNext"
-            android:inputType="textPassword"
+            android:inputType="number"
             android:maxLength="10"/>
 
     </android.support.design.widget.TextInputLayout>
 
-    <Button
-        android:text="开始全新的旅程"
+    <com.dd.CircularProgressButton
+        app:cpb_textComplete="完成"
+        app:cpb_textError="错误"
+        app:cpb_textIdle="开始全新的旅程"
         android:textColor="@color/material_color_white"
         android:background="@color/colorPrimaryDark"
         android:id="@+id/login_submit"

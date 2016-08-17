@@ -19,7 +19,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */
 
-public enum  RequestManager {
+public enum RequestManager {
 
     INSTANCE;
 
@@ -30,7 +30,7 @@ public enum  RequestManager {
     Retrofit retrofit;
     RedrockApi redrockApi;
 
-    private RequestManager() {
+    RequestManager() {
         retrofit = new Retrofit.Builder()
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
@@ -58,11 +58,10 @@ public enum  RequestManager {
         });
     }
 
-    public void register(String username, String password, String email, final boolean isCQUPT, final String stuNum, final RegisterCallback callback) {
+    public void register(String username, String password, final boolean isCQUPT, final String stuNum, final RegisterCallback callback) {
         final AVUser user = new AVUser();
         user.setUsername(username);
         user.setPassword(password);
-        user.setEmail(email);
         user.signUpInBackground(new SignUpCallback() {
             @Override
             public void done(AVException e) {
