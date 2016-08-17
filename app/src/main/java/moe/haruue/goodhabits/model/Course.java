@@ -53,5 +53,4 @@ public class Course {
         }
         return totalDays;
     }
-
 }
