@@ -6,7 +6,7 @@ import java.util.List;
 
 import moe.haruue.goodhabits.App;
 import moe.haruue.goodhabits.config.Const;
-import moe.haruue.goodhabits.model.Course;
+import moe.haruue.goodhabits.model.SchoolCourse;
 import moe.haruue.goodhabits.model.Task;
 import moe.haruue.goodhabits.util.SchoolCalendar;
 import rx.functions.Func1;
@@ -15,14 +15,14 @@ import rx.functions.Func1;
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */
 
-public class CourseToTasksFunc implements Func1<Course, List<Task>> {
+public class SchoolCourseToTasksFunc implements Func1<SchoolCourse, List<Task>> {
 
-    public CourseToTasksFunc(int nowWeek) {
+    public SchoolCourseToTasksFunc(int nowWeek) {
         updateFirstDay(nowWeek);
     }
 
     @Override
-    public List<Task> call(Course course) {
+    public List<Task> call(SchoolCourse course) {
         ArrayList<Task> tasks = new ArrayList<>(0);
         for (int w: course.week) {
             tasks.add(courseInWeekToTask(course, w));
@@ -30,49 +30,49 @@ public class CourseToTasksFunc implements Func1<Course, List<Task>> {
         return tasks;
     }
 
-    private Task courseInWeekToTask(Course course, int week) {
+    private Task courseInWeekToTask(SchoolCourse course, int week) {
         Task task = new Task();
         task.title = "学校课程：" + course.course;
         task.content = course.day + " " + course.lesson + " " + course.classroom;
         task.id = 0;
-        task.type = Const.TASK_TYPE_COURSE;
-        task.startTime = timeStampCourseStart(week, course.hash_day, course.begin_lesson);
-        task.endTime = timeStampCourseEnd(task.startTime);
-        task.plan = Const.TASK_TYPE_COURSE;
+        task.type = Const.TASK_TYPE_SCHOOL_COURSE;
+        task.startTime = timeStampSchoolCourseStart(week, course.hash_day, course.begin_lesson);
+        task.endTime = timeStampSchoolCourseEnd(task.startTime);
+        task.plan = Const.TASK_TYPE_SCHOOL_COURSE;
         return task;
     }
 
-    private long timeStampCourseStart(int week, int day, int beginLesson) {
-        long timeCourseBegin;
+    private long timeStampSchoolCourseStart(int week, int day, int beginLesson) {
+        long timeSchoolCourseBegin;
         switch (beginLesson) {
             case 1:
-                timeCourseBegin = 28800; // 8:00
+                timeSchoolCourseBegin = 28800; // 8:00
                 break;
             case 3:
-                timeCourseBegin = 36300; // 10:05
+                timeSchoolCourseBegin = 36300; // 10:05
                 break;
             case 5:
-                timeCourseBegin = 50400; // 14:00
+                timeSchoolCourseBegin = 50400; // 14:00
                 break;
             case 7:
-                timeCourseBegin = 57900; // 16:05
+                timeSchoolCourseBegin = 57900; // 16:05
                 break;
             case 9:
-                timeCourseBegin = 68400; // 19:00
+                timeSchoolCourseBegin = 68400; // 19:00
                 break;
             case 11:
-                timeCourseBegin = 75000; // 20:50
+                timeSchoolCourseBegin = 75000; // 20:50
                 break;
             default:
-                timeCourseBegin = 0; // 什么鬼课嘛，逃了算了
+                timeSchoolCourseBegin = 0; // 什么鬼课嘛，逃了算了
                 break;
         }
-        return timeStampOf(week, day, timeCourseBegin);
+        return timeStampOf(week, day, timeSchoolCourseBegin);
 
     }
 
-    private long timeStampCourseEnd(long timeStampCourseStart) {
-        return timeStampCourseStart + 6000; // 1:40
+    private long timeStampSchoolCourseEnd(long timeStampSchoolCourseStart) {
+        return timeStampSchoolCourseStart + 6000; // 1:40
     }
 
     private long timeStampOf(int week, int day, long time) {

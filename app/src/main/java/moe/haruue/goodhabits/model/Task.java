@@ -15,4 +15,22 @@ public class Task {
     public long startTime;
     public long endTime;
 
+    public static Task newEmptyTaskWithId(int id) {
+        Task task = new Task();
+        task.id = id;
+        return task;
+    }
+
+    public static Task newEmptyTaskWithType(String type) {
+        Task task = new Task();
+        task.type = type;
+        return task;
+    }
+
+    public static Task newEmptyTaskWithPlan(String plan) {
+        Task task = new Task();
+        task.plan = plan;
+        return task;
+    }
+
 }

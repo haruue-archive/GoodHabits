@@ -14,15 +14,15 @@ import io.rx_cache.internal.RxCache;
 import io.victoralbertos.jolyglot.GsonSpeaker;
 import moe.haruue.goodhabits.App;
 import moe.haruue.goodhabits.config.Const;
-import moe.haruue.goodhabits.model.Course;
 import moe.haruue.goodhabits.model.CurrentUser;
+import moe.haruue.goodhabits.model.SchoolCourse;
 import moe.haruue.goodhabits.network.callback.LoginCallback;
 import moe.haruue.goodhabits.network.callback.RegisterCallback;
 import moe.haruue.goodhabits.network.callback.ResetPasswordCallback;
 import moe.haruue.goodhabits.network.exception.RedrockApiException;
 import moe.haruue.goodhabits.network.func.CacheMapFunc;
 import moe.haruue.goodhabits.network.func.RedrockApiWrapperFunc;
-import moe.haruue.goodhabits.network.func.UserCourseFilterFunc;
+import moe.haruue.goodhabits.network.func.UserSchoolCourseFilterFunc;
 import moe.haruue.goodhabits.network.redrock.RedrockApi;
 import moe.haruue.goodhabits.network.setting.CacheProviders;
 import retrofit2.Retrofit;
@@ -135,10 +135,10 @@ public enum RequestManager {
         return emitObservable(observable, subscriber);
     }
 
-    public Subscription getCourseList(Subscriber<List<Course>> subscriber, String stuNum, String idNum, int week, boolean update) {
-        Observable<List<Course>> observable = cacheProviders.getCachedCourseList(getCourseList(stuNum, idNum), new DynamicKey(stuNum), new EvictDynamicKey(update))
+    public Subscription getCourseList(Subscriber<List<SchoolCourse>> subscriber, String stuNum, String idNum, int week, boolean update) {
+        Observable<List<SchoolCourse>> observable = cacheProviders.getCachedSchoolCourseList(getCourseList(stuNum, idNum), new DynamicKey(stuNum), new EvictDynamicKey(update))
                 .map(new CacheMapFunc<>())
-                .map(new UserCourseFilterFunc(week));
+                .map(new UserSchoolCourseFilterFunc(week));
 
         return emitObservable(observable, subscriber);
     }
@@ -150,7 +150,7 @@ public enum RequestManager {
                 .subscribe(s);
     }
 
-    public Observable<List<Course>> getCourseList(String stuNum, String idNum) {
+    public Observable<List<SchoolCourse>> getCourseList(String stuNum, String idNum) {
         return redrockApi.getCourse(stuNum, idNum, "0").map(new RedrockApiWrapperFunc<>());
     }
 

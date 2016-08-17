@@ -6,7 +6,7 @@ package moe.haruue.goodhabits.config;
 
 public class Const {
 
-    public final static String TASK_TYPE_COURSE = "type_course";
+    public final static String TASK_TYPE_SCHOOL_COURSE = "type_school_course";
 
     public final static String REDROCK_CLASS_SCHEDULE_API = "http://hongyan.cqupt.edu.cn/redapi2/api/kebiao";
 
