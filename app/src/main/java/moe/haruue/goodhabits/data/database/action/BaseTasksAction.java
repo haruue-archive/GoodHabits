@@ -21,9 +21,9 @@ public abstract class BaseTasksAction implements Action1<List<Task>> {
         BriteDatabase database = TaskDataBase.getInstance().getDatabase();
         BriteDatabase.Transaction transaction = database.newTransaction();
         try {
-            for (Task t: tasks) {
-                onOperate(database, t);
-            }
+            beforeOperate(database, tasks);
+            onOperate(database, tasks);
+            afterOperate(database, tasks);
         } finally {
             transaction.end();
         }
@@ -41,6 +41,19 @@ public abstract class BaseTasksAction implements Action1<List<Task>> {
         return values;
     }
 
-    protected abstract void onOperate(BriteDatabase database, Task t);
+    protected abstract void onOperateForSingle(BriteDatabase database, Task t);
 
+    protected void onOperate(BriteDatabase database, List<Task> tasks) {
+        for (Task t: tasks) {
+            onOperateForSingle(database, t);
+        }
+    }
+
+    protected void beforeOperate(BriteDatabase database, List<Task> tasks) {
+
+    }
+
+    protected void afterOperate(BriteDatabase database, List<Task> tasks) {
+
+    }
 }
