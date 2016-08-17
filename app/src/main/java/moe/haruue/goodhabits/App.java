@@ -11,6 +11,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import im.fir.sdk.FIR;
+import moe.haruue.goodhabits.data.database.TaskDataBase;
 import moe.haruue.goodhabits.util.ResourcesLoader;
 
 /**
@@ -39,6 +40,8 @@ public class App extends Application {
         ImageLoaderConfiguration config = new ImageLoaderConfiguration.Builder(this)
                 .build();
         ImageLoader.getInstance().init(config);
+        // Database
+        TaskDataBase.getInstance().initialize(this);
     }
 
     public static Context getContext() {

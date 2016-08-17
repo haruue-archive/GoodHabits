@@ -80,6 +80,8 @@ dependencies {
     compile 'com.google.code.gson:gson:2.7'
     // Gson Converter https://github.com/square/retrofit/wiki/Converters
     compile 'com.squareup.retrofit2:converter-gson:2.1.0'
+    // SQLBrite https://github.com/square/sqlbrite
+    compile 'com.squareup.sqlbrite:sqlbrite:0.7.0'
     // RxPermissions https://github.com/tbruyelle/RxPermissions
     compile 'com.tbruyelle.rxpermissions:rxpermissions:0.7.0@aar'
     // RxBinding https://github.com/JakeWharton/RxBinding

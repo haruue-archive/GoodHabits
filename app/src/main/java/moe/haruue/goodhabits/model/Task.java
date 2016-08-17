@@ -9,6 +9,7 @@ public class Task {
     public String title;
     public String content;
     public String type;
+    public String plan;
     public int id;
     public String imageUrl;
     public long startTime;
