@@ -88,8 +88,6 @@ dependencies {
     compile 'com.jakewharton.rxbinding:rxbinding:0.4.0'
     // Universal Image Loader https://github.com/nostra13/Android-Universal-Image-Loader
     compile 'com.nostra13.universalimageloader:universal-image-loader:1.9.5'
-    // FitSystemWindowLayout https://github.com/Jude95/FitSystemWindowLayout
-    compile 'com.jude:fitsystemwindowlayout:2.1.5'
     //ui
     compile 'com.github.JakeWharton:ViewPagerIndicator:2.4.1'
     compile 'com.jakewharton:butterknife:8.2.1'
