@@ -11,7 +11,7 @@ import moe.haruue.goodhabits.model.Task;
 
 public class DeleteTasksByTaskTypeAction extends BaseTasksAction {
     @Override
-    protected void onOperate(BriteDatabase database, Task t) {
+    protected void onOperateForSingle(BriteDatabase database, Task t) {
         database.delete(TaskDataBase.TASK_DATABASE_NAME, TaskDataBase.COLUMN_NAME_TYPE + "=?", t.type);
     }
 }
