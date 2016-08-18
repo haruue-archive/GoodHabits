@@ -5,8 +5,17 @@ package moe.haruue.goodhabits.ui.task;
  * Have a good day.
  */
 public class TaskPresenter implements TaskContract.Presenter {
+
+    private TaskContract.View mView;
+
+    public TaskPresenter(TaskContract.View view) {
+        mView = view;
+        mView.setPresenter(this);
+    }
+
     @Override
     public void start() {
 
     }
+
 }

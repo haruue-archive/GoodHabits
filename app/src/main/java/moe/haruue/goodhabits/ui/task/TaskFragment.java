@@ -18,6 +18,14 @@ import moe.haruue.goodhabits.ui.BaseFragment;
 
 public class TaskFragment extends BaseFragment implements TaskContract.View {
 
+    private TaskContract.Presenter mPresenter;
+
+    @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.start();
+    }
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -27,6 +35,6 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
 
     @Override
     public void setPresenter(TaskContract.Presenter presenter) {
-
+        mPresenter = presenter;
     }
 }

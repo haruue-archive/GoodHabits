@@ -12,15 +12,23 @@ import moe.haruue.goodhabits.ui.BaseFragment;
 /**
  * MainActivity 的第 3 个 tab
  * TODO: 20160805 - tab3 广场
+ *
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */
 
-public class SquareFragment extends BaseFragment {
+public class SquareFragment extends BaseFragment implements SquareContract.View {
+
+    private SquareContract.Presenter mPresenter;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_square, container, false);
         return view;
+    }
+
+    @Override
+    public void setPresenter(SquareContract.Presenter presenter) {
+        mPresenter = presenter;
     }
 }

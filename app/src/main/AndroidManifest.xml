@@ -34,7 +34,7 @@
             android:name=".ui.login.LoginActivity">
         </activity>
         <activity
-            android:name=".ui.activity.MainActivity"
+            android:name=".ui.main.MainActivity"
             android:theme="@style/FitSystemWindowLayoutAppTheme">
         </activity>
     </application>
