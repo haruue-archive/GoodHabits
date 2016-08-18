@@ -1,4 +1,5 @@
-package moe.haruue.goodhabits.login;
+package moe.haruue.goodhabits.ui.login;
+
 
 import android.support.annotation.NonNull;
 

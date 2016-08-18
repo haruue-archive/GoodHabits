@@ -1,4 +1,4 @@
-package moe.haruue.goodhabits.guide;
+package moe.haruue.goodhabits.ui.guide;
 
 import android.animation.ArgbEvaluator;
 import android.annotation.TargetApi;

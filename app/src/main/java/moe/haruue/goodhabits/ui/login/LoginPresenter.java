@@ -1,4 +1,4 @@
-package moe.haruue.goodhabits.login;
+package moe.haruue.goodhabits.ui.login;
 
 import android.annotation.TargetApi;
 import android.os.Build;

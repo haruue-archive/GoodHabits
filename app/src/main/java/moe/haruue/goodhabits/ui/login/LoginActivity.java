@@ -1,4 +1,4 @@
-package moe.haruue.goodhabits.login;
+package moe.haruue.goodhabits.ui.login;
 
 import android.content.Context;
 import android.content.Intent;

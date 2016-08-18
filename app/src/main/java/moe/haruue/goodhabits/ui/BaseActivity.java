@@ -1,4 +1,4 @@
-package moe.haruue.goodhabits.ui.activity;
+package moe.haruue.goodhabits.ui;
 
 import android.os.Bundle;
 import android.support.annotation.IdRes;

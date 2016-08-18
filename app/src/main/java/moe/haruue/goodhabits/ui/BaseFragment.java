@@ -1,4 +1,4 @@
-package moe.haruue.goodhabits.ui.fragment;
+package moe.haruue.goodhabits.ui;
 
 import android.support.annotation.IdRes;
 import android.support.v4.app.Fragment;

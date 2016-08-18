@@ -20,7 +20,7 @@
             android:value="bdea4347a22d2df62bdaa2a7e1a24112"/>
 
         <activity
-            android:name=".ui.activity.LauncherActivity"
+            android:name=".ui.launcher.LauncherActivity"
             android:theme="@style/FitSystemWindowLayoutAppTheme">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -28,10 +28,10 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".guide.GuideActivity"
+        <activity android:name=".ui.guide.GuideActivity"
             android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
-            android:name=".login.LoginActivity">
+            android:name=".ui.login.LoginActivity">
         </activity>
         <activity
             android:name=".ui.activity.MainActivity"

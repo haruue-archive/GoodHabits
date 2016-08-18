@@ -1,10 +1,11 @@
-package moe.haruue.goodhabits.ui.activity;
+package moe.haruue.goodhabits.ui.launcher;
 
 import android.os.Bundle;
 
 import moe.haruue.goodhabits.data.FirstTime;
-import moe.haruue.goodhabits.guide.GuideActivity;
-import moe.haruue.goodhabits.login.LoginActivity;
+import moe.haruue.goodhabits.ui.activity.MainActivity;
+import moe.haruue.goodhabits.ui.guide.GuideActivity;
+import moe.haruue.goodhabits.ui.login.LoginActivity;
 import moe.haruue.goodhabits.model.CurrentUser;
 
 /**

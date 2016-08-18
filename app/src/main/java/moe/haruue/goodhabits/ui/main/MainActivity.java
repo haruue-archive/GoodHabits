@@ -1,4 +1,4 @@
-package moe.haruue.goodhabits.ui.activity;
+package moe.haruue.goodhabits.ui.main;
 
 import android.content.Context;
 import android.content.Intent;
@@ -17,7 +17,7 @@ import android.view.ViewTreeObserver;
 import com.jude.utils.JUtils;
 
 import moe.haruue.goodhabits.R;
-import moe.haruue.goodhabits.ui.adapter.MainViewPagerAdapter;
+import moe.haruue.goodhabits.ui.BaseActivity;
 import moe.haruue.goodhabits.util.BitmapUtils;
 
 public class MainActivity extends BaseActivity {

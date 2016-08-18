@@ -1,4 +1,4 @@
-package moe.haruue.goodhabits.ui.fragment;
+package moe.haruue.goodhabits.ui.square;
 
 import android.os.Bundle;
 import android.support.annotation.Nullable;
@@ -7,6 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import moe.haruue.goodhabits.R;
+import moe.haruue.goodhabits.ui.fragment.BaseFragment;
 
 /**
  * MainActivity 的第 3 个 tab

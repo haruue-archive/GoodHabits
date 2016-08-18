@@ -1,12 +1,12 @@
-package moe.haruue.goodhabits.ui.adapter;
+package moe.haruue.goodhabits.ui.main;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
 import moe.haruue.goodhabits.R;
-import moe.haruue.goodhabits.ui.fragment.CalendarFragment;
-import moe.haruue.goodhabits.ui.fragment.SquareFragment;
+import moe.haruue.goodhabits.ui.calendar.CalendarFragment;
+import moe.haruue.goodhabits.ui.square.SquareFragment;
 import moe.haruue.goodhabits.ui.task.TaskFragment;
 import moe.haruue.goodhabits.util.ResourcesLoader;
 

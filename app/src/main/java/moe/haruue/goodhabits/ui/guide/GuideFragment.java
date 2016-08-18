@@ -1,4 +1,4 @@
-package moe.haruue.goodhabits.guide;
+package moe.haruue.goodhabits.ui.guide;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +15,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import moe.haruue.goodhabits.R;
-import moe.haruue.goodhabits.login.LoginActivity;
+import moe.haruue.goodhabits.ui.login.LoginActivity;
 
 /**
  * Created by simonla on 2016/8/4.
