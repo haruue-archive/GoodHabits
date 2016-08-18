@@ -7,7 +7,7 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import moe.haruue.goodhabits.R;
-import moe.haruue.goodhabits.ui.fragment.BaseFragment;
+import moe.haruue.goodhabits.ui.BaseFragment;
 
 /**
  * MainActivity 的第 1 个 tab

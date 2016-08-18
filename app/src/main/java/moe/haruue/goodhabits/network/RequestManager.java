@@ -13,7 +13,7 @@ import io.victoralbertos.jolyglot.GsonSpeaker;
 import moe.haruue.goodhabits.App;
 import moe.haruue.goodhabits.config.Const;
 import moe.haruue.goodhabits.data.database.func.InsertTasksOperateFunc;
-import moe.haruue.goodhabits.model.CurrentUser;
+import moe.haruue.goodhabits.data.CurrentUser;
 import moe.haruue.goodhabits.model.SchoolCourse;
 import moe.haruue.goodhabits.model.Task;
 import moe.haruue.goodhabits.network.callback.LoginCallback;

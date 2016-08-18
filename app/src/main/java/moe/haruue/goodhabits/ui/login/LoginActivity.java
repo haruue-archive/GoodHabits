@@ -17,7 +17,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.OnClick;
 import moe.haruue.goodhabits.R;
-import moe.haruue.goodhabits.ui.activity.MainActivity;
+import moe.haruue.goodhabits.ui.main.MainActivity;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.View {
 

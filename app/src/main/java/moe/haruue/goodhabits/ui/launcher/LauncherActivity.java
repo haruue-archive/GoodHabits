@@ -3,10 +3,11 @@ package moe.haruue.goodhabits.ui.launcher;
 import android.os.Bundle;
 
 import moe.haruue.goodhabits.data.FirstTime;
-import moe.haruue.goodhabits.ui.activity.MainActivity;
+import moe.haruue.goodhabits.data.CurrentUser;
+import moe.haruue.goodhabits.ui.BaseActivity;
 import moe.haruue.goodhabits.ui.guide.GuideActivity;
 import moe.haruue.goodhabits.ui.login.LoginActivity;
-import moe.haruue.goodhabits.model.CurrentUser;
+import moe.haruue.goodhabits.ui.main.MainActivity;
 
 /**
  * 启动 Activity ，用于判断启动时显示哪一个页面，不应该在这个 Activity 里显示任何东西

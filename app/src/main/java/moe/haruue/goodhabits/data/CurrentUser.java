@@ -1,4 +1,4 @@
-package moe.haruue.goodhabits.model;
+package moe.haruue.goodhabits.data;
 
 import com.avos.avoscloud.AVUser;
 
@@ -10,7 +10,6 @@ public enum CurrentUser {
 
     INSTANCE;
 
-    //TODO 在model处理不当
     public static CurrentUser getInstance() {
         return INSTANCE;
     }
