@@ -9,12 +9,12 @@ package moe.haruue.goodhabits.model;
 
 public class Task {
 
-    public String title;
-    public String content;
-    public String type;
-    public String plan;
+    public String title = "";
+    public String content = "";
+    public String type = "";
+    public String plan = "";
     public int id;
-    public String imageUrl;
+    public String imageUrl = "";
     public long startTime;
     public long endTime;
 
@@ -41,6 +41,20 @@ public class Task {
         task.startTime = startTimeStamp;
         task.endTime = endTimeStamp;
         return task;
+    }
+
+    @Override
+    public String toString() {
+        return
+                "id: " + id + "\t" +
+                "title: " + title + "\n" +
+                "content: " + content + "\n" +
+                "type: " + type + "\t" +
+                "plan: " + plan + "\t" +
+                "imageUrl: " + imageUrl + "\n" +
+                "startTime: " + startTime + "\t" +
+                "endTime: " + endTime + "\n" +
+                "============================================" + "\n";
     }
 
     /**

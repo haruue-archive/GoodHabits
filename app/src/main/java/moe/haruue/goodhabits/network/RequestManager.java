@@ -8,21 +8,20 @@ import com.avos.avoscloud.SignUpCallback;
 
 import java.util.List;
 
-import io.rx_cache.DynamicKey;
-import io.rx_cache.EvictDynamicKey;
 import io.rx_cache.internal.RxCache;
 import io.victoralbertos.jolyglot.GsonSpeaker;
 import moe.haruue.goodhabits.App;
 import moe.haruue.goodhabits.config.Const;
+import moe.haruue.goodhabits.data.database.func.InsertTasksOperateFunc;
 import moe.haruue.goodhabits.model.CurrentUser;
 import moe.haruue.goodhabits.model.SchoolCourse;
+import moe.haruue.goodhabits.model.Task;
 import moe.haruue.goodhabits.network.callback.LoginCallback;
 import moe.haruue.goodhabits.network.callback.RegisterCallback;
 import moe.haruue.goodhabits.network.callback.ResetPasswordCallback;
 import moe.haruue.goodhabits.network.exception.RedrockApiException;
-import moe.haruue.goodhabits.network.func.CacheMapFunc;
 import moe.haruue.goodhabits.network.func.RedrockApiWrapperFunc;
-import moe.haruue.goodhabits.network.func.UserSchoolCourseFilterFunc;
+import moe.haruue.goodhabits.network.func.SchoolCoursesToTasksFunc;
 import moe.haruue.goodhabits.network.redrock.RedrockApi;
 import moe.haruue.goodhabits.network.setting.CacheProviders;
 import retrofit2.Retrofit;
@@ -43,7 +42,11 @@ public enum RequestManager {
     INSTANCE;
 
     public static RequestManager getInstance() {
-        return INSTANCE;
+        try {
+            return INSTANCE;
+        } catch (ExceptionInInitializerError error) {
+            throw (RuntimeException) error.getException();
+        }
     }
 
     Retrofit retrofit;
@@ -52,6 +55,7 @@ public enum RequestManager {
 
     RequestManager() {
         retrofit = new Retrofit.Builder()
+                .baseUrl(Const.REDROCK_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
@@ -123,8 +127,8 @@ public enum RequestManager {
 
     }
 
-    public Subscription getNowWeek(Subscriber<Integer> subscriber, String stuNum, String idNum) {
-        Observable<Integer> observable = redrockApi.getCourse(stuNum, idNum, "0")
+    public Observable<Integer> getNowWeek(String stuNum, String idNum) {
+        return redrockApi.getCourse(stuNum, idNum, "0")
 
                 .map(courseWrapper -> {
                     if (courseWrapper.status != Const.REDROCK_API_STATUS_SUCCESS) {
@@ -132,13 +136,12 @@ public enum RequestManager {
                     }
                     return Integer.parseInt(courseWrapper.nowWeek);
                 });
-        return emitObservable(observable, subscriber);
     }
 
-    public Subscription getCourseList(Subscriber<List<SchoolCourse>> subscriber, String stuNum, String idNum, int week, boolean update) {
-        Observable<List<SchoolCourse>> observable = cacheProviders.getCachedSchoolCourseList(getCourseList(stuNum, idNum), new DynamicKey(stuNum), new EvictDynamicKey(update))
-                .map(new CacheMapFunc<>())
-                .map(new UserSchoolCourseFilterFunc(week));
+    public Subscription getFullSchoolCourseAndStorageAsTask(Subscriber<List<Task>> subscriber, String stuNum, String idNum) {
+        Observable<List<Task>> observable = getNowWeek(stuNum, idNum)
+                .flatMap(integer -> getCourseList(stuNum, idNum).map(new SchoolCoursesToTasksFunc(integer)))
+                .map(new InsertTasksOperateFunc());
 
         return emitObservable(observable, subscriber);
     }

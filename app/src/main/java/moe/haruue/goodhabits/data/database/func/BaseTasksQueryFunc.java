@@ -1,10 +1,12 @@
 package moe.haruue.goodhabits.data.database.func;
 
 import android.database.Cursor;
+import android.util.Log;
 
 import com.squareup.sqlbrite.BriteDatabase;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
 import moe.haruue.goodhabits.data.database.TaskDataBase;
@@ -15,11 +17,13 @@ import rx.functions.Func1;
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */
 
-public abstract class BaseQueryTasksFunc implements Func1<Task, List<Task>> {
+public abstract class BaseTasksQueryFunc implements Func1<Task, List<Task>> {
     @Override
     public List<Task> call(Task task) {
         BriteDatabase database = TaskDataBase.getInstance().getDatabase();
         ArrayList<Task> tasks = new ArrayList<>(0);
+        Log.d("sql", querySql());
+        Log.d("sqlarg================\n", Arrays.toString(queryArguments(task)));
         Cursor cursor = database.query(querySql(), queryArguments(task));
         if (cursor.moveToFirst()) {
             do {

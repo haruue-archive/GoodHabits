@@ -7,10 +7,10 @@ import moe.haruue.goodhabits.model.Task;
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */
 
-public class QueryTasksByIdFunc extends BaseQueryTasksFunc {
+public class TasksByIdQueryFunc extends BaseTasksQueryFunc {
     @Override
     protected String querySql() {
-        return "SELECT * FROM " + TaskDataBase.TASK_DATABASE_NAME + " WHERE id=?";
+        return "SELECT * FROM " + TaskDataBase.TASK_TABLE_NAME + " WHERE id=?";
     }
 
     @Override

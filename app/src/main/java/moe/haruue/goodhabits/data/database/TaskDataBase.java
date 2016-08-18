@@ -34,6 +34,7 @@ public enum  TaskDataBase {
     }
 
     public final static String TASK_DATABASE_NAME = "task.db";
+    public final static String TASK_TABLE_NAME = "task";
     public final static int TASK_DATABASE_VERSION = 1;
 
     public final static String COLUMN_NAME_ID = "id";
@@ -47,7 +48,7 @@ public enum  TaskDataBase {
 
     public class OpenHelper extends SQLiteOpenHelper {
 
-        private final static String TASK_DATABASE_CREATE_SQL = "CREATE TABLE " + TASK_DATABASE_NAME + "(" +
+        private final static String TASK_DATABASE_CREATE_SQL = "CREATE TABLE " + TASK_TABLE_NAME + " (" +
                 COLUMN_NAME_ID + " INTEGER PRIMARY KEY AUTOINCREMENT, " +
                 COLUMN_NAME_TITLE + " TEXT, " +
                 COLUMN_NAME_CONTENT + " TEXT, " +

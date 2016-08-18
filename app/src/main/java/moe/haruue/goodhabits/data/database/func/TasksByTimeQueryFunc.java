@@ -7,11 +7,11 @@ import moe.haruue.goodhabits.model.Task;
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */
 
-public class QueryTasksByTimeFunc extends BaseQueryTasksFunc {
+public class TasksByTimeQueryFunc extends BaseTasksQueryFunc {
 
     @Override
     protected String querySql() {
-        return "SELECT * FROM " + TaskDataBase.TASK_DATABASE_NAME + " WHERE " +
+        return "SELECT * FROM " + TaskDataBase.TASK_TABLE_NAME + " WHERE " +
                 "(" +
                 TaskDataBase.COLUMN_NAME_START_TIME + ">?" + " AND " +
                 TaskDataBase.COLUMN_NAME_START_TIME + "<?" +

@@ -1,4 +1,4 @@
-package moe.haruue.goodhabits.data.database.action;
+package moe.haruue.goodhabits.data.database.func;
 
 import com.squareup.sqlbrite.BriteDatabase;
 
@@ -9,9 +9,9 @@ import moe.haruue.goodhabits.model.Task;
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */
 
-public class DeleteTasksByTaskIdAction extends BaseTasksAction {
+public class DeleteTasksByTaskPlanOperateFunc extends BaseTasksOperateFunc {
     @Override
     protected void onOperateForSingle(BriteDatabase database, Task t) {
-        database.delete(TaskDataBase.TASK_DATABASE_NAME, TaskDataBase.COLUMN_NAME_ID + "=?", t.id + "");
+        database.delete(TaskDataBase.TASK_TABLE_NAME, TaskDataBase.COLUMN_NAME_PLAN + "=?", t.plan);
     }
 }

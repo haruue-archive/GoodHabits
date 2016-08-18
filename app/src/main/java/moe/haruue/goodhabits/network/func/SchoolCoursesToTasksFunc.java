@@ -15,17 +15,19 @@ import rx.functions.Func1;
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */
 
-public class SchoolCourseToTasksFunc implements Func1<SchoolCourse, List<Task>> {
+public class SchoolCoursesToTasksFunc implements Func1<List<SchoolCourse>, List<Task>> {
 
-    public SchoolCourseToTasksFunc(int nowWeek) {
+    public SchoolCoursesToTasksFunc(int nowWeek) {
         updateFirstDay(nowWeek);
     }
 
     @Override
-    public List<Task> call(SchoolCourse course) {
+    public List<Task> call(List<SchoolCourse> courses) {
         ArrayList<Task> tasks = new ArrayList<>(0);
-        for (int w: course.week) {
-            tasks.add(courseInWeekToTask(course, w));
+        for (SchoolCourse c: courses) {
+            for (int w: c.week) {
+                tasks.add(courseInWeekToTask(c, w));
+            }
         }
         return tasks;
     }
@@ -36,7 +38,7 @@ public class SchoolCourseToTasksFunc implements Func1<SchoolCourse, List<Task>> 
         task.content = course.day + " " + course.lesson + " " + course.classroom;
         task.id = 0;
         task.type = Const.TASK_TYPE_SCHOOL_COURSE;
-        task.startTime = timeStampSchoolCourseStart(week, course.hash_day, course.begin_lesson);
+        task.startTime = timeStampSchoolCourseStart(week, course.hash_day, course.begin_lesson) + 86400;
         task.endTime = timeStampSchoolCourseEnd(task.startTime);
         task.plan = Const.TASK_TYPE_SCHOOL_COURSE;
         return task;
