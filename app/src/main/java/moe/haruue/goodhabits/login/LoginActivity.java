@@ -1,5 +1,6 @@
 package moe.haruue.goodhabits.login;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -110,6 +111,7 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         Intent intent = new Intent();
         intent.setClass(this, MainActivity.class);
         startActivity(intent);
+        finish();
     }
 
     @OnClick(R.id.login_submit)
@@ -118,5 +120,11 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
                 mEtLoginUserName.getText().toString(),
                 mEtLoginUserPassword.getText().toString(),
                 mEtLoginStudentNumber.getText().toString());
+    }
+
+
+    public static void start(Context context) {
+        Intent starter = new Intent(context, LoginActivity.class);
+        context.startActivity(starter);
     }
 }

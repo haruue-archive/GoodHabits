@@ -53,5 +53,6 @@ public class GuideFragment extends Fragment {
         Intent intent = new Intent();
         intent.setClass(getActivity(), LoginActivity.class);
         startActivity(intent);
+        getActivity().finish();
     }
 }
