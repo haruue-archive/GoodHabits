@@ -1,7 +1,6 @@
 package moe.haruue.goodhabits.login;
 
 import android.content.Context;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.Snackbar;
@@ -87,16 +86,13 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
     public void showMakeSureDialog() {
         new AlertDialog.Builder(LoginActivity.this)
                 .setTitle("即将开始")
-                .setMessage("该帐号还未注册，确定注册吗")
-                .setNegativeButton("不", null)
-                .setPositiveButton("好", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        mPresenter.signUp(
-                                mEtLoginUserName.getText().toString(),
-                                mEtLoginUserPassword.getText().toString(),
-                                mEtLoginStudentNumber.getText().toString());
-                    }
+                .setMessage("该帐号还未注册，注册并登录吗")
+                .setNegativeButton("不＞(￣ε￣ )<要", null)
+                .setPositiveButton("要", (dialogInterface, i) -> {
+                    mPresenter.signUp(
+                            mEtLoginUserName.getText().toString(),
+                            mEtLoginUserPassword.getText().toString(),
+                            mEtLoginStudentNumber.getText().toString());
                 })
                 .show();
     }

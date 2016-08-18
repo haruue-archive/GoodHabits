@@ -7,12 +7,13 @@ import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.avos.avoscloud.AVException;
-import com.avos.avoscloud.AVUser;
-import com.avos.avoscloud.LogInCallback;
-import com.avos.avoscloud.SignUpCallback;
 import com.jude.utils.JUtils;
 
 import java.util.Objects;
+
+import moe.haruue.goodhabits.network.RequestManager;
+import moe.haruue.goodhabits.network.callback.LoginCallback;
+import moe.haruue.goodhabits.network.callback.RegisterCallback;
 
 /**
  * Created by simonla on 2016/8/13.
@@ -61,44 +62,45 @@ class LoginPresenter implements LoginContract.Presenter {
                 return;
             }
         }
-        AVUser.logInInBackground(userName, userPassword, new LogInCallback<AVUser>() {
+        RequestManager.getInstance().login(userName, userPassword, new LoginCallback() {
             @Override
-            public void done(AVUser avUser, AVException e) {
-                if (e == null) {
-                    Log.d(TAG, "done: ");
-                    mView.showProgress(100);
-                    mView.startActivity();
-                    return;
-                }
+            public void onLoginSuccess() {
+                mView.showProgress(100);
+                mView.startActivity();
+            }
+
+            @Override
+            public void onLoginFailure(AVException e, String message) {
                 if (e.getCode() == 211) {
                     mView.showProgress(0);
                     mView.showMakeSureDialog();
                 } else {
                     mView.showProgress(0);
-                    mView.passwordError(e.getMessage());
+                    mView.passwordError(message);
                 }
             }
         });
     }
 
+    @TargetApi(Build.VERSION_CODES.KITKAT)
     public void signUp(@NonNull String userName, @NonNull String userPassword, @Nullable String stuNum) {
         mView.showProgress(50);
         //TODO check sutNumber correct
-        AVUser user = new AVUser();
-        user.setUsername(userName);
-        user.setPassword(userPassword);
-        user.put("stuNum", stuNum);
-        user.signUpInBackground(new SignUpCallback() {
+        boolean isCQUPT = false;
+        if (!Objects.equals(stuNum, "")) {
+            isCQUPT = true;
+        }
+        RequestManager.getInstance().register(userName, userPassword, isCQUPT, stuNum, new RegisterCallback() {
             @Override
-            public void done(AVException e) {
-                if (e == null) {
-                    Log.d(TAG, "done: ");
-                    mView.showProgress(100);
-                    mView.startActivity();
-                } else {
-                    mView.showProgress(-1);
-                    mView.passwordError(e.getMessage());
-                }
+            public void onRegisterSuccess() {
+                mView.showProgress(100);
+                mView.startActivity();
+            }
+
+            @Override
+            public void onRegisterFailure(AVException e, String message) {
+                mView.showProgress(-1);
+                mView.passwordError(message);
             }
         });
     }

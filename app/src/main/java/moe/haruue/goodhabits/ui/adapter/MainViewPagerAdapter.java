@@ -7,7 +7,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import moe.haruue.goodhabits.R;
 import moe.haruue.goodhabits.ui.fragment.CalendarFragment;
 import moe.haruue.goodhabits.ui.fragment.SquareFragment;
-import moe.haruue.goodhabits.ui.fragment.TaskFragment;
+import moe.haruue.goodhabits.ui.task.TaskFragment;
 import moe.haruue.goodhabits.util.ResourcesLoader;
 
 /**

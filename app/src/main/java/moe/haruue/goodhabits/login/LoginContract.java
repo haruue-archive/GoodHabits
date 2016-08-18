@@ -3,7 +3,7 @@ package moe.haruue.goodhabits.login;
 import android.support.annotation.NonNull;
 
 import moe.haruue.goodhabits.BasePresenter;
-import moe.haruue.goodhabits.BaseViewWithPresenter;
+import moe.haruue.goodhabits.BaseView;
 
 /**
  * Created by simonla on 2016/8/13.
@@ -11,7 +11,7 @@ import moe.haruue.goodhabits.BaseViewWithPresenter;
  */
 
 interface LoginContract {
-    interface View extends BaseViewWithPresenter<Presenter> {
+    interface View extends BaseView<Presenter> {
         void noNetError();
 
         void userNameError(String error);

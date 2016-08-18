@@ -5,7 +5,7 @@ package moe.haruue.goodhabits;
  * Have a good day.
  */
 
-public interface BaseViewWithPresenter<T> {
+public interface BaseView<T> {
 
     void setPresenter(T presenter);
 

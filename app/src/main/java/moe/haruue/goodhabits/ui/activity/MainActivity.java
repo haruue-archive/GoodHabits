@@ -42,15 +42,12 @@ public class MainActivity extends BaseActivity {
         toolbar = $(R.id.toolbar);
         setSupportActionBar(toolbar);
         toolbar.setNavigationIcon(R.drawable.ic_menu_white_24dp);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                JUtils.Log("ToolbarNavigationIcon#OnClick, id = " + view.getId());
-                if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
-                    drawerLayout.closeDrawer(GravityCompat.START);
-                } else {
-                    drawerLayout.openDrawer(GravityCompat.START);
-                }
+        toolbar.setNavigationOnClickListener(view -> {
+            JUtils.Log("ToolbarNavigationIcon#OnClick, id = " + view.getId());
+            if (drawerLayout.isDrawerOpen(GravityCompat.START)) {
+                drawerLayout.closeDrawer(GravityCompat.START);
+            } else {
+                drawerLayout.openDrawer(GravityCompat.START);
             }
         });
     }
@@ -87,5 +84,4 @@ public class MainActivity extends BaseActivity {
         Intent starter = new Intent(context, MainActivity.class);
         context.startActivity(starter);
     }
-
 }
