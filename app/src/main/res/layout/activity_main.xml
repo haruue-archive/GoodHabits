@@ -9,19 +9,21 @@
     tools:context="moe.haruue.goodhabits.ui.activity.MainActivity">
 
     <com.jude.fitsystemwindowlayout.FitSystemWindowsFrameLayout
-        android:layout_height="match_parent"
         android:layout_width="match_parent"
-        app:padding_status="true"
+        android:layout_height="match_parent"
+        app:status_color="@color/material_color_pink_600"
         android:clickable="true"
+        app:padding_status="true"
         tools:context="moe.haruue.goodhabits.ui.activity.MainActivity">
 
         <android.support.design.widget.CoordinatorLayout
-            android:layout_height="match_parent"
-            android:layout_width="match_parent">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <android.support.design.widget.AppBarLayout
                 android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:layout_height="120dp"
+                android:background="@drawable/bg_toolbar"
                 android:clickable="true"
                 app:elevation="10dp"
                 app:margin_status="true">
@@ -30,18 +32,17 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:background="@color/colorPrimary"
+                    app:layout_scrollFlags="scroll|enterAlways"
                     app:theme="@style/Theme.AppCompat.NoActionBar"
-                    app:title="@string/app_name"
-                    app:layout_scrollFlags="scroll|enterAlways"/>
+                    app:title="@string/app_name"/>
 
                 <android.support.design.widget.TabLayout
                     android:id="@+id/tab_layout"
                     android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_height="70dp"
                     app:tabMode="fixed"
-                    app:tabTextColor="@color/material_color_blue_gray_300"
-                    app:tabSelectedTextColor="@color/material_color_white"/>
+                    app:tabSelectedTextColor="@color/material_color_white"
+                    app:tabTextColor="@color/material_color_blue_gray_300"/>
 
             </android.support.design.widget.AppBarLayout>
 
