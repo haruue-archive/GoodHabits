@@ -28,6 +28,12 @@ public class SquareFragment extends BaseFragment implements SquareContract.View 
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.start();
+    }
+
+    @Override
     public void setPresenter(SquareContract.Presenter presenter) {
         mPresenter = presenter;
     }

@@ -1,7 +1,10 @@
 package moe.haruue.goodhabits.ui.task;
 
+import java.util.ArrayList;
+
 import moe.haruue.goodhabits.BasePresenter;
 import moe.haruue.goodhabits.BaseView;
+import moe.haruue.goodhabits.model.Task;
 
 /**
  * Created by simonla on 2016/8/18.
@@ -9,10 +12,13 @@ import moe.haruue.goodhabits.BaseView;
  */
 public class TaskContract {
     interface View extends BaseView<Presenter> {
+        void closeLoadTasksProgressBar();
 
     }
 
     interface Presenter extends BasePresenter {
+        ArrayList<Task> getTodayTasks();
 
+        void setTaskFinish(int TaskId);
     }
 }

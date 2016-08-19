@@ -28,6 +28,12 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
     }
 
     @Override
+    public void onResume() {
+        super.onResume();
+        mPresenter.start();
+    }
+
+    @Override
     public void setPresenter(CalendarContract.Presenter presenter) {
         mPresenter = presenter;
     }
