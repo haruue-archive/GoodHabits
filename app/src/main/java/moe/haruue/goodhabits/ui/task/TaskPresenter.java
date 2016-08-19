@@ -6,6 +6,7 @@ import java.util.List;
 
 import moe.haruue.goodhabits.data.database.func.TasksByIdQueryFunc;
 import moe.haruue.goodhabits.data.database.func.TasksByTimeQueryFunc;
+import moe.haruue.goodhabits.data.database.func.UpdateTasksByIdFunc;
 import moe.haruue.goodhabits.model.Task;
 import moe.haruue.goodhabits.util.TimeUtils;
 import rx.Observable;
@@ -61,6 +62,13 @@ public class TaskPresenter implements TaskContract.Presenter {
     public void setTaskFinish(int TaskId) {
         Observable.just(Task.newEmptyTaskWithId(TaskId))
                 .map(new TasksByIdQueryFunc())
+                .map(tasks -> {
+                    for (Task t: tasks) {
+                        t.isFinish = true;
+                    }
+                    return tasks;
+                })
+                .map(new UpdateTasksByIdFunc())
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
