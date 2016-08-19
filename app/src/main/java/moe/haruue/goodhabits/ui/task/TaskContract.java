@@ -12,13 +12,16 @@ import moe.haruue.goodhabits.model.Task;
  */
 public class TaskContract {
     interface View extends BaseView<Presenter> {
-        void closeLoadTasksProgressBar();
+
+        void onGetTodayTasks(ArrayList<Task> tasks, boolean isSuccess);
+        void onSetTaskFinished(boolean isSuccess);
 
     }
 
     interface Presenter extends BasePresenter {
-        ArrayList<Task> getTodayTasks();
 
+        void getTodayTasks();
         void setTaskFinish(int TaskId);
+
     }
 }

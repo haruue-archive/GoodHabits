@@ -8,6 +8,10 @@ public class Const {
 
     public final static String TASK_TYPE_SCHOOL_COURSE = "type_school_course";
 
+    public final static String TASK_TYPE_USER_ADD = "type_user_add";
+
+    public final static String TASK_TYPE_AUTO_PLAN = "type_auto_plan";
+
     public final static String REDROCK_BASE_URL = "http://hongyan.cqupt.edu.cn/" ;
 
     public final static String REDROCK_CLASS_SCHEDULE_API = "redapi2/api/kebiao";

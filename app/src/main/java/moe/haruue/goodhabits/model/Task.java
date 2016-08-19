@@ -17,6 +17,7 @@ public class Task {
     public String imageUrl = "";
     public long startTime;
     public long endTime;
+    public boolean isFinish;
 
     public static Task newEmptyTaskWithId(int id) {
         Task task = new Task();

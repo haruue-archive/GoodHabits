@@ -18,4 +18,13 @@ public class TaskPresenter implements TaskContract.Presenter {
 
     }
 
+    @Override
+    public void getTodayTasks() {
+
+    }
+
+    @Override
+    public void setTaskFinish(int TaskId) {
+
+    }
 }

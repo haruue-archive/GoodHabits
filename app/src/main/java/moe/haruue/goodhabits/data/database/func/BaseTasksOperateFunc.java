@@ -2,6 +2,7 @@ package moe.haruue.goodhabits.data.database.func;
 
 import android.content.ContentValues;
 
+import com.jude.utils.JUtils;
 import com.squareup.sqlbrite.BriteDatabase;
 
 import java.util.List;
@@ -40,6 +41,8 @@ public abstract class BaseTasksOperateFunc implements Func1<List<Task>, List<Tas
         values.put(TaskDataBase.COLUMN_NAME_IMAGE_URL, task.imageUrl);
         values.put(TaskDataBase.COLUMN_NAME_START_TIME, task.startTime);
         values.put(TaskDataBase.COLUMN_NAME_END_TIME, task.endTime);
+        values.put(TaskDataBase.COLUMN_NAME_IS_FINISH, task.isFinish ? 1 : 0);
+        values.put(TaskDataBase.COLUMN_NAME_MD5, JUtils.MD5((task.title + task.content + task.type + task.plan + task.imageUrl + task.startTime + task.endTime).getBytes()));
         return values;
     }
 

@@ -48,6 +48,7 @@ public abstract class BaseTasksQueryFunc implements Func1<Task, List<Task>> {
         task.imageUrl = cursor.getString(cursor.getColumnIndex(TaskDataBase.COLUMN_NAME_IMAGE_URL));
         task.startTime = cursor.getLong(cursor.getColumnIndex(TaskDataBase.COLUMN_NAME_START_TIME));
         task.endTime = cursor.getLong(cursor.getColumnIndex(TaskDataBase.COLUMN_NAME_END_TIME));
+        task.isFinish = cursor.getInt(cursor.getColumnIndex(TaskDataBase.COLUMN_NAME_IS_FINISH)) != 0;
         return task;
     }
 
