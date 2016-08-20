@@ -11,6 +11,9 @@ import moe.haruue.goodhabits.model.Task;
 import moe.haruue.goodhabits.util.SchoolCalendar;
 import rx.functions.Func1;
 
+import static moe.haruue.goodhabits.util.TimeUtils.getTimeStampOf;
+import static moe.haruue.goodhabits.util.TimeUtils.timeStampToDayStartCCT;
+
 /**
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */
@@ -79,27 +82,6 @@ public class SchoolCoursesToTasksFunc implements Func1<List<SchoolCourse>, List<
 
     private long timeStampOf(int week, int day, long time) {
         return timeStampToDayStartCCT(getTimeStampOf(new SchoolCalendar(week, day).getCalendar())) + time;
-    }
-
-    /**
-     * 取北京时间当天 0 点的时间戳
-     * @param timeStamp 北京时间某一天任意时间的时间戳
-     * @return 当天 0 点的时间戳
-     */
-    private long timeStampToDayStartCCT(long timeStamp) {
-        timeStamp += 28800;
-        timeStamp = timeStamp / 86400 * 86400;
-        return timeStamp - 28800;
-    }
-
-    /**
-     * 取以秒为单位的时间戳<br>
-     *     <del>让我用以毫秒为单位的时间戳我是拒绝的</del>
-     * @param calendar 需要取值的 {@link Calendar} 对象
-     * @return 以秒为单位的时间戳
-     */
-    private long getTimeStampOf(Calendar calendar) {
-        return calendar.getTimeInMillis() / 1000;
     }
 
     /**
