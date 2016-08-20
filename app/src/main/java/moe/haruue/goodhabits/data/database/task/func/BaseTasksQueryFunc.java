@@ -1,4 +1,4 @@
-package moe.haruue.goodhabits.data.database.func;
+package moe.haruue.goodhabits.data.database.task.func;
 
 import android.database.Cursor;
 import android.util.Log;
@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
-import moe.haruue.goodhabits.data.database.TaskDataBase;
+import moe.haruue.goodhabits.data.database.task.TaskDataBase;
 import moe.haruue.goodhabits.model.Task;
 import rx.functions.Func1;
 

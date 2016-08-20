@@ -1,15 +1,11 @@
 package moe.haruue.goodhabits.ui.login;
 
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.util.Log;
 
 import com.avos.avoscloud.AVException;
 import com.jude.utils.JUtils;
-
-import java.util.Objects;
 
 import moe.haruue.goodhabits.network.RequestManager;
 import moe.haruue.goodhabits.network.callback.LoginCallback;
@@ -40,12 +36,11 @@ class LoginPresenter implements LoginContract.Presenter {
 
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     @Override
     public void login(@NonNull String userName, @NonNull String userPassword, @NonNull String stuNum) {
         mView.showProgress(50);
         Log.d(TAG, "login: " + userName);
-        if (Objects.equals(userName, "")) {
+        if ("".equals(userName)) {
             mView.userNameError("不能为空");
             mView.showProgress(0);
             return;
@@ -55,7 +50,7 @@ class LoginPresenter implements LoginContract.Presenter {
             mView.showProgress(0);
             return;
         }
-        if (!Objects.equals(stuNum, "")) {
+        if (!"".equals(stuNum)) {
             if (stuNum.length() != 10) {
                 mView.stuNumError("请检查学号");
                 mView.showProgress(0);
@@ -82,12 +77,11 @@ class LoginPresenter implements LoginContract.Presenter {
         });
     }
 
-    @TargetApi(Build.VERSION_CODES.KITKAT)
     public void signUp(@NonNull String userName, @NonNull String userPassword, @Nullable String stuNum) {
         mView.showProgress(50);
         //TODO check sutNumber correct
         boolean isCQUPT = false;
-        if (!Objects.equals(stuNum, "")) {
+        if (!"".equals(stuNum)) {
             isCQUPT = true;
         }
         RequestManager.getInstance().register(userName, userPassword, isCQUPT, stuNum, new RegisterCallback() {

@@ -49,7 +49,7 @@ public class Course {
     public int getTotalDays() {
         int totalDays=0;
         for (Step s : mSteps) {
-            totalDays=  s.getPeriod()+totalDays;
+            totalDays=  s.getPeriod() + totalDays;
         }
         return totalDays;
     }

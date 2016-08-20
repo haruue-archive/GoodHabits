@@ -1,4 +1,4 @@
-package moe.haruue.goodhabits.data.database.func;
+package moe.haruue.goodhabits.data.database.task.func;
 
 import android.content.ContentValues;
 
@@ -7,7 +7,7 @@ import com.squareup.sqlbrite.BriteDatabase;
 
 import java.util.List;
 
-import moe.haruue.goodhabits.data.database.TaskDataBase;
+import moe.haruue.goodhabits.data.database.task.TaskDataBase;
 import moe.haruue.goodhabits.model.Task;
 import rx.functions.Func1;
 

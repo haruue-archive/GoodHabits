@@ -1,6 +1,7 @@
-package moe.haruue.goodhabits.data.database.func;
+package moe.haruue.goodhabits.data.database.task.func;
 
-import moe.haruue.goodhabits.data.database.TaskDataBase;
+import moe.haruue.goodhabits.data.database.task.TaskDataBase;
+import moe.haruue.goodhabits.data.database.task.func.BaseTasksQueryFunc;
 import moe.haruue.goodhabits.model.Task;
 
 /**

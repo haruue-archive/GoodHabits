@@ -4,9 +4,9 @@ import java.util.ArrayList;
 import java.util.GregorianCalendar;
 import java.util.List;
 
-import moe.haruue.goodhabits.data.database.func.TasksByIdQueryFunc;
-import moe.haruue.goodhabits.data.database.func.TasksByTimeQueryFunc;
-import moe.haruue.goodhabits.data.database.func.UpdateTasksByIdFunc;
+import moe.haruue.goodhabits.data.database.task.func.TasksByIdQueryFunc;
+import moe.haruue.goodhabits.data.database.task.func.TasksByTimeQueryFunc;
+import moe.haruue.goodhabits.data.database.task.func.UpdateTasksByIdFunc;
 import moe.haruue.goodhabits.model.Task;
 import moe.haruue.goodhabits.util.TimeUtils;
 import rx.Observable;

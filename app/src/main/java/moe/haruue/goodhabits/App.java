@@ -11,7 +11,7 @@ import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
 import im.fir.sdk.FIR;
-import moe.haruue.goodhabits.data.database.TaskDataBase;
+import moe.haruue.goodhabits.data.database.task.TaskDataBase;
 import moe.haruue.goodhabits.util.ResourcesLoader;
 
 /**

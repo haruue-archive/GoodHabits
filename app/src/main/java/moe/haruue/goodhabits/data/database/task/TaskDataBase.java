@@ -1,4 +1,4 @@
-package moe.haruue.goodhabits.data.database;
+package moe.haruue.goodhabits.data.database.task;
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
