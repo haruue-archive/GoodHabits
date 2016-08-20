@@ -1,7 +1,6 @@
 package moe.haruue.goodhabits.data.database.task.func;
 
 import moe.haruue.goodhabits.data.database.task.TaskDataBase;
-import moe.haruue.goodhabits.data.database.task.func.BaseTasksQueryFunc;
 import moe.haruue.goodhabits.model.Task;
 
 /**
@@ -11,7 +10,7 @@ import moe.haruue.goodhabits.model.Task;
 public class TasksByIdQueryFunc extends BaseTasksQueryFunc {
     @Override
     protected String querySql() {
-        return "SELECT * FROM " + TaskDataBase.TASK_TABLE_NAME + " WHERE id=?";
+        return "SELECT * FROM " + TaskDataBase.TASK_TABLE_NAME + " WHERE " + TaskDataBase.COLUMN_NAME_ID + "=?";
     }
 
     @Override

@@ -22,5 +22,7 @@ public class Plan {
     public String imageUrl = "";
     // 预留，以后的作者
     public String author = "";
+    // 此 Plan 是否在进行
+    public boolean isDoing;
 
 }
