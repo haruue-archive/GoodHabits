@@ -16,7 +16,9 @@ public interface RedrockApi {
 
     @FormUrlEncoded
     @Headers("API_APP: android")
-    @POST(Const.REDROCK_CLASS_SCHEDULE_API)
+    // TODO: change to true api before release
+//    @POST(Const.REDROCK_CLASS_SCHEDULE_API)
+    @POST(Const.HARUUE_FAKE_SCHOOL_COURSE_API)
     Observable<SchoolCourse.CourseWrapper> getCourse(@Field("stuNum") String stuNum,
                                                      @Field("idNum") String idNum,
                                                      @Field("week") String week);

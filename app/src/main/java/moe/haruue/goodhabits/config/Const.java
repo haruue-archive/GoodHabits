@@ -16,6 +16,10 @@ public class Const {
 
     public final static String REDROCK_CLASS_SCHEDULE_API = "redapi2/api/kebiao";
 
+    public final static String HARUUE_API_BASE_URL = "https://api.caoyue.com.cn/";
+
+    public final static String HARUUE_FAKE_SCHOOL_COURSE_API = "fakekebiao.php";
+
     public static final int REDROCK_API_STATUS_SUCCESS = 200;
 
     public static final String KEY_FIRST_SCHOOL_DAY = "first_school_day";
