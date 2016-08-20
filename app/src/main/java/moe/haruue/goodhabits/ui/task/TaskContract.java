@@ -12,6 +12,7 @@ import moe.haruue.goodhabits.model.Task;
  */
 public class TaskContract {
     interface View extends BaseView<Presenter> {
+
         void closeLoadTasksProgressBar();
 
     }
@@ -19,6 +20,10 @@ public class TaskContract {
     interface Presenter extends BasePresenter {
         ArrayList<Task> getTodayTasks();
 
+        void refreshData();
+
         void setTaskFinish(int TaskId);
     }
+
+
 }

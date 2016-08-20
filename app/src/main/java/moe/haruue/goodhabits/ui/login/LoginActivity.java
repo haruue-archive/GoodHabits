@@ -87,8 +87,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         new AlertDialog.Builder(LoginActivity.this)
                 .setTitle("即将开始")
                 .setMessage("该帐号还未注册，注册并登录吗")
-                .setNegativeButton("不＞(￣ε￣ )<要", null)
-                .setPositiveButton("要", (dialogInterface, i) -> {
+                .setNegativeButton("不要＞(￣ε￣ )<", null)
+                .setPositiveButton("要(ง •_•)ง", (dialogInterface, i) -> {
                     mPresenter.signUp(
                             mEtLoginUserName.getText().toString(),
                             mEtLoginUserPassword.getText().toString(),
