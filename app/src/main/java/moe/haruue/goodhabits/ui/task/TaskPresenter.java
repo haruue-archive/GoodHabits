@@ -30,7 +30,6 @@ public class TaskPresenter implements TaskContract.Presenter {
 
     @Override
     public void start() {
-
     }
 
     public void getTodayTasks() {

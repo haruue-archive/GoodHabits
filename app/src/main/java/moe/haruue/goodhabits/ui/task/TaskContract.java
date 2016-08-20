@@ -14,16 +14,15 @@ public class TaskContract {
     interface View extends BaseView<Presenter> {
 
         void onGetTodayTasks(ArrayList<Task> tasks, boolean isSuccess);
+
         void onSetTaskFinished(boolean isSuccess);
 
     }
 
     interface Presenter extends BasePresenter {
-
         void getTodayTasks();
+
         void setTaskFinish(int TaskId);
 
     }
-
-
 }

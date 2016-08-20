@@ -5,6 +5,7 @@ import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -35,9 +36,12 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
     private RecyclerView.LayoutManager mLayoutManager;
     private RecyclerView.Adapter mAdapter;
 
+    public static final String TAG = "TaskFragment";
+
     @Override
     public void onResume() {
         super.onResume();
+        mTasks = new ArrayList<>();
         mPresenter.start();
     }
 
@@ -56,11 +60,8 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
         mRvTasks.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
         mRvTasks.setLayoutManager(mLayoutManager);
-        mAdapter = new TaskAdapter(mTasks);
-        mSrwTasks.setOnRefreshListener(() -> {
-            mPresenter.refreshData();
-            mSrwTasks.setRefreshing(false);
-        });
+        mPresenter.getTodayTasks();
+        mSrwTasks.setOnRefreshListener(() -> mPresenter.getTodayTasks());
     }
 
     @Override
@@ -69,7 +70,19 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
     }
 
     @Override
-    public void closeLoadTasksProgressBar() {
+    public void onGetTodayTasks(ArrayList<Task> tasks, boolean isSuccess) {
+        if (!isSuccess) {
+            Log.d(TAG, "onGetTodayTasks: fail !!!");
+        } else {
+            mTasks = tasks;
+            mAdapter = new TaskAdapter(mTasks);
+            mRvTasks.setAdapter(mAdapter);
+            Log.d(TAG, "onGetTodayTasks: " + mTasks.size());
+        }
+    }
+
+    @Override
+    public void onSetTaskFinished(boolean isSuccess) {
 
     }
 }
