@@ -18,6 +18,7 @@ public class Task {
     public long startTime;
     public long endTime;
     public boolean isFinish;
+    public String note = "";
 
     public static Task newEmptyTaskWithId(int id) {
         Task task = new Task();
@@ -46,8 +47,8 @@ public class Task {
 
     @Override
     public String toString() {
+        // 这个方法在数据库操作中进行 MD5 计算以保证唯一性时使用，请勿将可变量（note 和 id 加入这里）
         return
-                "id: " + id + "\t" +
                 "title: " + title + "\n" +
                 "content: " + content + "\n" +
                 "type: " + type + "\t" +
