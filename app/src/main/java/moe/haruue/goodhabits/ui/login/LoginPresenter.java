@@ -7,9 +7,19 @@ import android.util.Log;
 import com.avos.avoscloud.AVException;
 import com.jude.utils.JUtils;
 
+import java.util.ArrayList;
+import java.util.List;
+
+import moe.haruue.goodhabits.config.Const;
+import moe.haruue.goodhabits.data.CurrentUser;
+import moe.haruue.goodhabits.data.database.task.func.DeleteTasksByTaskTypeOperateFunc;
+import moe.haruue.goodhabits.model.Task;
 import moe.haruue.goodhabits.network.RequestManager;
 import moe.haruue.goodhabits.network.callback.LoginCallback;
 import moe.haruue.goodhabits.network.callback.RegisterCallback;
+import rx.Observable;
+import rx.Subscriber;
+import rx.schedulers.Schedulers;
 
 /**
  * Created by simonla on 2016/8/13.
@@ -60,8 +70,15 @@ class LoginPresenter implements LoginContract.Presenter {
         RequestManager.getInstance().login(userName, userPassword, new LoginCallback() {
             @Override
             public void onLoginSuccess() {
-                mView.showProgress(100);
-                mView.startActivity();
+                if (!"".equals(stuNum)) {
+                    CurrentUser.getInstance().setIsCQUPT(true);
+                    CurrentUser.getInstance().setStuNum(stuNum);
+                    mView.showProgress(90);
+                    loadSchoolCourse(stuNum);
+                } else {
+                    mView.showProgress(100);
+                    mView.startActivity();
+                }
             }
 
             @Override
@@ -97,5 +114,47 @@ class LoginPresenter implements LoginContract.Presenter {
                 mView.passwordError(message);
             }
         });
+    }
+
+    private void loadSchoolCourse(String stuNum) {
+        ArrayList<Task> typeList = new ArrayList<>(0);
+        typeList.add(Task.newEmptyTaskWithType(Const.TASK_TYPE_SCHOOL_COURSE));
+        Observable.just(typeList)
+                .map(new DeleteTasksByTaskTypeOperateFunc())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(Schedulers.io())
+                .subscribe(new Subscriber<List<Task>>() {
+                    @Override
+                    public void onCompleted() {
+                        RequestManager.getInstance().getFullSchoolCourseAndStorageAsTask(new Subscriber<List<Task>>() {
+                            @Override
+                            public void onCompleted() {
+                                mView.showProgress(100);
+                                mView.startActivity();
+                            }
+
+                            @Override
+                            public void onError(Throwable e) {
+                                e.printStackTrace();
+                            }
+
+                            @Override
+                            public void onNext(List<Task> tasks) {
+                                Log.d("CSE_SchoolCourse", tasks.toString());
+                            }
+                        }, stuNum, "0");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        e.printStackTrace();
+                    }
+
+                    @Override
+                    public void onNext(List<Task> tasks) {
+
+                    }
+                });
     }
 }
