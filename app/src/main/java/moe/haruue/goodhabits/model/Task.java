@@ -1,5 +1,7 @@
 package moe.haruue.goodhabits.model;
 
+import android.support.annotation.NonNull;
+
 /**
  * 任务，此 model 用于存储、显示，分析用户的安排<br>
  *     请注意，这是核心数据结构之一，对其进行的结构性更改将会影响到大量类<br>
@@ -7,7 +9,7 @@ package moe.haruue.goodhabits.model;
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */
 
-public class Task {
+public class Task implements Comparable<Task> {
 
     public String title = "";
     public String content = "";
@@ -79,5 +81,12 @@ public class Task {
     @Override
     public int hashCode() {
         return "TASK_OBJ_d5f4c24c7".hashCode() + id;
+    }
+
+    @Override
+    public int compareTo(@NonNull Task task) {
+        if (startTime < task.startTime) return -1;
+        else if (startTime == task.startTime) return 0;
+        else return 1;
     }
 }

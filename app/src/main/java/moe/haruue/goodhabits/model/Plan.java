@@ -25,4 +25,8 @@ public class Plan {
     // 此 Plan 是否在进行
     public boolean isDoing;
 
+    // 以下在创建 Task 的时候才要填
+    public long startTime;
+    public long endTime;
+
 }

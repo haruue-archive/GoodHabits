@@ -20,6 +20,15 @@ public class TimeUtils {
     }
 
     /**
+     * 取北京时间当天 0 点到给定时间戳的秒数
+     * @param timeStamp 给定时间戳
+     * @return 结果
+     */
+    public static long getSecondOfDayCCT(long timeStamp) {
+        return timeStamp - timeStampToDayStartCCT(timeStamp);
+    }
+
+    /**
      * 取以秒为单位的时间戳<br>
      *     <del>让我用以毫秒为单位的时间戳我是拒绝的</del>
      * @param calendar 需要取值的 {@link Calendar} 对象
