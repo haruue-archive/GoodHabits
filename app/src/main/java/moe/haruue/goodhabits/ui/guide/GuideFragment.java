@@ -7,6 +7,7 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AlphaAnimation;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -46,6 +47,9 @@ public class GuideFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mTvGuide.setText(getArguments().getString(ARGUMENT_STRING));
         mIvGuide.setImageResource(getArguments().getInt(ARGUMENT_DRAWABLE));
+        AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
+        alphaAnimation.setDuration(500);
+        mBtGuide.setAnimation(alphaAnimation);
     }
 
     @OnClick(R.id.bt_guide)

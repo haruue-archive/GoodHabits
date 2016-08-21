@@ -13,6 +13,13 @@ import moe.haruue.goodhabits.model.Task;
 public class TaskContract {
     interface View extends BaseView<Presenter> {
 
+        /**
+         * 给新的过来就行了
+         * @param isSomeNews 是否有新内容
+         * @param newTasks 没有就 null
+         */
+        void onRefresh(boolean isSomeNews, ArrayList<Task> newTasks);
+
         void onGetTodayTasks(ArrayList<Task> tasks, boolean isSuccess);
 
         void onSetTaskFinished(boolean isSuccess);
@@ -23,6 +30,8 @@ public class TaskContract {
         void getTodayTasks();
 
         void setTaskFinish(int TaskId);
+
+        void refreshTasks();
 
     }
 }

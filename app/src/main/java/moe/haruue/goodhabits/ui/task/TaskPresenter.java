@@ -88,4 +88,9 @@ public class TaskPresenter implements TaskContract.Presenter {
                     }
                 });
     }
+
+    @Override
+    public void refreshTasks() {
+
+    }
 }

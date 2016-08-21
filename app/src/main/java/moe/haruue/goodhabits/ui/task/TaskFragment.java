@@ -1,14 +1,20 @@
 package moe.haruue.goodhabits.ui.task;
 
+import android.animation.ObjectAnimator;
+import android.annotation.TargetApi;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.widget.SwipeRefreshLayout;
+import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import java.util.ArrayList;
 
@@ -34,7 +40,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
     private TaskContract.Presenter mPresenter;
     private ArrayList<Task> mTasks;
     private RecyclerView.LayoutManager mLayoutManager;
-    private RecyclerView.Adapter mAdapter;
+    private TaskAdapter mAdapter;
 
     public static final String TAG = "TaskFragment";
 
@@ -42,12 +48,12 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
     public void onResume() {
         super.onResume();
         mTasks = new ArrayList<>();
-        mPresenter.start();
     }
 
     @Nullable
     @Override
-    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
+    public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container,
+                             @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_task, container, false);
         ButterKnife.bind(this, view);
         return view;
@@ -56,12 +62,20 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        init();
+        mPresenter.getTodayTasks();
+    }
+
+    private void init() {
         mSrwTasks = new SwipeRefreshLayout(getContext());
         mRvTasks.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
         mRvTasks.setLayoutManager(mLayoutManager);
-        mPresenter.getTodayTasks();
         mSrwTasks.setOnRefreshListener(() -> mPresenter.getTodayTasks());
+    }
+
+    public void finishTheTask(int id) {
+        mPresenter.setTaskFinish(id);
     }
 
     @Override
@@ -70,11 +84,23 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
     }
 
     @Override
+    public void onRefresh(boolean isSomeNews, ArrayList<Task> newTasks) {
+
+    }
+
+    @Override
     public void onGetTodayTasks(ArrayList<Task> tasks, boolean isSuccess) {
         if (!isSuccess) {
             Log.d(TAG, "onGetTodayTasks: fail !!!");
         } else {
-            mTasks = tasks;
+            for (int i = 0; i < 5; i++) {
+                Task task = new Task();
+                task.title = "高数课" + i;
+                mTasks.add(task);
+            }
+            if (tasks.size() != 0) {
+                mTasks = tasks;
+            }
             mAdapter = new TaskAdapter(mTasks);
             mRvTasks.setAdapter(mAdapter);
             Log.d(TAG, "onGetTodayTasks: " + mTasks.size());
@@ -83,6 +109,105 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
 
     @Override
     public void onSetTaskFinished(boolean isSuccess) {
-
+        if (isSuccess) {
+            mAdapter.notify();
+        }
     }
+
+    // TODO: 2016/8/20 weak references~~~
+    public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
+
+        private ArrayList<Task> mTasks;
+
+        public TaskAdapter(ArrayList<Task> tasks) {
+            mTasks = tasks;
+        }
+
+        private static final float NORMAL_Z = 8;
+        private static final float TODO_Z = 16;
+        private static final float FINISHED_Z =2;
+
+        @Override
+        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_task, parent, false);
+            return new ViewHolder(view);
+        }
+
+        @Override
+        public void onBindViewHolder(ViewHolder holder, int position) {
+            TextView tvTitle = holder.mTvTitle;
+            TextView tvHint = holder.mTvHint;
+            TextView tvClick = holder.mTvClick;
+            ImageView ivTask = holder.mIvTask;
+            CardView cardView = holder.mCardView;
+            Task task = mTasks.get(holder.getAdapterPosition());
+            cardView.setCardElevation(10);
+            if (task.isFinish) {
+                tvClick.setText("已完成");
+                animationDown(cardView);
+            } else {
+                tvClick.setText("未完成");
+            }
+            tvTitle.setText(task.title);
+            tvClick.setOnClickListener(view -> finishTheTask(holder.getAdapterPosition()));
+
+            long startTime = task.startTime;
+            long nowTime = System.currentTimeMillis();
+            if (startTime - nowTime <= 7200) {
+                animationUp(cardView);
+            }
+        }
+
+        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+        private void animationUp(View view) {
+            int nowZ = (int) view.getElevation();
+            float afterZ=0;
+            switch (nowZ) {
+                case (int) FINISHED_Z:
+                    afterZ = TODO_Z;
+                    break;
+                case (int) NORMAL_Z:
+                    afterZ = TODO_Z - NORMAL_Z;
+                    break;
+                case (int) TODO_Z:
+                    afterZ = 0;
+                    break;
+            }
+
+            ObjectAnimator up = ObjectAnimator.ofFloat(view, "rotationZ", afterZ);
+            up.setDuration(500).start();
+        }
+
+        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+        private void animationDown(View view) {
+            float nowZ = view.getElevation();
+            ObjectAnimator down = ObjectAnimator.ofFloat(view, "rotationZ", nowZ-FINISHED_Z);
+            down.setDuration(500).start();
+        }
+
+        @Override
+        public int getItemCount() {
+            return mTasks.size();
+        }
+
+        public class ViewHolder extends RecyclerView.ViewHolder {
+
+            private TextView mTvTitle;
+            private TextView mTvHint;
+            private TextView mTvClick;
+            private ImageView mIvTask;
+            private CardView mCardView;
+
+            public ViewHolder(View itemView) {
+                super(itemView);
+                ButterKnife.bind(this, itemView);
+                mIvTask = (ImageView) itemView.findViewById(R.id.iv_task_hint);
+                mTvTitle = (TextView) itemView.findViewById(R.id.tv_task_title);
+                mTvHint = (TextView) itemView.findViewById(R.id.tv_task_hint);
+                mTvClick = (TextView) itemView.findViewById(R.id.tv_task_finish);
+                mCardView = (CardView) itemView.getRootView();
+            }
+        }
+    }
+
 }

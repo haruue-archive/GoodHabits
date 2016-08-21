@@ -1,22 +1,12 @@
 package moe.haruue.goodhabits.ui.task;
 
-import android.support.v7.widget.RecyclerView;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import java.util.ArrayList;
-
-import moe.haruue.goodhabits.R;
-import moe.haruue.goodhabits.model.Task;
-
 /**
  * Created by simonla on 2016/8/20.
  * Have a good day.
  */
+/*
 public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
+
     private ArrayList<Task> mTasks;
 
     public TaskAdapter(ArrayList<Task> tasks) {
@@ -31,7 +21,11 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-
+        TextView mTvTitle = holder.mTvTitle;
+        TextView mTvHint = holder.mTvHint;
+        TextView mTvClick = holder.mTvClick;
+        ImageView mIvTask = holder.mIvTask;
+        mTvTitle.setText(mTasks.get(position).title);
     }
 
     @Override
@@ -55,3 +49,4 @@ public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
         }
     }
 }
+*/
