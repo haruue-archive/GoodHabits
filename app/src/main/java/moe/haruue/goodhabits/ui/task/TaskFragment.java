@@ -68,7 +68,6 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
 
     private void init() {
         mSrwTasks = new SwipeRefreshLayout(getContext());
-        mRvTasks.setHasFixedSize(true);
         mLayoutManager = new LinearLayoutManager(getContext());
         mRvTasks.setLayoutManager(mLayoutManager);
         mSrwTasks.setOnRefreshListener(() -> mPresenter.getTodayTasks());
