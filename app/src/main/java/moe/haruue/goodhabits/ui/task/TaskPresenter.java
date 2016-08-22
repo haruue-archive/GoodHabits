@@ -1,8 +1,11 @@
 package moe.haruue.goodhabits.ui.task;
 
-import java.util.ArrayList;
+import android.util.Log;
 
+import java.util.ArrayList;
+import java.util.Collection;
 import java.util.GregorianCalendar;
+import java.util.HashSet;
 import java.util.List;
 
 import moe.haruue.goodhabits.data.database.task.func.TasksByIdQueryFunc;
@@ -22,6 +25,7 @@ import rx.schedulers.Schedulers;
 public class TaskPresenter implements TaskContract.Presenter {
 
     private TaskContract.View mView;
+    private HashSet<Task> tasks = new HashSet<>(0);
 
     public TaskPresenter(TaskContract.View view) {
         mView = view;
@@ -32,14 +36,19 @@ public class TaskPresenter implements TaskContract.Presenter {
     public void start() {
     }
 
-    public void getTodayTasks() {
+    private void doGetTasks(Subscriber<List<Task>> subscriber) {
         long todayStartTimeStamp = TimeUtils.timeStampToDayStartCCT(new GregorianCalendar().getTimeInMillis() / 1000);
         Observable.just(Task.newEmptyTaskWithStartTimeAndEndTime(todayStartTimeStamp, todayStartTimeStamp + 86400))
                 .map(new TasksByTimeQueryFunc())
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(new Subscriber<List<Task>>() {
+                .subscribe(subscriber);
+    }
+
+    @Override
+    public void getTodayTasks() {
+                doGetTasks(new Subscriber<List<Task>>() {
                     @Override
                     public void onCompleted() {
 
@@ -47,11 +56,13 @@ public class TaskPresenter implements TaskContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
+                        Log.e("TaskPresenter", "getTodayTasksOnError", e);
                         mView.onGetTodayTasks(null, false);
                     }
 
                     @Override
                     public void onNext(List<Task> tasks) {
+                        TaskPresenter.this.tasks.addAll(tasks);
                         mView.onGetTodayTasks(new ArrayList<>(tasks), true);
                     }
                 });
@@ -79,6 +90,7 @@ public class TaskPresenter implements TaskContract.Presenter {
 
                     @Override
                     public void onError(Throwable e) {
+                        Log.e("TaskPresenter", "setTaskFinishOnError", e);
                         mView.onSetTaskFinished(false);
                     }
 
@@ -91,6 +103,60 @@ public class TaskPresenter implements TaskContract.Presenter {
 
     @Override
     public void refreshTasks() {
+        doGetTasks(new Subscriber<List<Task>>() {
+            @Override
+            public void onCompleted() {
 
+            }
+
+            @Override
+            public void onError(Throwable e) {
+                Log.e("TaskPresenter", "refreshTasksOnError", e);
+                mView.onRefresh(false, null);
+            }
+
+            @Override
+            public void onNext(List<Task> tasks) {
+                ArrayList<Task> diff = makeDiff(tasks, TaskPresenter.this.tasks, ArrayList.class);
+                if (diff == null) {
+                    Log.e("TaskPresenter", "refreshTasksOnError", new NullPointerException("failed to new a ArrayList"));
+                    mView.onRefresh(false, null);
+                } else if (diff.size() == 0) {
+                    mView.onRefresh(false, null);
+                } else {
+                    mView.onRefresh(true, diff);
+                }
+            }
+        });
+
+    }
+
+    /**
+     * 找出 c1 - c2 即 c1 中 c2 没有的部分
+     * @param c1 被减集合
+     * @param c2 减集合
+     * @param <T> 数据类型
+     * @param <C1> c1 的集合类型
+     * @param <C2> c2 的集合类型
+     * @param <CR> 返回值的集合类型
+     * @return 包含 c1 - c2 结果的 CR 类型的集合
+     */
+    private <C1 extends Collection<T>, C2 extends Collection<T>, CR extends Collection<T>, T> CR makeDiff(C1 c1, C2 c2, Class<CR> clazz) {
+        CR result;
+        try {
+            result = clazz.newInstance();
+        } catch (InstantiationException e) {
+            e.printStackTrace();
+            return null;
+        } catch (IllegalAccessException e) {
+            e.printStackTrace();
+            return null;
+        }
+        for (T t: c1) {
+            if (!c2.contains(t)) {
+                result.add(t);
+            }
+        }
+        return result;
     }
 }
