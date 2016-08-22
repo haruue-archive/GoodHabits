@@ -125,6 +125,7 @@ public class TaskPresenter implements TaskContract.Presenter {
                     mView.onRefresh(false, null);
                 } else {
                     mView.onRefresh(true, diff);
+                    TaskPresenter.this.tasks.addAll(diff);
                 }
             }
         });
