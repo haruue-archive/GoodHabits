@@ -40,7 +40,7 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
 
         TextView textView = (TextView) view.findViewById(R.id.tv_calendar_title);
         Calendar calendar = Calendar.getInstance();
-        textView.setText(calendar.get(GregorianCalendar.MONTH)+"月"+
+        textView.setText(calendar.get(GregorianCalendar.MONTH)+1+"月"+
                 calendar.get(GregorianCalendar.DAY_OF_MONTH)+"日");
 
         // TODO: 2016/8/22 theckout data

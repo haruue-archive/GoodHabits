@@ -2,7 +2,6 @@ package moe.haruue.goodhabits.ui.calendar;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -105,7 +104,6 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.MyHold
         Calendar calendar = Calendar.getInstance();
         int dayOfWeek = calendar.get(GregorianCalendar.DAY_OF_WEEK);
         int dayOfMonth = calendar.get(GregorianCalendar.DAY_OF_MONTH);
-        Log.d(TAG, "getStart: " + dayOfMonth%7);
         return dayOfWeek-dayOfMonth%7;
     }
 

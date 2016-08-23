@@ -13,6 +13,7 @@ public class CalendarContract {
     }
 
     interface Presenter extends BasePresenter {
-
+        // 总完成率 0..100 &
+        int getFinishedPer();
     }
 }

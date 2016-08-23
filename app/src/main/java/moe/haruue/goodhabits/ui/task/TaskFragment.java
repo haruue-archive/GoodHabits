@@ -13,7 +13,9 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -87,6 +89,10 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
 
     }
 
+    public void saveNote(int id) {
+        mPresenter.saveNote(id);
+    }
+
     @Override
     public void onGetTodayTasks(ArrayList<Task> tasks, boolean isSuccess) {
         if (!isSuccess) {
@@ -113,6 +119,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
         }
     }
 
+
     // TODO: 2016/8/20 weak references~~~
     public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
@@ -124,7 +131,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
 
         private static final float NORMAL_Z = 8;
         private static final float TODO_Z = 16;
-        private static final float FINISHED_Z =2;
+        private static final float FINISHED_Z = 2;
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -139,6 +146,12 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
             TextView tvClick = holder.mTvClick;
             ImageView ivTask = holder.mIvTask;
             CardView cardView = holder.mCardView;
+            RelativeLayout relativeLayout = holder.mRelativeLayout;
+            RelativeLayout RvNote = holder.mRvNote;
+            TextView tvNoteSave = holder.mSave;
+
+            RvNote.setVisibility(View.GONE);
+
             Task task = mTasks.get(holder.getAdapterPosition());
             cardView.setCardElevation(10);
             if (task.isFinish) {
@@ -155,12 +168,28 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
             if (startTime - nowTime <= 7200) {
                 animationUp(cardView);
             }
+
+            cardView.setOnClickListener(view -> {
+                relativeLayout.setVisibility(View.GONE);
+                RvNote.setVisibility(View.VISIBLE);
+            });
+
+            tvNoteSave.setOnClickListener(view -> {
+                saveNote(task.id);
+                relativeLayout.setVisibility(View.VISIBLE);
+                RvNote.setVisibility(View.GONE);
+            });
+        }
+
+        private void animationExpand(View view) {
+            ObjectAnimator expand = ObjectAnimator.ofFloat(view, "height", 2);
+            expand.setDuration(300).start();
         }
 
         @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         private void animationUp(View view) {
             int nowZ = (int) view.getElevation();
-            float afterZ=0;
+            float afterZ = 0;
             switch (nowZ) {
                 case (int) FINISHED_Z:
                     afterZ = TODO_Z;
@@ -180,7 +209,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
         @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         private void animationDown(View view) {
             float nowZ = view.getElevation();
-            ObjectAnimator down = ObjectAnimator.ofFloat(view, "rotationZ", nowZ-FINISHED_Z);
+            ObjectAnimator down = ObjectAnimator.ofFloat(view, "rotationZ", nowZ - FINISHED_Z);
             down.setDuration(500).start();
         }
 
@@ -196,6 +225,10 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
             private TextView mTvClick;
             private ImageView mIvTask;
             private CardView mCardView;
+            private RelativeLayout mRelativeLayout;
+            private RelativeLayout mRvNote;
+            private EditText mEditText;
+            private TextView mSave;
 
             public ViewHolder(View itemView) {
                 super(itemView);
@@ -205,6 +238,10 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
                 mTvHint = (TextView) itemView.findViewById(R.id.tv_task_hint);
                 mTvClick = (TextView) itemView.findViewById(R.id.tv_task_finish);
                 mCardView = (CardView) itemView.getRootView();
+                mRelativeLayout = (RelativeLayout) itemView.findViewById(R.id.rl_task);
+                mRvNote = (RelativeLayout) itemView.findViewById(R.id.rl_task_note);
+                mEditText = (EditText) itemView.findViewById(R.id.et_task_note);
+                mSave = (TextView) itemView.findViewById(R.id.tv_task_note_save);
             }
         }
     }
