@@ -9,11 +9,16 @@ import moe.haruue.goodhabits.BaseView;
  */
 public class CalendarContract {
     interface View extends BaseView<Presenter> {
-
     }
 
     interface Presenter extends BasePresenter {
         // 总完成率 0..100 &
-        int getFinishedPer();
+        void getFinishedPer(Callback callback);
+    }
+
+    interface Callback{
+        void onFinish(int per);
+
+        void onError(String error);
     }
 }

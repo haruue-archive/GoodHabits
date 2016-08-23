@@ -56,6 +56,7 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
         RecyclerView rv = (RecyclerView) view.findViewById(R.id.rv_calendar);
         rv.setLayoutManager(new GridLayoutManager(getContext(), 7));
         rv.setAdapter(new CalendarAdapter(arrayList, getContext()));
+
     }
 
     @Override

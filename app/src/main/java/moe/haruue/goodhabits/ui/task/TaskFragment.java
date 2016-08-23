@@ -89,8 +89,8 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
 
     }
 
-    public void saveNote(int id) {
-        mPresenter.saveNote(id);
+    public void saveNote(int id,String note) {
+        mPresenter.saveNote(id,note);
     }
 
     @Override
@@ -149,6 +149,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
             RelativeLayout relativeLayout = holder.mRelativeLayout;
             RelativeLayout RvNote = holder.mRvNote;
             TextView tvNoteSave = holder.mSave;
+            EditText editText = holder.mEditText;
 
             RvNote.setVisibility(View.GONE);
 
@@ -175,7 +176,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
             });
 
             tvNoteSave.setOnClickListener(view -> {
-                saveNote(task.id);
+                saveNote(task.id,editText.getText().toString());
                 relativeLayout.setVisibility(View.VISIBLE);
                 RvNote.setVisibility(View.GONE);
             });

@@ -33,7 +33,7 @@ public class TaskContract {
 
         void refreshTasks();
 
-        void saveNote(int id);
+        void saveNote(int id,String note);
 
     }
 }
