@@ -1,10 +1,9 @@
 package moe.haruue.goodhabits.ui.task;
 
 import android.animation.ObjectAnimator;
-import android.annotation.TargetApi;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -89,6 +88,9 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
         Log.d(TAG, "onRefresh: ");
     }
 
+    public void notTimeToFinish() {
+        Snackbar.make(mRvTasks, "因为你内裤没有穿外面，所以你现在不能完成这件事 ", Snackbar.LENGTH_SHORT).show();
+    }
 
     public void saveNote(int id, String note) {
         mPresenter.saveNote(id, note);
@@ -113,14 +115,21 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
     public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
 
         private ArrayList<Task> mTasks;
+        private static final float NORMAL_Z = 8;
+        private static final float TODO_Z = 20;
+        private static final float FINISHED_Z = 2;
+        private int latelyTaskId = 0;
 
         public TaskAdapter(ArrayList<Task> tasks) {
             mTasks = tasks;
+            long nowTime = System.currentTimeMillis() / 1000;
+            for (Task t : mTasks) {
+                if (t.startTime >= nowTime) {
+                    latelyTaskId = t.id;
+                    return;
+                }
+            }
         }
-
-        private static final float NORMAL_Z = 8;
-        private static final float TODO_Z = 16;
-        private static final float FINISHED_Z = 2;
 
         @Override
         public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
@@ -134,51 +143,67 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
             TextView tvHint = holder.mTvHint;
             TextView tvClick = holder.mTvClick;
             ImageView ivTask = holder.mIvTask;
-            final CardView cardView = holder.mCardView;
-            RelativeLayout relativeLayout = holder.mRelativeLayout;
-            RelativeLayout RvNote = holder.mRvNote;
+            CardView cardView = holder.mCardView;
+            RelativeLayout rvTask = holder.mRelativeLayout;
+            RelativeLayout rvNote = holder.mRvNote;
             TextView tvNoteSave = holder.mSave;
             EditText editText = holder.mEditText;
             Boolean isFinish;
 
-            RvNote.setVisibility(View.GONE);
+            //rvNote.setVisibility(View.GONE);
+            cardView.setCardElevation(NORMAL_Z);
 
             Task task = mTasks.get(holder.getAdapterPosition());
-            cardView.setCardElevation(10);
+            tvTitle.setText(task.title);
             if (task.isFinish) {
                 tvClick.setText("已完成");
                 isFinish = true;
-                animationDown(cardView);
+                cardView.setCardElevation(FINISHED_Z);
+                tvClick.setClickable(false);
+                ivTask.setImageResource(R.drawable.ic_finish);
             } else {
                 tvClick.setText("未完成");
                 isFinish = false;
             }
-            tvTitle.setText(task.title);
-            if (isFinish) {
+
+            long nowTime = System.currentTimeMillis() / 1000;
+
+            if (!isFinish) {
+                tvClick.setClickable(false);
                 tvClick.setOnClickListener(view -> {
                     // TODO: 2016/8/24 chick is successful
-                    finishTheTask(task.id);
-                    tvClick.setText("已完成");
-                    animationDown(cardView);
+                    if (task.startTime < nowTime) {
+                        finishTheTask(task.id);
+                        tvClick.setText("已完成");
+                        ivTask.setImageResource(R.drawable.ic_finish);
+                        animationDown(cardView);
+                    } else {
+                        notTimeToFinish();
+                    }
                 });
             }
 
-            long startTime = task.startTime;
-            long nowTime = System.currentTimeMillis();
-            if (startTime - nowTime <= 7200) {
+            tvHint.setText(task.content);
+
+            if (task.id == latelyTaskId) {
                 animationUp(cardView);
+                ivTask.setImageResource(R.drawable.ic_todo);
             }
 
-            cardView.setOnClickListener(view -> {
-                relativeLayout.setVisibility(View.GONE);
-                RvNote.setVisibility(View.VISIBLE);
-            });
+          /*  if (startTime - nowTime <= 7200) {
+                animationUp(cardView);
+            }*/
 
-            tvNoteSave.setOnClickListener(view -> {
+           /* cardView.setOnClickListener(view -> {
+                rvTask.setVisibility(View.GONE);
+                rvNote.setVisibility(View.VISIBLE);
+            });*/
+
+           /* tvNoteSave.setOnClickListener(view -> {
                 saveNote(task.id, editText.getText().toString());
-                relativeLayout.setVisibility(View.VISIBLE);
-                RvNote.setVisibility(View.GONE);
-            });
+                rvTask.setVisibility(View.VISIBLE);
+                rvNote.setVisibility(View.GONE);
+            });*/
         }
 
         private void animationExpand(View view) {
@@ -186,9 +211,11 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
             expand.setDuration(300).start();
         }
 
-        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         private void animationUp(View view) {
-            int nowZ = (int) view.getElevation();
+            int nowZ = 0;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                nowZ = (int) view.getElevation();
+            }
             float afterZ = 0;
             switch (nowZ) {
                 case (int) FINISHED_Z:
@@ -201,15 +228,17 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
                     afterZ = 0;
                     break;
             }
-
-            ObjectAnimator.ofFloat(view, "rotationZ", afterZ).setDuration(500).start();
+            ObjectAnimator.ofFloat(view, "translationZ", afterZ).setDuration(500).start();
         }
 
-        @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         private void animationDown(View view) {
-            float nowZ = view.getElevation();
-            Log.d(TAG, "animationDown: nowZ:" + nowZ + " afterZ:" + -(nowZ - FINISHED_Z));
-            ObjectAnimator.ofFloat(view, "rotationZ", -(nowZ - FINISHED_Z)).setDuration(500).start();
+            float nowZ = 0;
+            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+                nowZ = view.getElevation();
+            }
+            view.invalidate();
+            ObjectAnimator down = ObjectAnimator.ofFloat(view, "translationZ", -(nowZ - FINISHED_Z));
+            down.setDuration(1000).start();
         }
 
         @Override
@@ -236,11 +265,11 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
                 mTvTitle = (TextView) itemView.findViewById(R.id.tv_task_title);
                 mTvHint = (TextView) itemView.findViewById(R.id.tv_task_hint);
                 mTvClick = (TextView) itemView.findViewById(R.id.tv_task_finish);
-                mCardView = (CardView) itemView.getRootView();
-                mRelativeLayout = (RelativeLayout) itemView.findViewById(R.id.rl_task);
-                mRvNote = (RelativeLayout) itemView.findViewById(R.id.rl_task_note);
-                mEditText = (EditText) itemView.findViewById(R.id.et_task_note);
-                mSave = (TextView) itemView.findViewById(R.id.tv_task_note_save);
+                mCardView = (CardView) itemView.findViewById(R.id.cv_task);
+                //mRelativeLayout = (RelativeLayout) itemView.findViewById(R.id.rl_task);
+                //mRvNote = (RelativeLayout) itemView.findViewById(R.id.rl_task_note);
+                //mEditText = (EditText) itemView.findViewById(R.id.et_task_note);
+                //mSave = (TextView) itemView.findViewById(R.id.tv_task_note_save);
             }
         }
     }

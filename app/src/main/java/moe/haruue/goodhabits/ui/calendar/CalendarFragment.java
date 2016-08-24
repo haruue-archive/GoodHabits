@@ -15,6 +15,8 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.HashMap;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
 import moe.haruue.goodhabits.R;
 import moe.haruue.goodhabits.ui.BaseFragment;
 
@@ -27,31 +29,42 @@ import moe.haruue.goodhabits.ui.BaseFragment;
 
 public class CalendarFragment extends BaseFragment implements CalendarContract.View {
 
+    @BindView(R.id.tv_calendar_title)
+    TextView mTvCalendarTitle;
+    @BindView(R.id.rv_calendar)
+    RecyclerView mRvCalendar;
+    @BindView(R.id.tv_pie_title)
+    TextView mTvPieTitle;
+    @BindView(R.id.pv_per_finish)
+    PieView mPvPerFinish;
+    @BindView(R.id.tv_pie_skip)
+    TextView mTvPieSkip;
+    @BindView(R.id.pv_per_skip)
+    PieView mPvPerSkip;
+    @BindView(R.id.tv_calendar_per_more_than)
+    TextView mTvCalendarPerMoreThan;
     private CalendarContract.Presenter mPresenter;
     public static final String TAG = "CalendarFragment";
+    private HashMap mHashMap;
 
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_calendar, container, false);
+        ButterKnife.bind(this, view);
         return view;
     }
 
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        bindCalendarDate();
 
-        TextView textView = (TextView) view.findViewById(R.id.tv_calendar_title);
-        Calendar calendar = Calendar.getInstance();
-        textView.setText(calendar.get(GregorianCalendar.MONTH) + 1 + "月" +
-                calendar.get(GregorianCalendar.DAY_OF_MONTH) + "日");
-
-        PieView pieView = (PieView) view.findViewById(R.id.pv_per_finish);
         mPresenter.getFinishedPer(new CalendarContract.Callback() {
             @Override
             public void onFinish(int per) {
-                pieView.setPer(per);
-                pieView.setText(per + "%");
+                mPvPerFinish.setPer(per);
+                mPvPerFinish.setText(per + "%");
             }
 
             @Override
@@ -60,11 +73,11 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
             }
         });
 
-        // TODO: 2016/8/22 theckout data
-        mPresenter.getFinishOfMonth(new CalendarContract.FinishDayCallback() {
+        mPresenter.getSkipPer(new CalendarContract.Callback() {
             @Override
-            public void onFinish(HashMap<Integer, Boolean> hashMap) {
-                Log.d(TAG, "onFinish: " + hashMap.size());
+            public void onFinish(int per) {
+                mPvPerSkip.setPer(per);
+                mPvPerSkip.setText(per + "%");
             }
 
             @Override
@@ -72,6 +85,30 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
                 Log.d(TAG, "onError: " + error);
             }
         });
+
+        mPresenter.getSkipMoreThanOthers(new CalendarContract.Callback() {
+            @Override
+            public void onFinish(int per) {
+                Log.d(TAG, "onFinish: 逃课超过" + per);
+                if (per >= 50) {
+                    mTvCalendarPerMoreThan.setText("好气啊，你居然超过了" + per + "%的人");
+                } else {
+                    mTvCalendarPerMoreThan.setText("可以的，有"+(100-per)+"%的人逃得比你多");
+                }
+            }
+
+            @Override
+            public void onError(String error) {
+
+            }
+        });
+    }
+
+    private void bindCalendarDate() {
+        Calendar calendar = Calendar.getInstance();
+        mTvCalendarTitle.setText(calendar.get(GregorianCalendar.MONTH) + 1 + "月" +
+                calendar.get(GregorianCalendar.DAY_OF_MONTH) + "日");
+
         ArrayList<Boolean> arrayList = new ArrayList<>();
         for (int i = 0; i < 42; i++) {
             if (i % 2 == 0) {
@@ -80,13 +117,20 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
                 arrayList.add(i, false);
             }
         }
+        mRvCalendar.setLayoutManager(new GridLayoutManager(getContext(), 7));
+        mPresenter.getFinishOfMonth(new CalendarContract.FinishDayCallback() {
+            @Override
+            public void onFinish(HashMap<Integer, Boolean> hashMap) {
+                mHashMap = hashMap;
+                mRvCalendar.setAdapter(new CalendarAdapter(arrayList, getContext(), mHashMap));
+            }
 
-        RecyclerView rv = (RecyclerView) view.findViewById(R.id.rv_calendar);
-        rv.setLayoutManager(new GridLayoutManager(getContext(), 7));
-        rv.setAdapter(new CalendarAdapter(arrayList, getContext()));
-
-        PieView skip = (PieView) view.findViewById(R.id.pv_per_skip);
-
+            @Override
+            public void onError(String error) {
+                Log.d(TAG, "onError: " + error);
+                mRvCalendar.setAdapter(new CalendarAdapter(arrayList, getContext(), null));
+            }
+        });
     }
 
     @Override

@@ -175,5 +175,6 @@ public class CalendarPresneter implements CalendarContract.Presenter {
     @Override
     public void getSkipMoreThanOthers(CalendarContract.Callback callback) {
         // TODO: Complete it with LeanCloud
+        callback.onFinish(32);
     }
 }
