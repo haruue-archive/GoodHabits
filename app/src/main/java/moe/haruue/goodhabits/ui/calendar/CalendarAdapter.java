@@ -9,6 +9,7 @@ import android.view.ViewGroup;
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
+import java.util.HashMap;
 
 import moe.haruue.goodhabits.R;
 
@@ -20,17 +21,19 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.MyHold
 
     private ArrayList<Boolean> mBooleen;
     private Context mContext;
+    private HashMap mHashMap;
 
     private int statrt;
     private int end;
 
     public static final String TAG = "MyAdapter";
 
-    public CalendarAdapter(ArrayList<Boolean> boole, Context context) {
+    public CalendarAdapter(ArrayList<Boolean> boole, Context context, HashMap hashMap) {
         mContext = context;
         mBooleen = boole;
         statrt = getStart();
         end = getEnd();
+        mHashMap = hashMap;
     }
 
     @Override
@@ -38,6 +41,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.MyHold
         return new MyHolder(LayoutInflater.from(mContext).inflate(R.layout.item_calendal_day, parent, false));
     }
 
+    // TODO: 2016/8/24 太烂得改
     @Override
     public void onBindViewHolder(MyHolder holder, int position) {
         CalendarTextView tv = holder.mCalendarTextView;
@@ -76,8 +80,12 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.MyHold
             if ((position1 >= 0 && position1 < statrt) || (position1 > end)) {
                 tv.setText("");
             } else {
-                tv.setFinish(mBooleen.get(position1));
-                tv.setText(String.valueOf(position1 - statrt+1));
+                if (position1 > mHashMap.size()) {
+                    tv.setFinish(false);
+                } else {
+                    tv.setFinish((Boolean) mHashMap.get(position1));
+                }
+                tv.setText(String.valueOf(position1 - statrt + 1));
             }
         }
     }
@@ -104,7 +112,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.MyHold
         Calendar calendar = Calendar.getInstance();
         int dayOfWeek = calendar.get(GregorianCalendar.DAY_OF_WEEK);
         int dayOfMonth = calendar.get(GregorianCalendar.DAY_OF_MONTH);
-        return dayOfWeek-dayOfMonth%7;
+        return dayOfWeek - dayOfMonth % 7;
     }
 
     @Override
