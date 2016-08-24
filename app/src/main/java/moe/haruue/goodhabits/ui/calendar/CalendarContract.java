@@ -28,7 +28,7 @@ public class CalendarContract {
 
     interface FinishDayCallback {
         //int k:day of this month, boole v:isFinish
-        void onFinish(HashMap hashMap);
+        void onFinish(HashMap<Integer, Boolean> hashMap);
 
         void onError(String error);
     }
