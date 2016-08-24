@@ -6,12 +6,14 @@ import com.avos.avoscloud.LogInCallback;
 import com.avos.avoscloud.RequestPasswordResetCallback;
 import com.avos.avoscloud.SignUpCallback;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import io.rx_cache.internal.RxCache;
 import io.victoralbertos.jolyglot.GsonSpeaker;
 import moe.haruue.goodhabits.App;
 import moe.haruue.goodhabits.config.Const;
+import moe.haruue.goodhabits.data.database.task.func.DeleteTasksByTaskTypeOperateFunc;
 import moe.haruue.goodhabits.data.database.task.func.InsertTasksOperateFunc;
 import moe.haruue.goodhabits.data.CurrentUser;
 import moe.haruue.goodhabits.model.SchoolCourse;
@@ -31,6 +33,7 @@ import rx.Observable;
 import rx.Subscriber;
 import rx.Subscription;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -146,6 +149,25 @@ public enum RequestManager {
                 .map(new InsertTasksOperateFunc());
 
         return emitObservable(observable, subscriber);
+    }
+
+    public Subscription reloadFullSchoolCourseAndStorageAsTask(Subscriber<List<Task>> subscriber, String stuNum, String idNum) {
+        Task typeTask = Task.newEmptyTaskWithType(Const.TASK_TYPE_SCHOOL_COURSE);
+        ArrayList<Task> typeTasks = new ArrayList<>(0);
+        typeTasks.add(typeTask);
+        Observable<List<Task>> observable = Observable.just(typeTasks)
+                .map(new DeleteTasksByTaskTypeOperateFunc())
+                .flatMap(new Func1<List<Task>, Observable<List<Task>>>() {
+                    @Override
+                    public Observable<List<Task>> call(List<Task> tasks) {
+                        return getNowWeek(stuNum, idNum)
+                                .flatMap(integer -> getCourseList(stuNum, idNum).map(new SchoolCoursesToTasksFunc(integer)));
+                    }
+                })
+                .map(new InsertTasksOperateFunc());
+
+        return emitObservable(observable, subscriber);
+
     }
 
     private <T> Subscription emitObservable(Observable<T> o, Subscriber<T> s) {

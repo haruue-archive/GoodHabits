@@ -37,6 +37,11 @@
             android:name=".ui.main.MainActivity"
             android:theme="@style/FitSystemWindowLayoutAppTheme">
         </activity>
+        <activity android:name=".ui.settings.SettingsActivity"
+                  android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+            android:name=".ui.settings.ReloadSchoolCourseActivity"
+            android:theme="@style/Transparent"/>
     </application>
 
 </manifest>
