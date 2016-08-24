@@ -18,6 +18,11 @@ public class CalendarContract {
         void getFinishedPer(Callback callback);
 
         void getFinishOfMonth(FinishDayCallback callback);
+
+        void getSkipPer(Callback callback);
+
+        //先给个假数据好了= =。
+        void getSkipMoreThanOthers(Callback callback);
     }
 
     interface Callback{
