@@ -37,7 +37,7 @@ public class SchoolCoursesToTasksFunc implements Func1<List<SchoolCourse>, List<
 
     private Task courseInWeekToTask(SchoolCourse course, int week) {
         Task task = new Task();
-        task.title = "学校课程：" + course.course;
+        task.title = course.course;
         task.content = course.day + " " + course.lesson + " " + course.classroom;
         task.id = 0;
         task.type = Const.TASK_TYPE_SCHOOL_COURSE;
