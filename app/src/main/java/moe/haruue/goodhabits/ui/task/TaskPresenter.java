@@ -134,7 +134,34 @@ public class TaskPresenter implements TaskContract.Presenter {
 
     @Override
     public void saveNote(int id, String note) {
+        Observable.just(Task.newEmptyTaskWithId(id))
+                .map(new TasksByIdQueryFunc())
+                .map(tasks1 -> {
+                    for (Task t: tasks1) {
+                        t.note = note;
+                    }
+                    return tasks1;
+                })
+                .map(new UpdateTasksByIdFunc())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<Task>>() {
+                    @Override
+                    public void onCompleted() {
 
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("TaskPresenter", "saveNote", e);
+                    }
+
+                    @Override
+                    public void onNext(List<Task> tasks) {
+
+                    }
+                });
     }
 
     /**
