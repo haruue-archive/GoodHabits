@@ -5,12 +5,15 @@ import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
 import android.os.Bundle;
+import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.TabLayout;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.widget.Toolbar;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
 
@@ -18,6 +21,7 @@ import com.jude.utils.JUtils;
 
 import moe.haruue.goodhabits.R;
 import moe.haruue.goodhabits.ui.BaseActivity;
+import moe.haruue.goodhabits.ui.settings.SettingsActivity;
 import moe.haruue.goodhabits.util.BitmapUtils;
 
 public class MainActivity extends BaseActivity {
@@ -28,6 +32,7 @@ public class MainActivity extends BaseActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private AppBarLayout appBarLayout;
+    private NavigationView navigationView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,12 +40,19 @@ public class MainActivity extends BaseActivity {
         JUtils.Log("MainActivity#onCreate()");
         setContentView(R.layout.activity_main);
         initializeDrawerLayout();
+        initializeNavigationView();
         initializeToolbar();
         initializeTabLayout();
     }
 
     private void initializeDrawerLayout() {
         drawerLayout = $(R.id.drawer_layout);
+    }
+
+    private void initializeNavigationView() {
+        navigationView = $(R.id.navigation_view);
+        navigationView.setCheckedItem(R.id.item_main_page);
+        navigationView.setNavigationItemSelectedListener(listener);
     }
 
     private void initializeToolbar() {
@@ -77,7 +89,7 @@ public class MainActivity extends BaseActivity {
         }
     }
 
-    private class Listener implements View.OnClickListener, ViewTreeObserver.OnGlobalLayoutListener {
+    private class Listener implements View.OnClickListener, ViewTreeObserver.OnGlobalLayoutListener, NavigationView.OnNavigationItemSelectedListener {
 
         @Override
         public void onClick(View view) {
@@ -95,6 +107,16 @@ public class MainActivity extends BaseActivity {
                     appBarLayout.getHeight()
             )));
 
+        }
+
+        @Override
+        public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+            switch (item.getItemId()) {
+                case R.id.item_settings:
+                    SettingsActivity.start(MainActivity.this);
+                    break;
+            }
+            return true;
         }
     }
 
