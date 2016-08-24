@@ -104,6 +104,16 @@
                     android:layout_gravity="center"
                     android:textColor="@color/material_color_black"
                     android:textSize="36sp"/>
+                <TextView
+                    android:layout_margin="16dp"
+                    android:text="超过76%的人"
+                    android:textColor="@color/material_color_black"
+                    android:textSize="18sp"
+                    android:layout_gravity="center"
+                    android:gravity="center_horizontal"
+                    android:id="@+id/tv_calendar_per_more_than"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
             </LinearLayout>
 
         </android.support.v7.widget.CardView>

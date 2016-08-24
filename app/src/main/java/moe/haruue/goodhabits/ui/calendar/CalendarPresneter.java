@@ -40,7 +40,7 @@ public class CalendarPresneter implements CalendarContract.Presenter {
                 .map(new TasksByTimeQueryFunc())
                 .map(tasks -> {
                     int finishedTastCount = 0;
-                    for (Task t : tasks) {
+                    for (Task t: tasks) {
                         if (t.isFinish) {
                             finishedTastCount++;
                         }
@@ -86,7 +86,7 @@ public class CalendarPresneter implements CalendarContract.Presenter {
                 .subscribeOn(Schedulers.computation())
                 .map(daysInMonth -> {
                     HashMap<Integer, Boolean> finishMap = new HashMap<>(0);
-                    for (GregorianCalendar d : daysInMonth) {
+                    for (GregorianCalendar d: daysInMonth) {
                         long startTimeStamp = TimeUtils.getTimeStampOf(d);
                         long endTimeStamp = startTimeStamp + 86400;
                         List<Task> tasksInDay = new TasksByTimeQueryFunc().call(Task.newEmptyTaskWithStartTimeAndEndTime(startTimeStamp, endTimeStamp));
