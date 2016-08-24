@@ -48,7 +48,7 @@ public class CalendarTextView extends TextView {
             mPaint.setStyle(Paint.Style.FILL);
             mPaint.setAlpha(200);
             mPaint.setAntiAlias(true);
-            mPaint.setColor(getResources().getColor(R.color.material_color_green_A400));
+            mPaint.setColor(getResources().getColor(R.color.material_color_pink_600));
             Log.d(TAG, "CalendarTextView: "+mIsFinish);
             canvas.drawCircle(getMeasuredWidth() / 2, getMeasuredHeight() / 2, (getMeasuredWidth() / 2 + getMeasuredHeight() / 2) / 2, mPaint);
             canvas.save();

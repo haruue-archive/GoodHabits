@@ -1,5 +1,7 @@
 package moe.haruue.goodhabits.ui.calendar;
 
+import java.util.HashMap;
+
 import moe.haruue.goodhabits.BasePresenter;
 import moe.haruue.goodhabits.BaseView;
 
@@ -14,6 +16,8 @@ public class CalendarContract {
     interface Presenter extends BasePresenter {
         // 总完成率 0..100 &
         void getFinishedPer(Callback callback);
+
+        void getFinishOfMonth(FinishDayCallback callback);
     }
 
     interface Callback{
@@ -21,4 +25,12 @@ public class CalendarContract {
 
         void onError(String error);
     }
+
+    interface FinishDayCallback {
+        //int k:day of this month, boole v:isFinish
+        void onFinish(HashMap hashMap);
+
+        void onError(String error);
+    }
+
 }
