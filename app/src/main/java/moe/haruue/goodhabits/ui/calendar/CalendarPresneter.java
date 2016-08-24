@@ -17,4 +17,9 @@ public class CalendarPresneter implements CalendarContract.Presenter {
     public void start() {
 
     }
+
+    @Override
+    public void getFinishedPer(CalendarContract.Callback callback) {
+
+    }
 }

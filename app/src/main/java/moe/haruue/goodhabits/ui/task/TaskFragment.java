@@ -5,7 +5,6 @@ import android.annotation.TargetApi;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -37,8 +36,8 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
 
     @BindView(R.id.rv_tasks)
     RecyclerView mRvTasks;
-    @BindView(R.id.srw_tasks)
-    SwipeRefreshLayout mSrwTasks;
+    //@BindView(R.id.srw_tasks)
+    //SwipeRefreshLayout mSrwTasks;
     private TaskContract.Presenter mPresenter;
     private ArrayList<Task> mTasks;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -69,10 +68,10 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
     }
 
     private void init() {
-        mSrwTasks = new SwipeRefreshLayout(getContext());
+        //mSrwTasks = new SwipeRefreshLayout(getContext());
         mLayoutManager = new LinearLayoutManager(getContext());
         mRvTasks.setLayoutManager(mLayoutManager);
-        mSrwTasks.setOnRefreshListener(() -> mPresenter.getTodayTasks());
+        //mSrwTasks.setOnRefreshListener(this);
     }
 
     public void finishTheTask(int id) {
@@ -86,39 +85,29 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
 
     @Override
     public void onRefresh(boolean isSomeNews, ArrayList<Task> newTasks) {
-
+        //mSrwTasks.setRefreshing(false);
+        Log.d(TAG, "onRefresh: ");
     }
 
-    public void saveNote(int id,String note) {
-        mPresenter.saveNote(id,note);
+
+    public void saveNote(int id, String note) {
+        mPresenter.saveNote(id, note);
     }
 
     @Override
     public void onGetTodayTasks(ArrayList<Task> tasks, boolean isSuccess) {
-        if (!isSuccess) {
-            Log.d(TAG, "onGetTodayTasks: fail !!!");
-        } else {
-            for (int i = 0; i < 5; i++) {
-                Task task = new Task();
-                task.title = "高数课" + i;
-                mTasks.add(task);
-            }
-            if (tasks.size() != 0) {
-                mTasks = tasks;
-            }
-            mAdapter = new TaskAdapter(mTasks);
-            mRvTasks.setAdapter(mAdapter);
-            Log.d(TAG, "onGetTodayTasks: " + mTasks.size());
-        }
+        mTasks = tasks;
+        mAdapter = new TaskAdapter(mTasks);
+        mRvTasks.setAdapter(mAdapter);
     }
 
     @Override
     public void onSetTaskFinished(boolean isSuccess) {
         if (isSuccess) {
-            mAdapter.notify();
+            Log.d(TAG, "onSetTaskFinished: success");
+            //mAdapter.notifyDataSetChanged();
         }
     }
-
 
     // TODO: 2016/8/20 weak references~~~
     public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
@@ -145,11 +134,12 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
             TextView tvHint = holder.mTvHint;
             TextView tvClick = holder.mTvClick;
             ImageView ivTask = holder.mIvTask;
-            CardView cardView = holder.mCardView;
+            final CardView cardView = holder.mCardView;
             RelativeLayout relativeLayout = holder.mRelativeLayout;
             RelativeLayout RvNote = holder.mRvNote;
             TextView tvNoteSave = holder.mSave;
             EditText editText = holder.mEditText;
+            Boolean isFinish;
 
             RvNote.setVisibility(View.GONE);
 
@@ -157,12 +147,21 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
             cardView.setCardElevation(10);
             if (task.isFinish) {
                 tvClick.setText("已完成");
+                isFinish = true;
                 animationDown(cardView);
             } else {
                 tvClick.setText("未完成");
+                isFinish = false;
             }
             tvTitle.setText(task.title);
-            tvClick.setOnClickListener(view -> finishTheTask(holder.getAdapterPosition()));
+            if (isFinish) {
+                tvClick.setOnClickListener(view -> {
+                    // TODO: 2016/8/24 chick is successful
+                    finishTheTask(task.id);
+                    tvClick.setText("已完成");
+                    animationDown(cardView);
+                });
+            }
 
             long startTime = task.startTime;
             long nowTime = System.currentTimeMillis();
@@ -176,7 +175,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
             });
 
             tvNoteSave.setOnClickListener(view -> {
-                saveNote(task.id,editText.getText().toString());
+                saveNote(task.id, editText.getText().toString());
                 relativeLayout.setVisibility(View.VISIBLE);
                 RvNote.setVisibility(View.GONE);
             });
@@ -203,15 +202,14 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
                     break;
             }
 
-            ObjectAnimator up = ObjectAnimator.ofFloat(view, "rotationZ", afterZ);
-            up.setDuration(500).start();
+            ObjectAnimator.ofFloat(view, "rotationZ", afterZ).setDuration(500).start();
         }
 
         @TargetApi(Build.VERSION_CODES.LOLLIPOP)
         private void animationDown(View view) {
             float nowZ = view.getElevation();
-            ObjectAnimator down = ObjectAnimator.ofFloat(view, "rotationZ", nowZ - FINISHED_Z);
-            down.setDuration(500).start();
+            Log.d(TAG, "animationDown: nowZ:" + nowZ + " afterZ:" + -(nowZ - FINISHED_Z));
+            ObjectAnimator.ofFloat(view, "rotationZ", -(nowZ - FINISHED_Z)).setDuration(500).start();
         }
 
         @Override
