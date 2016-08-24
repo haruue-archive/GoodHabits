@@ -1,10 +1,9 @@
 package moe.haruue.goodhabits.ui.calendar;
 
-import android.annotation.TargetApi;
 import android.content.Context;
 import android.graphics.Canvas;
 import android.graphics.Paint;
-import android.os.Build;
+import android.graphics.RectF;
 import android.util.AttributeSet;
 import android.widget.TextView;
 
@@ -67,21 +66,25 @@ public class PieView extends TextView {
         }
     }
 
-    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
     @Override
     protected void onDraw(Canvas canvas) {
         int width = getWidth();
         int height = getHeight();
         mPaint.reset();
         resetPaint(getResources().getColor(R.color.material_color_pink_600));
-        canvas.drawArc(20, 20, width - 20, height - 20, 0, perToSweep(mPer), true, mPaint);
+        drawArc(canvas, 20, 20, width - 20, height - 20, 0, perToSweep(mPer), true, mPaint);
         resetPaint(R.color.material_color_blue_gray_300);
-        canvas.drawArc(20, 20, width - 20, height - 20, perToSweep(mPer), 360 - perToSweep(mPer), true, mPaint);
+        drawArc(canvas, 20, 20, width - 20, height - 20, perToSweep(mPer), 360 - perToSweep(mPer), true, mPaint);
         resetPaint(getResources().getColor(R.color.material_color_white));
         canvas.drawCircle(width / 2, height / 2, Math.min(width / 2, height / 2) - width / 6, mPaint);
         mPaint.reset();
         super.onDraw(canvas);
         mPaint.reset();
+    }
+
+    private void drawArc(Canvas canvas, float left, float top, float right, float bottom, float startAngle, float sweepAngle, boolean useCenter, Paint paint) {
+        RectF oval = new RectF(left, top, right, bottom);
+        canvas.drawArc(oval, startAngle, sweepAngle, useCenter, paint);
     }
 
     private void resetPaint(int color) {

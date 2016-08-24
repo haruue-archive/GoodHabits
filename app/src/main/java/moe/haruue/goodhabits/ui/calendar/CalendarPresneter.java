@@ -8,12 +8,15 @@ import java.util.GregorianCalendar;
 import java.util.HashMap;
 import java.util.List;
 
+import moe.haruue.goodhabits.config.Const;
+import moe.haruue.goodhabits.data.database.task.func.TaskByTypeQueryFunc;
 import moe.haruue.goodhabits.data.database.task.func.TasksByTimeQueryFunc;
 import moe.haruue.goodhabits.model.Task;
 import moe.haruue.goodhabits.util.TimeUtils;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -125,5 +128,52 @@ public class CalendarPresneter implements CalendarContract.Presenter {
                         callback.onFinish(integerBooleanHashMap);
                     }
                 });
+    }
+
+    @Override
+    public void getSkipPer(CalendarContract.Callback callback) {
+        Observable.just(Task.newEmptyTaskWithType(Const.TASK_TYPE_SCHOOL_COURSE))
+                .map(new TaskByTypeQueryFunc())
+                .map(new Func1<List<Task>, Integer>() {
+                    @Override
+                    public Integer call(List<Task> tasks) {
+                        int courseCount = 0, skipedCourseCount = 0;
+                        for (Task t: tasks) {
+                            courseCount++;
+                            if (!t.isFinish) {
+                                skipedCourseCount++;
+                            }
+                        }
+                        if (courseCount == 0) {
+                            return 0;
+                        } else {
+                            return (int) ((double) skipedCourseCount / (double) courseCount * 100);
+                        }
+                    }
+                })
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Integer>() {
+                    @Override
+                    public void onCompleted() {
+
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        callback.onError(e.getLocalizedMessage());
+                    }
+
+                    @Override
+                    public void onNext(Integer integer) {
+                        callback.onFinish(integer);
+                    }
+                });
+    }
+
+    @Override
+    public void getSkipMoreThanOthers(CalendarContract.Callback callback) {
+        // TODO: Complete it with LeanCloud
     }
 }
