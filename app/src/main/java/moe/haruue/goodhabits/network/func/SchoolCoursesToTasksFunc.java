@@ -38,7 +38,7 @@ public class SchoolCoursesToTasksFunc implements Func1<List<SchoolCourse>, List<
     private Task courseInWeekToTask(SchoolCourse course, int week) {
         Task task = new Task();
         task.title = course.course;
-        task.content = course.day + " " + course.lesson + " " + course.classroom;
+        task.content = course.lesson + "\n" + course.classroom;
         task.id = 0;
         task.type = Const.TASK_TYPE_SCHOOL_COURSE;
         task.startTime = timeStampSchoolCourseStart(week, course.hash_day, course.begin_lesson) + 86400;
