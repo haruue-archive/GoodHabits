@@ -28,7 +28,7 @@ public class TimeUtils {
      * @return 当天 0 点的时间戳
      */
     public static long timeStampToDayStart(long timeStamp) {
-        TimeUtils.getTimeStampOf(TimeUtils.getDayStartOf(timeStampToCalendar(timeStamp)));
+        return TimeUtils.getTimeStampOf(TimeUtils.getDayStartOf(timeStampToCalendar(timeStamp)));
     }
 
     /**
