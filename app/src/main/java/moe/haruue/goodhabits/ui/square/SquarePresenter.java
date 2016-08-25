@@ -42,6 +42,9 @@ public class SquarePresenter implements SquareContract.Presenter {
                 .map(o -> {
                     List<Plan> planList = new ArrayList<>(0);
                     planList.add(generateSleepPlan());
+                    planList.add(generateActivePlan());
+                    planList.add(generateThinPlan());
+                    planList.add(generateAbsorbedPlan());
                     return planList;
                 })
                 .subscribeOn(Schedulers.io())
@@ -76,6 +79,33 @@ public class SquarePresenter implements SquareContract.Presenter {
         metaTask.title = "再见手机";
         metaTask.content = ResourceUtils.readStringFromRawResource(App.getContext().getResources(), R.raw.enough_sleep_step_1_content);
         plan.addTask(metaTask, TimeUtils.secondsInDay(22, 0, 0), 8 * 3600, new GregorianCalendar(), 4, 1);
+        return plan;
+    }
+
+    private Plan generateActivePlan() {
+        TaskPlan plan = new TaskPlan();
+        plan.title = "感觉更有活力";
+        plan.hint = "感觉更有活力hint";
+        plan.content = "感觉更有活力content";
+        plan.planId = "more_active";
+        return plan;
+    }
+
+    private Plan generateThinPlan() {
+        TaskPlan plan = new TaskPlan();
+        plan.title = "瘦成一道闪电";
+        plan.hint = "瘦成一道闪电hint";
+        plan.content = "瘦成一道闪电content";
+        plan.planId = "thin_as_lighting";
+        return plan;
+    }
+
+    private Plan generateAbsorbedPlan() {
+        TaskPlan plan = new TaskPlan();
+        plan.title = "提高专注力";
+        plan.hint = "提高专注力hint";
+        plan.content = "提高专注力content";
+        plan.planId = "better_absorbed";
         return plan;
     }
 
