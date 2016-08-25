@@ -34,6 +34,10 @@ public class GoalDetailActivity extends AppCompatActivity implements GoalDetailC
     CardView mCvGoal;
     @BindView(R.id.rv_goal_detail)
     RecyclerView mRvGoalDetail;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.fab_detail)
+    FloatingActionButton mFabDetail;
     private GoalDetailContract.Presenter mPresenter;
 
     public static final String TAG = "GoalDetailActivity";
@@ -49,15 +53,16 @@ public class GoalDetailActivity extends AppCompatActivity implements GoalDetailC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal_detail);
         ButterKnife.bind(this);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
 
         Intent intent = new Intent();
         String id = intent.getStringExtra(SquareFragment.EXTRA_PLAN_ID);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_detail);
-        fab.setOnClickListener(view -> mPresenter.saveThePlan(id));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mFabDetail.setOnClickListener(view -> {
+            mPresenter.saveThePlan(id);
+            finish();
+        });
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         new GoalDetailPresenter(this);
 

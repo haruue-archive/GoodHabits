@@ -17,4 +17,5 @@ public class GoalDetailPresenter implements GoalDetailContract.Presenter {
     public void start() {
 
     }
+
 }
