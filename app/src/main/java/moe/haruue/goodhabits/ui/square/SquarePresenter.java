@@ -3,13 +3,13 @@ package moe.haruue.goodhabits.ui.square;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.GregorianCalendar;
 import java.util.List;
 
 import moe.haruue.goodhabits.App;
 import moe.haruue.goodhabits.R;
 import moe.haruue.goodhabits.model.Plan;
 import moe.haruue.goodhabits.model.Task;
+import moe.haruue.goodhabits.model.TaskCreator;
 import moe.haruue.goodhabits.model.TaskPlan;
 import moe.haruue.goodhabits.util.ResourceUtils;
 import moe.haruue.goodhabits.util.TimeUtils;
@@ -95,7 +95,7 @@ public class SquarePresenter implements SquareContract.Presenter {
         Task metaTask = new Task();
         metaTask.title = "再见手机";
         metaTask.content = ResourceUtils.readStringFromRawResource(App.getContext().getResources(), R.raw.enough_sleep_step_1_content);
-        plan.addTask(metaTask, TimeUtils.secondsInDay(22, 0, 0), 8 * 3600, new GregorianCalendar(), 4, 1);
+        plan.taskCreators.add(new TaskCreator(metaTask, TimeUtils.secondsInDay(22, 0, 0), 8 * 3600, 4, 1));
         return plan;
     }
 
