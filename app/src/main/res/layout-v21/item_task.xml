@@ -5,7 +5,9 @@
     android:id="@+id/cv_task"
     android:layout_width="match_parent"
     android:layout_height="120dp"
-    android:layout_margin="16dp"
+    android:layout_marginRight="16dp"
+    android:layout_marginLeft="16dp"
+    android:layout_marginTop="16dp"
     android:orientation="vertical"
     card_view:cardCornerRadius="2dp">
 

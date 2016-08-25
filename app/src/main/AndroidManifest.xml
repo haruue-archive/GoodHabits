@@ -28,20 +28,30 @@
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
         </activity>
-        <activity android:name=".ui.guide.GuideActivity"
-            android:theme="@style/Theme.AppCompat.NoActionBar"/>
         <activity
-            android:name=".ui.login.LoginActivity">
+            android:name=".ui.guide.GuideActivity"
+            android:theme="@style/Theme.AppCompat.NoActionBar"/>
+        <activity android:name=".ui.login.LoginActivity">
         </activity>
         <activity
             android:name=".ui.main.MainActivity"
             android:theme="@style/FitSystemWindowLayoutAppTheme">
         </activity>
-        <activity android:name=".ui.settings.SettingsActivity"
-                  android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
+        <activity
+            android:name=".ui.settings.SettingsActivity"
+            android:theme="@style/Theme.AppCompat.Light.NoActionBar"/>
         <activity
             android:name=".ui.settings.ReloadSchoolCourseActivity"
             android:theme="@style/Transparent"/>
+        <activity
+            android:name=".ui.GoalDetail.GoalDetailActivity"
+            android:label="@string/title_activity_goal_detail"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="moe.haruue.goodhabits.ui.main.MainActivity"/>
+        </activity>
     </application>
 
 </manifest>
