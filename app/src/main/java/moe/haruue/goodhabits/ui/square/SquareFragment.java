@@ -23,7 +23,7 @@ import butterknife.ButterKnife;
 import moe.haruue.goodhabits.R;
 import moe.haruue.goodhabits.model.Plan;
 import moe.haruue.goodhabits.ui.BaseFragment;
-import moe.haruue.goodhabits.ui.GoalDetail.GoalDetailActivity;
+import moe.haruue.goodhabits.ui.goaldetail.GoalDetailActivity;
 
 /**
  * MainActivity 的第 3 个 tab

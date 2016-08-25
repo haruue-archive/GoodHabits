@@ -1,4 +1,4 @@
-package moe.haruue.goodhabits.ui.GoalDetail;
+package moe.haruue.goodhabits.ui.goaldetail;
 
 import android.content.Intent;
 import android.os.Bundle;

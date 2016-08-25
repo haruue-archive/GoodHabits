@@ -1,5 +1,7 @@
 package moe.haruue.goodhabits.model;
 
+import com.google.gson.Gson;
+
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -36,6 +38,11 @@ public class Plan<T> implements Serializable {
     public long timeRangeStart;
     public long timeRangeEnd;
 
+    /**
+     * 反 Json 序列化的时候用来区分是那种 Plan ，如 TaskPlan 还是 StepPlan。
+     * 在子类的构造方法里初始化
+     */
+    protected String planType;
 
 
     @Override
@@ -47,4 +54,21 @@ public class Plan<T> implements Serializable {
     public int hashCode() {
         return ("PLAN_FC7AFC_" + planId).hashCode();
     }
+
+    public String toJson() {
+        return new Gson().toJson(this);
+    }
+
+    public static <PT extends Plan> Class<PT> getPlanTypeFromJson(String json) {
+        Gson gson = new Gson();
+        Plan plan = gson.fromJson(json, Plan.class);
+        if (plan.planType.equals(StepPlan.PLAN_TYPE_STEP)) {
+            return (Class<PT>) StepPlan.class;
+        } else if (plan.planType.equals(TaskPlan.PLAN_TYPE_TASK)){
+            return (Class<PT>) TaskPlan.class;
+        } else {
+            throw new IllegalArgumentException("Unknown Plan Type: " + plan.getClass().getSimpleName() + ", it must be one of StepPlan and TaskPlan, or insert new plan type to Plan#getPlanTypeFromJson");
+        }
+    }
+
 }
