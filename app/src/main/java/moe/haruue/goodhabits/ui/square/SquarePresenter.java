@@ -9,7 +9,8 @@ import java.util.List;
 import moe.haruue.goodhabits.App;
 import moe.haruue.goodhabits.R;
 import moe.haruue.goodhabits.model.Plan;
-import moe.haruue.goodhabits.model.Step;
+import moe.haruue.goodhabits.model.Task;
+import moe.haruue.goodhabits.model.TaskPlan;
 import moe.haruue.goodhabits.util.ResourceUtils;
 import moe.haruue.goodhabits.util.TimeUtils;
 import rx.Observable;
@@ -66,36 +67,16 @@ public class SquarePresenter implements SquareContract.Presenter {
     }
 
     private Plan generateSleepPlan() {
-        Plan plan = new Plan();
+        TaskPlan plan = new TaskPlan();
         plan.title = "充足的睡眠";
         plan.hint = "充足的睡眠hint";
         plan.content = "充足的睡眠content";
         plan.planId = "enough_sleep";
-        plan.startTime = TimeUtils.getTimeStampOf(new GregorianCalendar());
-        plan.endTime = plan.startTime + 86400 * 4;
-        plan.steps = generateSleepPlanStep(plan.planId);
-
-//        plan.isDoing = true;
-//        plan.startTime = TimeUtils.getTimeStampOf(new GregorianCalendar());
-//        plan.endTime = plan.startTime + 86400;
+        Task metaTask = new Task();
+        metaTask.title = "再见手机";
+        metaTask.content = ResourceUtils.readStringFromRawResource(App.getContext().getResources(), R.raw.enough_sleep_step_1_content);
+        plan.addTask(metaTask, TimeUtils.secondsInDay(22, 0, 0), 8 * 3600, new GregorianCalendar(), 4, 1);
         return plan;
-    }
-
-    private List<Step> generateSleepPlanStep(String planId) {
-        Step step = new Step();
-        step.title = "再见手机";
-        step.content = ResourceUtils.readStringFromRawResource(App.getContext().getResources(), R.raw.enough_sleep_step_1_content);
-        step.planId = planId;
-        step.noEarlyTime = TimeUtils.secondsInDay(22, 0, 0);
-        step.noLaterTime = TimeUtils.secondsInDay(23, 59, 59);
-        step.minTime = 0;
-        step.maxTime = 3600 * 2 - 1;
-        List<Step> steps = new ArrayList<>(0);
-        steps.add(step);
-        steps.add(step.clone());
-        steps.add(step.clone());
-        steps.add(step.clone());
-        return steps;
     }
 
 
