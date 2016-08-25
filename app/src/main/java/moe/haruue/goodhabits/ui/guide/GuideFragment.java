@@ -3,8 +3,6 @@ package moe.haruue.goodhabits.ui.guide;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
-import android.support.v4.app.ActivityCompat;
-import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -53,12 +51,13 @@ public class GuideFragment extends Fragment {
         mBtGuide.setAnimation(alphaAnimation);
         mBtGuide.setOnClickListener(view1 -> {
             Intent intent = new Intent();
-            intent.setClass(getActivity(), LoginActivity.class);
+            intent.setClass(getActivity(), LoginActivity.class);/*
             ActivityOptionsCompat optionsCompat =
                     ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
                             view1.findViewById(R.id.bt_guide), "登录按钮");
 
-            ActivityCompat.startActivity(getActivity(),intent,optionsCompat.toBundle());
+            ActivityCompat.startActivity(getActivity(),intent,optionsCompat.toBundle());*/
+            startActivity(intent);
             getActivity().finish();
         });
     }

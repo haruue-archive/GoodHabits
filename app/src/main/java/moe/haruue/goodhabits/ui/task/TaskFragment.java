@@ -59,6 +59,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_task, container, false);
         ButterKnife.bind(this, view);
+        mPresenter.getTodayTasks();
         return view;
     }
 
@@ -66,7 +67,6 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         init();
-        mPresenter.getTodayTasks();
     }
 
     private void init() {
@@ -101,15 +101,19 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
 
     @Override
     public void onGetTodayTasks(ArrayList<Task> tasks, boolean isSuccess) {
-        mTasks = tasks;
-        mAdapter = new TaskAdapter(mTasks);
-        mRvTasks.setAdapter(mAdapter);
+        if (isSuccess) {
+            mTasks = tasks;
+            mAdapter = new TaskAdapter(mTasks);
+            mRvTasks.setAdapter(mAdapter);
+            Log.d(TAG, "onGetTodayTasks: "+tasks.size());
+        } else {
+            Snackbar.make(mRvTasks, "遇到错误，设置里重置课程表试试", Snackbar.LENGTH_LONG).show();
+        }
     }
 
     @Override
     public void onSetTaskFinished(boolean isSuccess) {
         if (isSuccess) {
-            Log.d(TAG, "onSetTaskFinished: success");
             EventBus.getDefault().post(new TaskFinishEvent());
         }
     }
