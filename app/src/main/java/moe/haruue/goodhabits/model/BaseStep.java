@@ -13,6 +13,6 @@ public class BaseStep {
     public String type = "";
     // 预留，图片 Url，将会直接传送给 Task
     public String imageUrl = "";
-    // 默认的 defaultNote ，将会直接传送给 Task 的 defaultNote
+    // 默认的 note ，将会直接传送给 Task 的 note
     public String defaultNote = "";
 }
