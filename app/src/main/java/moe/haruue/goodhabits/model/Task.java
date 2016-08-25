@@ -50,6 +50,20 @@ public class Task implements Comparable<Task>, Serializable, Cloneable {
         return task;
     }
 
+    public static Task newMetaTask(String title,
+                                   String content,
+                                   String type,
+                                   String imageUrl,
+                                   String note) {
+        Task task = new Task();
+        task.title = title;
+        task.content = content;
+        task.type = type;
+        task.imageUrl = imageUrl;
+        task.note = note;
+        return task;
+    }
+
     @Override
     public String toString() {
         // 这个方法在数据库操作中进行 MD5 计算以保证唯一性时使用，请勿将可变量（note 和 id 加入这里）
