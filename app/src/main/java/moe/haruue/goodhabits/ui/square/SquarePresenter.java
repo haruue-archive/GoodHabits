@@ -17,4 +17,5 @@ public class SquarePresenter implements SquareContract.Presenter {
     public void start() {
 
     }
+
 }
