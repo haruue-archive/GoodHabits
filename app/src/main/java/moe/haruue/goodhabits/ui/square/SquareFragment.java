@@ -1,8 +1,11 @@
 package moe.haruue.goodhabits.ui.square;
 
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
@@ -20,6 +23,7 @@ import butterknife.ButterKnife;
 import moe.haruue.goodhabits.R;
 import moe.haruue.goodhabits.model.Plan;
 import moe.haruue.goodhabits.ui.BaseFragment;
+import moe.haruue.goodhabits.ui.GoalDetail.GoalDetailActivity;
 
 /**
  * MainActivity 的第 3 个 tab
@@ -35,6 +39,7 @@ public class SquareFragment extends BaseFragment implements SquareContract.View 
     private SquareContract.Presenter mPresenter;
 
     public static final String TAG = "SquareFragment";
+    public static final String EXTRA_PLAN_ID = "square_adapter_intent";
 
     @Nullable
     @Override
@@ -90,25 +95,35 @@ public class SquareFragment extends BaseFragment implements SquareContract.View 
         public void onBindViewHolder(ViewHolder holder, int position) {
             TextView mPlanName = holder.mPlanName;
             RelativeLayout relativeLayout = holder.mRelativeLayout;
+            CardView cv = holder.mCardView;
             Plan plan = mPlans.get(position);
             mPlanName.setText(plan.title);
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 switch (position) {
                     case 0:
-                        relativeLayout.setBackground(getResources().getDrawable(R.drawable.img_goal_1));
+                        relativeLayout.setBackground(getResources().getDrawable(R.drawable.img_goal_3));
                         break;
                     case 1:
-                        relativeLayout.setBackground(getResources().getDrawable(R.drawable.img_goal_2));
+                        relativeLayout.setBackground(getResources().getDrawable(R.drawable.img_goal_1));
                         break;
                     case 2:
-                        relativeLayout.setBackground(getResources().getDrawable(R.drawable.img_goal_3));
+                        relativeLayout.setBackground(getResources().getDrawable(R.drawable.img_goal_2));
                         break;
                     case 3:
                         relativeLayout.setBackground(getResources().getDrawable(R.drawable.img_goal_4));
                         break;
                 }
             }
+            cv.setOnClickListener(view -> {
+                Intent intent = new Intent();
+                intent.setClass(getActivity(), GoalDetailActivity.class);
+                intent.putExtra(EXTRA_PLAN_ID, plan.planId);
+                ActivityOptionsCompat optionsCompat =
+                        ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
+                                cv.findViewById(R.id.cv_goal), "goal_card");
+                ActivityCompat.startActivity(getActivity(),intent,optionsCompat.toBundle());
+            });
         }
 
         @Override
