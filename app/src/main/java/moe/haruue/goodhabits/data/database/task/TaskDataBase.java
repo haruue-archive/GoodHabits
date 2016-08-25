@@ -47,7 +47,7 @@ public enum  TaskDataBase {
     public final static String COLUMN_NAME_START_TIME = "start_time";
     public final static String COLUMN_NAME_END_TIME = "end_time";
     public final static String COLUMN_NAME_IS_FINISH = "is_finish";
-    public final static String COLUMN_NAME_NOTE = "note";
+    public final static String COLUMN_NAME_NOTE = "defaultNote";
     public final static String COLUMN_NAME_MD5 = "md5";
 
     public class OpenHelper extends SQLiteOpenHelper {

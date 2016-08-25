@@ -11,7 +11,7 @@ import java.util.List;
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */
 
-public class Plan<T> implements Serializable {
+public class Plan<T extends BaseStep> implements Serializable {
 
     protected Plan() {
 

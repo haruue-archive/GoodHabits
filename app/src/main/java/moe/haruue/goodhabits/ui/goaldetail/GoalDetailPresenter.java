@@ -17,4 +17,13 @@ public class GoalDetailPresenter implements GoalDetailContract.Presenter {
     public void start() {
 
     }
+
+    @Override
+    public void getSteps(String planId, GoalDetailContract.Callback callback) {
+    }
+
+    @Override
+    public void saveThePlan(String planId) {
+
+    }
 }

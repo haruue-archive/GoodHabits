@@ -23,6 +23,7 @@ public class StepPlanToTasksFunc implements Func1<StepPlan, List<Task>> {
     private long planEnd;
     private long stepStart;
     private long stepEnd;
+    private String planId;
 
     @Override
     public List<Task> call(StepPlan stepPlan) {
@@ -30,6 +31,7 @@ public class StepPlanToTasksFunc implements Func1<StepPlan, List<Task>> {
         planEnd = stepPlan.timeRangeEnd;
         stepStart = stepPlan.timeRangeStart;
         stepEnd = stepPlan.timeRangeEnd;
+        planId = stepPlan.planId;
         List<Task> origTasks = new TaskAllQueryFunc().call(null);
         Collections.sort(origTasks);
         List<Task> workTasks = new ArrayList<>(origTasks);
@@ -71,7 +73,7 @@ public class StepPlanToTasksFunc implements Func1<StepPlan, List<Task>> {
         task.title = step.title;
         task.content = step.content;
         task.type = Const.TASK_TYPE_AUTO_PLAN;
-        task.plan = step.planId + "$" + planStart + "$" + planEnd;
+        task.plan = planId + "$" + planStart + "$" + planEnd;
         task.imageUrl = step.imageUrl;
         task.note = step.defaultNote;
         return task;

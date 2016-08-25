@@ -63,7 +63,7 @@ public class TaskPlanToTasksFunc implements Func1<TaskPlan, List<Task>> {
     }
 
     public void addTask(List<Task> tasks, TaskCreator creator, Calendar beginCalendar) {
-        addTask(tasks, creator.metaTask, creator.startTime, creator.timeLength, beginCalendar, creator.count, creator.dayInterval);
+        addTask(tasks, Task.newMetaTask(creator.title, creator.content, creator.type, creator.imageUrl, creator.defaultNote), creator.startTime, creator.timeLength, beginCalendar, creator.count, creator.dayInterval);
     }
 
 }

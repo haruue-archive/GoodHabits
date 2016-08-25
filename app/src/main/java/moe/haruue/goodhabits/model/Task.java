@@ -66,7 +66,7 @@ public class Task implements Comparable<Task>, Serializable, Cloneable {
 
     @Override
     public String toString() {
-        // 这个方法在数据库操作中进行 MD5 计算以保证唯一性时使用，请勿将可变量（note 和 id 加入这里）
+        // 这个方法在数据库操作中进行 MD5 计算以保证唯一性时使用，请勿将可变量（defaultNote 和 id 加入这里）
         return
                 "title: " + title + "\n" +
                 "content: " + content + "\n" +

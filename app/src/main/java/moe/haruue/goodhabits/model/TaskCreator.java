@@ -7,9 +7,9 @@ import java.io.Serializable;
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */
 
-public class TaskCreator implements Serializable {
+public class TaskCreator extends BaseStep implements Serializable {
 
-    public Task metaTask;
+//    public Task metaTask;
     public long startTime = 0;
     public long timeLength = 0;
     public int count = 0;
@@ -24,11 +24,15 @@ public class TaskCreator implements Serializable {
                        long timeLength,
                        int count,
                        int dayInterval) {
-        this.metaTask = metaTask;
-        this.startTime = startTime;
-        this.timeLength = timeLength;
-        this.count = count;
-        this.dayInterval = dayInterval;
+        this(metaTask.title,
+                metaTask.content,
+                metaTask.type,
+                metaTask.imageUrl,
+                metaTask.note,
+                startTime,
+                timeLength,
+                count,
+                dayInterval);
     }
 
     public TaskCreator(String title,
@@ -40,11 +44,15 @@ public class TaskCreator implements Serializable {
                        long timeLength,
                        int count,
                        int dayInterval) {
-        this(Task.newMetaTask(title, content, type, imageUrl, note),
-                startTime,
-                timeLength,
-                count,
-                dayInterval);
+        this.title = title;
+        this.content = content;
+        this.type = type;
+        this.imageUrl = imageUrl;
+        this.defaultNote = note;
+        this.startTime = startTime;
+        this.timeLength = timeLength;
+        this.count = count;
+        this.dayInterval = dayInterval;
     }
 
 }
