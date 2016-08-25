@@ -9,9 +9,16 @@ import rx.functions.Func1;
  */
 
 public class StoragePlanFunc implements Func1<Plan, Plan> {
+
+    private boolean isOverride;
+
+    public StoragePlanFunc(boolean isOverride) {
+        this.isOverride = isOverride;
+    }
+
     @Override
     public Plan call(Plan plan) {
-        PlanFileStorage.getInstance().storagePlan(plan);
+        PlanFileStorage.getInstance().storagePlan(plan, isOverride);
         return plan;
     }
 }

@@ -71,4 +71,10 @@ public class Plan<T extends BaseStep> implements Serializable {
         }
     }
 
+    public static Plan newEmptyPlanWithPlanId(String planId) {
+        Plan plan = new Plan();
+        plan.planId = planId;
+        return plan;
+    }
+
 }

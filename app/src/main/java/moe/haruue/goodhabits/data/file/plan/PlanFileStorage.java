@@ -48,12 +48,12 @@ public enum  PlanFileStorage {
     }
 
     @SuppressWarnings("ResultOfMethodCallIgnored")
-    public void storagePlan(Plan plan) {
+    public void storagePlan(Plan plan, boolean isOverride) {
         File file = getFileFor(plan);
         if (file.exists() && file.isDirectory()) {
             file.delete();
         }
-        if (file.exists()) {
+        if (file.exists() && !isOverride) {
             throw new PlanIdConflictException(plan.planId);
         }
         String json = plan.toJson();
