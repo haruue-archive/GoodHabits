@@ -2,6 +2,7 @@ package moe.haruue.goodhabits.network.func;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import moe.haruue.goodhabits.App;
@@ -9,6 +10,7 @@ import moe.haruue.goodhabits.config.Const;
 import moe.haruue.goodhabits.model.SchoolCourse;
 import moe.haruue.goodhabits.model.Task;
 import moe.haruue.goodhabits.util.SchoolCalendar;
+import moe.haruue.goodhabits.util.TimeUtils;
 import rx.functions.Func1;
 
 import static moe.haruue.goodhabits.util.TimeUtils.getTimeStampOf;
@@ -44,6 +46,7 @@ public class SchoolCoursesToTasksFunc implements Func1<List<SchoolCourse>, List<
         task.startTime = timeStampSchoolCourseStart(week, course.hash_day, course.begin_lesson) + 86400;
         task.endTime = timeStampSchoolCourseEnd(task.startTime);
         task.plan = Const.TASK_TYPE_SCHOOL_COURSE;
+        task.isFinish = task.endTime < TimeUtils.getTimeStampOf(new GregorianCalendar());
         return task;
     }
 
