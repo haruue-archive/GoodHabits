@@ -95,5 +95,10 @@ public class TimeUtils {
         return calendar;
     }
 
+    public static long secondsInDay(int hour, int minute, int second) {
+        minute += hour * 60;
+        second += minute * 60;
+        return second;
+    }
 
 }

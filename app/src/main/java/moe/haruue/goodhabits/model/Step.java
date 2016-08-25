@@ -1,11 +1,13 @@
 package moe.haruue.goodhabits.model;
 
+import android.util.Log;
+
 /**
  * Created by simonla on 2016/8/13.
  * Have a good day.
  */
 
-public class Step {
+public class Step implements Cloneable {
 
     // 标题，将会直接传送给 Task
     public String title = "";
@@ -29,4 +31,25 @@ public class Step {
     // 该活动必须是晴天
     public boolean requireSunnyDay;
 
+    @Override
+    public Step clone() {
+        Step step;
+        try {
+            step = (Step) super.clone();
+        } catch (Throwable t) {
+            Log.w("Step", "clone", t);
+            step = new Step();
+        }
+        step.title = title;
+        step.content = content;
+        step.planId = planId;
+        step.imageUrl = imageUrl;
+        step.defaultNote = defaultNote;
+        step.minTime = minTime;
+        step.maxTime = maxTime;
+        step.noEarlyTime = noEarlyTime;
+        step.noLaterTime = noLaterTime;
+        step.requireSunnyDay = requireSunnyDay;
+        return step;
+    }
 }
