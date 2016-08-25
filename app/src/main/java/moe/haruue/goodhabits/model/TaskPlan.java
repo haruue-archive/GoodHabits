@@ -14,7 +14,10 @@ public class TaskPlan extends Plan<TaskCreator> {
      */
     public List<TaskCreator> taskCreators = array;
 
+    public final static String PLAN_TYPE_TASK = "plan_type_task";
+
     public TaskPlan() {
         super();
+        planType = PLAN_TYPE_TASK;
     }
 }
