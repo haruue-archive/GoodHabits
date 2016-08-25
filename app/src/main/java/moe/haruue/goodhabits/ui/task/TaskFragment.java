@@ -16,6 +16,8 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 
 import butterknife.BindView;
@@ -23,6 +25,7 @@ import butterknife.ButterKnife;
 import moe.haruue.goodhabits.R;
 import moe.haruue.goodhabits.model.Task;
 import moe.haruue.goodhabits.ui.BaseFragment;
+import moe.haruue.goodhabits.ui.calendar.TaskFinishEvent;
 
 /**
  * MainActivity 的第 1 个 tab
@@ -107,7 +110,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
     public void onSetTaskFinished(boolean isSuccess) {
         if (isSuccess) {
             Log.d(TAG, "onSetTaskFinished: success");
-            //mAdapter.notifyDataSetChanged();
+            EventBus.getDefault().post(new TaskFinishEvent());
         }
     }
 

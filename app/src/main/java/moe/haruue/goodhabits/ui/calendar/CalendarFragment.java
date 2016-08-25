@@ -10,6 +10,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
@@ -55,16 +59,31 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
         return view;
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUserEvent(TaskFinishEvent event) {
+        getFinisherPer();
+        getSkipPer();
+        getSkipMoreThanOthers();
+        bindCalendarDate();
+    }
+
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         bindCalendarDate();
+        EventBus.getDefault().register(this);
+        getFinisherPer();
+        getSkipPer();
+        getSkipMoreThanOthers();
+    }
 
+    private void getFinisherPer() {
         mPresenter.getFinishedPer(new CalendarContract.Callback() {
             @Override
             public void onFinish(int per) {
                 mPvPerFinish.setPer(per);
                 mPvPerFinish.setText(per + "%");
+                mPvPerFinish.invalidate();
             }
 
             @Override
@@ -72,12 +91,15 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
                 Log.d(TAG, "onError: " + error);
             }
         });
+    }
 
+    private void getSkipPer() {
         mPresenter.getSkipPer(new CalendarContract.Callback() {
             @Override
             public void onFinish(int per) {
                 mPvPerSkip.setPer(per);
                 mPvPerSkip.setText(per + "%");
+                mPvPerSkip.invalidate();
             }
 
             @Override
@@ -85,23 +107,31 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
                 Log.d(TAG, "onError: " + error);
             }
         });
+    }
 
+    private void getSkipMoreThanOthers() {
         mPresenter.getSkipMoreThanOthers(new CalendarContract.Callback() {
             @Override
             public void onFinish(int per) {
-                Log.d(TAG, "onFinish: 逃课超过" + per);
                 if (per >= 50) {
                     mTvCalendarPerMoreThan.setText("好气啊，你居然超过了" + per + "%的人");
                 } else {
-                    mTvCalendarPerMoreThan.setText("可以的，有"+(100-per)+"%的人逃得比你多");
+                    mTvCalendarPerMoreThan.setText("可以的，有" + (100 - per) + "%的人逃得比你多");
                 }
+                mTvCalendarPerMoreThan.invalidate();
             }
 
             @Override
             public void onError(String error) {
-
+                Log.d(TAG, "onError: " + error);
             }
         });
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     private void bindCalendarDate() {
@@ -131,6 +161,8 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
                 mRvCalendar.setAdapter(new CalendarAdapter(arrayList, getContext(), null));
             }
         });
+
+        mRvCalendar.invalidate();
     }
 
     @Override
