@@ -1,6 +1,9 @@
 package moe.haruue.goodhabits.model;
 
 import android.support.annotation.NonNull;
+import android.util.Log;
+
+import java.io.Serializable;
 
 /**
  * 任务，此 model 用于存储、显示，分析用户的安排<br>
@@ -9,7 +12,7 @@ import android.support.annotation.NonNull;
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */
 
-public class Task implements Comparable<Task> {
+public class Task implements Comparable<Task>, Serializable, Cloneable {
 
     public String title = "";
     public String content = "";
@@ -88,5 +91,25 @@ public class Task implements Comparable<Task> {
         if (startTime < task.startTime) return -1;
         else if (startTime == task.startTime) return 0;
         else return 1;
+    }
+
+    @Override
+    public Task clone() {
+        Task task;
+        try {
+            task = (Task) super.clone();
+        } catch (Throwable e) {
+            Log.w("Task", "clone", e);
+            task = new Task();
+        }
+        task.title = title;
+        task.content = content;
+        task.type = type;
+        task.plan = plan;
+        task.imageUrl = imageUrl;
+        task.startTime = startTime;
+        task.endTime = endTime;
+        task.note = note;
+        return task;
     }
 }
