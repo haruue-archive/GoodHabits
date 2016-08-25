@@ -99,8 +99,8 @@ class LoginPresenter implements LoginContract.Presenter {
         RequestManager.getInstance().register(userName, userPassword, isCQUPT, stuNum, new RegisterCallback() {
             @Override
             public void onRegisterSuccess() {
-                mView.showProgress(100);
                 mView.startActivity();
+                login(userName, userPassword, stuNum);
             }
 
             @Override
