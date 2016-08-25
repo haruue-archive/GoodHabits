@@ -44,7 +44,7 @@
             android:name=".ui.settings.ReloadSchoolCourseActivity"
             android:theme="@style/Transparent"/>
         <activity
-            android:name=".ui.GoalDetail.GoalDetailActivity"
+            android:name=".ui.goaldetail.GoalDetailActivity"
             android:label="@string/title_activity_goal_detail"
             android:parentActivityName=".ui.main.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
