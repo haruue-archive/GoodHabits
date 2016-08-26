@@ -9,6 +9,8 @@ import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
 
+import moe.haruue.goodhabits.App;
+import moe.haruue.goodhabits.config.Const;
 import moe.haruue.goodhabits.data.database.task.func.TasksByIdQueryFunc;
 import moe.haruue.goodhabits.data.database.task.func.TasksByTimeQueryFunc;
 import moe.haruue.goodhabits.data.database.task.func.UpdateTasksByIdFunc;
@@ -170,6 +172,15 @@ public class TaskPresenter implements TaskContract.Presenter {
     @Override
     public boolean isRead(int hashCode) {
         return new IsHashExistFunc().call(hashCode);
+    }
+
+    @Override
+    public boolean isFirstTimeTOTHeFragment() {
+        boolean result = App.getCommonSharedPreferences().getBoolean(Const.KEY_FIRST_INTO_TASK_FRAGMENT, true);
+        if (result) {
+            App.getCommonSharedPreferences().edit().putBoolean(Const.KEY_FIRST_INTO_TASK_FRAGMENT, false).apply();
+        }
+        return result;
     }
 
     /**
