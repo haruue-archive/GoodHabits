@@ -2,6 +2,7 @@ package moe.haruue.goodhabits.ui.goaldetail;
 
 import android.util.Log;
 
+import java.util.GregorianCalendar;
 import java.util.List;
 
 import moe.haruue.goodhabits.data.database.task.func.InsertTasksOperateFunc;
@@ -9,9 +10,11 @@ import moe.haruue.goodhabits.data.file.plan.func.GetPlanByPlanIdFunc;
 import moe.haruue.goodhabits.data.func.PlanToTasksFunc;
 import moe.haruue.goodhabits.model.Plan;
 import moe.haruue.goodhabits.model.Task;
+import moe.haruue.goodhabits.util.TimeUtils;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
+import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -63,6 +66,14 @@ public class GoalDetailPresenter implements GoalDetailContract.Presenter {
         Observable.just(Plan.newEmptyPlanWithPlanId(planId))
                 .map(new GetPlanByPlanIdFunc())
                 .subscribeOn(Schedulers.io())
+                .map(new Func1<Plan, Plan>() {
+                    @Override
+                    public Plan call(Plan plan) {
+                        plan.timeRangeStart = TimeUtils.getTimeStampOf(new GregorianCalendar());
+                        plan.timeRangeEnd = Long.MAX_VALUE;
+                        return plan;
+                    }
+                })
                 .map(new PlanToTasksFunc())
                 .subscribeOn(Schedulers.computation())
                 .map(new InsertTasksOperateFunc())
