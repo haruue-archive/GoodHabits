@@ -37,5 +37,7 @@ public class TaskContract {
 
         boolean isRead(int hashCode);
 
+        boolean isFirstTimeTOTHeFragment();
+
     }
 }
