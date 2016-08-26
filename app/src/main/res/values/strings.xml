@@ -1,11 +1,11 @@
 <resources>
-    <string name="app_name">"Good Habits"</string>
+    <string name="app_name">Better</string>
     <string name="main_page">主页面</string>
     <string name="account">账户</string>
     <string name="setting">设置</string>
     <string name="register">注册</string>
     <string name="login">登录</string>
-    <string name="logout">注销登录</string>
+    <string name="logout">注销当前账户</string>
     <string name="about">关于</string>
     <string name="username">用户名</string>
     <string name="password">密码</string>
@@ -16,4 +16,24 @@
     <string name="add_task">增加任务</string>
     <string name="calendar">日历</string>
     <string name="square">广场</string>
+    <string name="vertical_ellipsis">&#8942;</string>
+    <string name="reload_school_course">重载课程表</string>
+    <string name="key_reload_school_course">key_reload_school_course</string>
+    <string name="tip_confirm_reload_school_course">重载课程表将会清除以前的所有课程表数据，是否继续？</string>
+    <string name="ok">确认</string>
+    <string name="cancel">取消</string>
+    <string name="reloading_school_course">正在重载课程表</string>
+    <string name="failure_reload_school_course">重载课程表失败</string>
+    <string name="success_reload_school_course">重载课程表成功</string>
+    <string name="school_course">学校课程</string>
+    <string name="set_stu_num">设置学号</string>
+    <string name="key_stu_num">key_stu_num</string>
+    <string name="tip_confirm_set_stu_num">修改学号将会重载您的课程表，这将会清除以前的所有课程表数据，是否继续？</string>
+    <string name="complete">完成</string>
+    <string name="failure">失败</string>
+    <string name="title_activity_goal_detail">GoalDetailActivity</string>
+    <string name="action_settings">Settings</string>
+    <string name="key_logout">key_logout</string>
+    <string name="tip_confirm_logout">注销账户将会使您失去所有已安排的日程数据，是否继续？</string>
+    <string name="title_activity_task_detail">任务详情</string>
 </resources>

@@ -1,13 +1,45 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-              android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="match_parent">
+              android:layout_height="match_parent"
+              android:isScrollContainer="true"
+              android:orientation="vertical">
 
-    <TextView
-        android:text="@string/task"
-        android:textSize="100sp"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"/>
+    <!--    <android.support.v4.widget.SwipeRefreshLayout
+            android:id="@+id/srw_tasks"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">-->
+    <android.support.v7.widget.CardView
+        android:id="@+id/cv_message"
+        android:layout_width="match_parent"
+        android:layout_height="160dp"
+        android:layout_margin="16dp">
+
+        <RelativeLayout
+            android:background="@drawable/bg_task_message"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <TextView
+                android:textColor="@color/material_color_white"
+                android:id="@+id/tv_message"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="了解如何改变坏习惯？"
+                android:layout_marginTop="90dp"
+                android:gravity="center_horizontal"
+                android:textSize="26sp"/>
+        </RelativeLayout>
+
+    </android.support.v7.widget.CardView>
+
+
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/rv_tasks"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:scrollbars="vertical"/>
+    <!--
+        </android.support.v4.widget.SwipeRefreshLayout>-->
 
 </LinearLayout>

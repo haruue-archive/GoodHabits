@@ -6,42 +6,39 @@
     android:id="@+id/drawer_layout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="moe.haruue.goodhabits.ui.activity.MainActivity">
-
-    <com.jude.fitsystemwindowlayout.FitSystemWindowsFrameLayout
-        android:layout_height="match_parent"
-        android:layout_width="match_parent"
-        app:padding_status="true"
-        android:clickable="true"
-        tools:context="moe.haruue.goodhabits.ui.activity.MainActivity">
+    tools:context="moe.haruue.goodhabits.ui.main.MainActivity">
 
         <android.support.design.widget.CoordinatorLayout
-            android:layout_height="match_parent"
-            android:layout_width="match_parent">
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
 
             <android.support.design.widget.AppBarLayout
+                android:id="@+id/app_bar_layout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:clickable="true"
-                app:elevation="10dp"
-                app:margin_status="true">
+                android:background="@color/material_color_pink_400"
+                app:expanded="true"
+                app:elevation="10dp">
+
+                <moe.haruue.goodhabits.ui.widget.StatusBarMarginView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"/>
 
                 <android.support.v7.widget.Toolbar
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?attr/actionBarSize"
-                    android:background="@color/colorPrimary"
                     app:theme="@style/Theme.AppCompat.NoActionBar"
-                    app:title="@string/app_name"
-                    app:layout_scrollFlags="scroll|enterAlways"/>
+                    app:title="@string/app_name"/>
 
                 <android.support.design.widget.TabLayout
                     android:id="@+id/tab_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     app:tabMode="fixed"
-                    app:tabTextColor="@color/material_color_blue_gray_300"
-                    app:tabSelectedTextColor="@color/material_color_white"/>
+                    app:tabSelectedTextColor="@color/material_color_white"
+                    app:tabTextColor="@color/material_color_blue_gray_300"/>
 
             </android.support.design.widget.AppBarLayout>
 
@@ -53,8 +50,6 @@
                 app:layout_behavior="@string/appbar_scrolling_view_behavior"/>
 
         </android.support.design.widget.CoordinatorLayout>
-
-    </com.jude.fitsystemwindowlayout.FitSystemWindowsFrameLayout>
 
     <android.support.design.widget.NavigationView
         android:id="@+id/navigation_view"

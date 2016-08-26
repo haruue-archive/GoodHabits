@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <PreferenceCategory
+        android:title="@string/school_course">
+
+        <EditTextPreference
+            android:title="@string/set_stu_num"
+            android:key="@string/key_stu_num"/>
+
+        <Preference android:title="@string/reload_school_course"
+                    android:key="@string/key_reload_school_course">
+            <intent
+                android:targetPackage="moe.haruue.goodhabits"
+                android:targetClass="moe.haruue.goodhabits.ui.settings.ReloadSchoolCourseActivity"/>
+        </Preference>
+
+    </PreferenceCategory>
+
+    <PreferenceCategory
+        android:title="@string/account">
+
+        <Preference
+            android:title="@string/logout"
+            android:key="@string/key_logout"/>
+
+    </PreferenceCategory>
+
+</PreferenceScreen>
