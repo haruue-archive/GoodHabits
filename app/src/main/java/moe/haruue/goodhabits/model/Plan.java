@@ -11,7 +11,7 @@ import java.util.List;
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */
 
-public class Plan<T> implements Serializable {
+public class Plan<T extends BaseStep> implements Serializable {
 
     protected Plan() {
 
@@ -69,6 +69,12 @@ public class Plan<T> implements Serializable {
         } else {
             throw new IllegalArgumentException("Unknown Plan Type: " + plan.getClass().getSimpleName() + ", it must be one of StepPlan and TaskPlan, or insert new plan type to Plan#getPlanTypeFromJson");
         }
+    }
+
+    public static Plan newEmptyPlanWithPlanId(String planId) {
+        Plan plan = new Plan();
+        plan.planId = planId;
+        return plan;
     }
 
 }

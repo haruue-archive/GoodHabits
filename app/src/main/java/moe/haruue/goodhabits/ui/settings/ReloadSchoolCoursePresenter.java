@@ -3,6 +3,8 @@ package moe.haruue.goodhabits.ui.settings;
 import android.app.ProgressDialog;
 import android.util.Log;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.List;
 
 import moe.haruue.goodhabits.data.CurrentUser;
@@ -34,6 +36,7 @@ class ReloadSchoolCoursePresenter implements ReloadSchoolCourseContract.Presente
         RequestManager.getInstance().reloadFullSchoolCourseAndStorageAsTask(new Subscriber<List<Task>>() {
             @Override
             public void onCompleted() {
+                EventBus.getDefault().post(new CourseReloadedEvent());
                 view.onReloadSchoolCourseSuccess(dialog);
             }
 

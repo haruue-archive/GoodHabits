@@ -4,7 +4,7 @@ import java.util.List;
 
 import moe.haruue.goodhabits.BasePresenter;
 import moe.haruue.goodhabits.BaseView;
-import moe.haruue.goodhabits.model.Step;
+import moe.haruue.goodhabits.model.BaseStep;
 
 /**
  * Created by simonla on 2016/8/25.
@@ -24,7 +24,7 @@ public class GoalDetailContract {
     }
 
     interface Callback {
-        void onFinish(List<Step> mSteps);
+        void onFinish(List<BaseStep> mSteps);
 
         void onError(String error);
     }

@@ -12,18 +12,8 @@ import moe.haruue.goodhabits.util.WeatherUtils;
  * Have a good day.
  */
 
-public class Step implements Cloneable, Serializable {
+public class Step extends BaseStep implements Cloneable, Serializable {
 
-    // 标题，将会直接传送给 Task
-    public String title = "";
-    // 这一步的内容，将会直接传送给 Task
-    public String content = "";
-    // 隶属的 Plan，将会直接传送给 Task
-    public String planId = "";
-    // 预留，图片 Url，将会直接传送给 Task
-    public String imageUrl = "";
-    // 默认的 note ，将会直接传送给 Task 的 note
-    public String defaultNote = "";
     // 完成这一步需要的最少时间，以秒计
     public long minTime;
     // 完成这一步需要的最多时间，以秒计
@@ -64,7 +54,7 @@ public class Step implements Cloneable, Serializable {
         }
         step.title = title;
         step.content = content;
-        step.planId = planId;
+        step.type = type;
         step.imageUrl = imageUrl;
         step.defaultNote = defaultNote;
         step.minTime = minTime;
@@ -74,5 +64,31 @@ public class Step implements Cloneable, Serializable {
         step.requireSunnyDay = requireSunnyDay;
         step.period = period;
         return step;
+    }
+
+    public Step() {
+
+    }
+
+    public Step(Task metaTask, long minTime, long maxTime, long noEarlyTime, long noLaterTime, boolean requireSunnyDay, int period, long skipTime) {
+        super(metaTask);
+        this.minTime = minTime;
+        this.maxTime = maxTime;
+        this.noEarlyTime = noEarlyTime;
+        this.noLaterTime = noLaterTime;
+        this.requireSunnyDay = requireSunnyDay;
+        this.period = period;
+        this.skipTime = skipTime;
+    }
+
+    public Step(String title, String content, String type, String imageUrl, String defaultNote, long minTime, long maxTime, long noEarlyTime, long noLaterTime, boolean requireSunnyDay, int period, long skipTime) {
+        super(title, content, type, imageUrl, defaultNote);
+        this.minTime = minTime;
+        this.maxTime = maxTime;
+        this.noEarlyTime = noEarlyTime;
+        this.noLaterTime = noLaterTime;
+        this.requireSunnyDay = requireSunnyDay;
+        this.period = period;
+        this.skipTime = skipTime;
     }
 }

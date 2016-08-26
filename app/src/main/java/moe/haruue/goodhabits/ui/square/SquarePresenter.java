@@ -2,11 +2,14 @@ package moe.haruue.goodhabits.ui.square;
 
 import android.util.Log;
 
-import java.util.ArrayList;
+import com.jude.utils.JUtils;
+
 import java.util.List;
 
 import moe.haruue.goodhabits.App;
 import moe.haruue.goodhabits.R;
+import moe.haruue.goodhabits.data.file.plan.func.GetAllPlanFunc;
+import moe.haruue.goodhabits.data.file.plan.func.StoragePlanFunc;
 import moe.haruue.goodhabits.model.Plan;
 import moe.haruue.goodhabits.model.Task;
 import moe.haruue.goodhabits.model.TaskCreator;
@@ -55,15 +58,8 @@ public class SquarePresenter implements SquareContract.Presenter {
     }*/
     @Override
     public void getPlans(SquareContract.Callback callback) {
-        Observable.just(new Object())
-                .map(o -> {
-                    List<Plan> planList = new ArrayList<>(0);
-                    planList.add(generateSleepPlan());
-                    planList.add(generateActivePlan());
-                    planList.add(generateThinPlan());
-                    planList.add(generateAbsorbedPlan());
-                    return planList;
-                })
+        Observable.just(Plan.newEmptyPlanWithPlanId(""))
+                .map(new GetAllPlanFunc())
                 .subscribeOn(Schedulers.io())
                 .unsubscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -86,7 +82,33 @@ public class SquarePresenter implements SquareContract.Presenter {
                 });
     }
 
-    private Plan generateSleepPlan() {
+    public static void writeDebugPlan() {
+        Observable.just(generateSleepPlan(), generateThinPlan(), generateAbsorbedPlan(), generateActivePlan())
+                .map(new StoragePlanFunc(true))
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<Plan>() {
+                    @Override
+                    public void onCompleted() {
+                        JUtils.Toast("Debug Plan Write Complete");
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("SquarePresenter", "writeDebugPlan", e);
+                        JUtils.ToastLong(e.toString());
+                    }
+
+                    @Override
+                    public void onNext(Plan plan) {
+                        Log.d("SquarePresenter", "writeDebugPlan: " + plan.title);
+                        JUtils.Toast("Debug Plan Write: " + plan.title);
+                    }
+                });
+    }
+
+    private static Plan generateSleepPlan() {
         TaskPlan plan = new TaskPlan();
         plan.title = "充足的睡眠";
         plan.hint = "充足的睡眠hint";
@@ -96,10 +118,13 @@ public class SquarePresenter implements SquareContract.Presenter {
         metaTask.title = "再见手机";
         metaTask.content = ResourceUtils.readStringFromRawResource(App.getContext().getResources(), R.raw.enough_sleep_step_1_content);
         plan.taskCreators.add(new TaskCreator(metaTask, TimeUtils.secondsInDay(22, 0, 0), 8 * 3600, 4, 1));
+        plan.taskCreators.add(new TaskCreator(metaTask, TimeUtils.secondsInDay(22, 0, 0), 8 * 3600, 4, 1));
+        plan.taskCreators.add(new TaskCreator(metaTask, TimeUtils.secondsInDay(22, 0, 0), 8 * 3600, 4, 1));
+        plan.taskCreators.add(new TaskCreator(metaTask, TimeUtils.secondsInDay(22, 0, 0), 8 * 3600, 4, 1));
         return plan;
     }
 
-    private Plan generateActivePlan() {
+    private static Plan generateActivePlan() {
         TaskPlan plan = new TaskPlan();
         plan.title = "感觉更有活力";
         plan.hint = "感觉更有活力hint";
@@ -108,7 +133,7 @@ public class SquarePresenter implements SquareContract.Presenter {
         return plan;
     }
 
-    private Plan generateThinPlan() {
+    private static Plan generateThinPlan() {
         TaskPlan plan = new TaskPlan();
         plan.title = "瘦成一道闪电";
         plan.hint = "瘦成一道闪电hint";
@@ -117,7 +142,7 @@ public class SquarePresenter implements SquareContract.Presenter {
         return plan;
     }
 
-    private Plan generateAbsorbedPlan() {
+    private static Plan generateAbsorbedPlan() {
         TaskPlan plan = new TaskPlan();
         plan.title = "提高专注力";
         plan.hint = "提高专注力hint";
