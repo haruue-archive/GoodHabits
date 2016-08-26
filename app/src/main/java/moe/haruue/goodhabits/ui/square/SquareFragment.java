@@ -13,8 +13,11 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import com.jude.utils.JUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -98,8 +101,13 @@ public class SquareFragment extends BaseFragment implements SquareContract.View 
             TextView mPlanName = holder.mPlanName;
             RelativeLayout relativeLayout = holder.mRelativeLayout;
             CardView cv = holder.mCardView;
+            ImageView iv = holder.mImageView;
             Plan plan = mPlans.get(position);
             mPlanName.setText(plan.title);
+
+            if (plan.isDoing) {
+                iv.setImageResource(R.drawable.ic_choosed);
+            }
 
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN) {
                 switch (position) {
@@ -117,15 +125,20 @@ public class SquareFragment extends BaseFragment implements SquareContract.View 
                         break;
                 }
             }
+
             cv.setOnClickListener(view -> {
-                Intent intent = new Intent();
-                intent.setClass(getActivity(), GoalDetailActivity.class);
-                intent.putExtra(EXTRA_PLAN_ID, plan.planId);
-                Log.d(TAG, "onBindViewHolder: ID:" + plan.planId);
-                ActivityOptionsCompat optionsCompat =
-                        ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
-                                cv.findViewById(R.id.cv_goal), "goal_card");
-                ActivityCompat.startActivity(getActivity(), intent, optionsCompat.toBundle());
+                if (position == 0) {
+                    Intent intent = new Intent();
+                    intent.setClass(getActivity(), GoalDetailActivity.class);
+                    intent.putExtra(EXTRA_PLAN_ID, plan.planId);
+                    Log.d(TAG, "onBindViewHolder: ID:" + plan.planId);
+                    ActivityOptionsCompat optionsCompat =
+                            ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
+                                    cv.findViewById(R.id.cv_goal), "goal_card");
+                    ActivityCompat.startActivity(getActivity(), intent, optionsCompat.toBundle());
+                } else {
+                    JUtils.Toast("还在开发中");
+                }
             });
         }
 
@@ -139,12 +152,14 @@ public class SquareFragment extends BaseFragment implements SquareContract.View 
             public CardView mCardView;
             public TextView mPlanName;
             public RelativeLayout mRelativeLayout;
+            public ImageView mImageView;
 
             public ViewHolder(View itemView) {
                 super(itemView);
                 mCardView = (CardView) itemView.findViewById(R.id.cv_goal);
                 mPlanName = (TextView) itemView.findViewById(R.id.tv_goal);
                 mRelativeLayout = (RelativeLayout) itemView.findViewById(R.id.rl_square);
+                mImageView = (ImageView) itemView.findViewById(R.id.iv_chick);
             }
         }
     }

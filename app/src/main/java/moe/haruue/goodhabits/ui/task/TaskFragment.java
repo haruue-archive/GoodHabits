@@ -18,7 +18,9 @@ import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -108,7 +110,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
             mRvTasks.setAdapter(mAdapter);
             for (Task task :
                     tasks) {
-                Log.d(TAG, "onGetTodayTasks:type: "+task.type);
+                Log.d(TAG, "onGetTodayTasks:type: " + task.type);
             }
         } else {
             Snackbar.make(mRvTasks, "遇到错误，设置里重置课程表试试", Snackbar.LENGTH_LONG).show();
@@ -178,6 +180,17 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
             cardView.setCardElevation(NORMAL_Z);
 
             Task task = mTasks.get(holder.getAdapterPosition());
+
+            if (Objects.equals(task.type, "type_school_course")) {
+                ivTask.setImageResource(R.drawable.ic_task_1);
+                tvHint.setText(task.content);
+            } else {
+                ivTask.setImageResource(R.drawable.ic_custom);
+                SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
+                String date = simpleDateFormat.format(task.startTime*1000);
+                tvHint.setText(date);
+            }
+
             tvTitle.setText(task.title);
             if (task.isFinish) {
                 tvClick.setText("已完成");
@@ -207,7 +220,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
                 });
             }
 
-            tvHint.setText(task.content);
+
 
             if (task.id == latelyTaskId) {
                 animationUp(cardView);

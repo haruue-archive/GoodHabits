@@ -82,6 +82,11 @@ public class SquarePresenter implements SquareContract.Presenter {
                 });
     }
 
+    @Override
+    public int getNowPlanId() {
+        return 0;
+    }
+
     public static void writeDebugPlan() {
         Observable.just(generateSleepPlan(), generateThinPlan(), generateAbsorbedPlan(), generateActivePlan())
                 .map(new StoragePlanFunc(true))
@@ -103,7 +108,6 @@ public class SquarePresenter implements SquareContract.Presenter {
                     @Override
                     public void onNext(Plan plan) {
                         Log.d("SquarePresenter", "writeDebugPlan: " + plan.title);
-                        JUtils.Toast("Debug Plan Write: " + plan.title);
                     }
                 });
     }

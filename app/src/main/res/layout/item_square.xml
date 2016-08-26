@@ -16,6 +16,7 @@
         android:background="@drawable/img_goal_1">
 
         <ImageView
+            android:id="@+id/iv_chick"
             android:src="@drawable/ic_choose"
             android:layout_width="25dp"
             android:layout_height="25dp"
