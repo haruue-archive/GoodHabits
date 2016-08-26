@@ -44,6 +44,8 @@ import moe.haruue.goodhabits.ui.widget.NavigationBarMarginView;
 
 public class TaskFragment extends BaseFragment implements TaskContract.View {
 
+    public static final String TAG = "TaskFragment";
+    public static final String EXTRA_CONTEXT = "task_fragment_context";
     @BindView(R.id.rv_tasks)
     RecyclerView mRvTasks;
     @BindView(R.id.tv_message)
@@ -57,8 +59,18 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
     private RecyclerView.LayoutManager mLayoutManager;
     private TaskAdapter mAdapter;
 
-    public static final String TAG = "TaskFragment";
-    public static final String EXTRA_CONTEXT = "task_fragment_context";
+    private void tipsCardControl(String context) {
+        mCvMessage.setVisibility(View.GONE);
+        if (!mPresenter.isRead(context.hashCode())) {
+            mCvMessage.setOnClickListener(view1 -> {
+                Intent intent = new Intent();
+                intent.putExtra(EXTRA_CONTEXT, context);
+                intent.setClass(getActivity(), TaskDetailActivity.class);
+                startActivity(intent);
+            });
+            mCvMessage.setVisibility(View.VISIBLE);
+        }
+    }
 
     @Override
     public void onResume() {
@@ -86,13 +98,6 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
         super.onViewCreated(view, savedInstanceState);
         EventBus.getDefault().register(this);
         init();
-
-        mCvMessage.setOnClickListener(view1 -> {
-            Intent intent = new Intent();
-            intent.putExtra(EXTRA_CONTEXT,"## text");
-            intent.setClass(getActivity(), TaskDetailActivity.class);
-            startActivity(intent);
-        });
     }
 
     private void init() {
@@ -137,10 +142,6 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
             mTasks = tasks;
             mAdapter = new TaskAdapter(mTasks);
             mRvTasks.setAdapter(mAdapter);
-            for (Task task :
-                    tasks) {
-                Log.d(TAG, "onGetTodayTasks:type: " + task.type);
-            }
         } else {
             Snackbar.make(mRvTasks, "遇到错误，设置里重置课程表试试", Snackbar.LENGTH_LONG).show();
         }
@@ -218,6 +219,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
                 String date = simpleDateFormat.format(task.startTime * 1000);
                 tvHint.setText(date);
+                tipsCardControl(task.content);
             }
 
             tvTitle.setText(task.title);

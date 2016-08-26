@@ -38,7 +38,6 @@ class LoginPresenter implements LoginContract.Presenter {
         if (!JUtils.isNetWorkAvilable()) {
             mView.noNetError();
         }
-
     }
 
     @Override
@@ -62,6 +61,7 @@ class LoginPresenter implements LoginContract.Presenter {
                 return;
             }
         }
+
         RequestManager.getInstance().login(userName, userPassword, new LoginCallback() {
             @Override
             public void onLoginSuccess() {
