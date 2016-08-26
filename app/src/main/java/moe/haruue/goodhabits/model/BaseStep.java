@@ -15,4 +15,28 @@ public class BaseStep {
     public String imageUrl = "";
     // 默认的 note ，将会直接传送给 Task 的 note
     public String defaultNote = "";
+
+    public BaseStep() {
+
+    }
+
+    public BaseStep(Task metaTask) {
+        this(metaTask.title,
+                metaTask.content,
+                metaTask.type,
+                metaTask.imageUrl,
+                metaTask.note);
+    }
+
+    public BaseStep(String title,
+                    String content,
+                    String type,
+                    String imageUrl,
+                    String defaultNote) {
+        this.title = title;
+        this.content = content;
+        this.type = type;
+        this.imageUrl = imageUrl;
+        this.defaultNote = defaultNote;
+    }
 }

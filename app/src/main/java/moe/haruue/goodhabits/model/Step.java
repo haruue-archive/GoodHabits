@@ -65,4 +65,30 @@ public class Step extends BaseStep implements Cloneable, Serializable {
         step.period = period;
         return step;
     }
+
+    public Step() {
+
+    }
+
+    public Step(Task metaTask, long minTime, long maxTime, long noEarlyTime, long noLaterTime, boolean requireSunnyDay, int period, long skipTime) {
+        super(metaTask);
+        this.minTime = minTime;
+        this.maxTime = maxTime;
+        this.noEarlyTime = noEarlyTime;
+        this.noLaterTime = noLaterTime;
+        this.requireSunnyDay = requireSunnyDay;
+        this.period = period;
+        this.skipTime = skipTime;
+    }
+
+    public Step(String title, String content, String type, String imageUrl, String defaultNote, long minTime, long maxTime, long noEarlyTime, long noLaterTime, boolean requireSunnyDay, int period, long skipTime) {
+        super(title, content, type, imageUrl, defaultNote);
+        this.minTime = minTime;
+        this.maxTime = maxTime;
+        this.noEarlyTime = noEarlyTime;
+        this.noLaterTime = noLaterTime;
+        this.requireSunnyDay = requireSunnyDay;
+        this.period = period;
+        this.skipTime = skipTime;
+    }
 }

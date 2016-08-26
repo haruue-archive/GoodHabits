@@ -19,40 +19,19 @@ public class TaskCreator extends BaseStep implements Serializable {
 
     }
 
-    public TaskCreator(Task metaTask,
-                       long startTime,
-                       long timeLength,
-                       int count,
-                       int dayInterval) {
-        this(metaTask.title,
-                metaTask.content,
-                metaTask.type,
-                metaTask.imageUrl,
-                metaTask.note,
-                startTime,
-                timeLength,
-                count,
-                dayInterval);
-    }
-
-    public TaskCreator(String title,
-                       String content,
-                       String type,
-                       String imageUrl,
-                       String note,
-                       long startTime,
-                       long timeLength,
-                       int count,
-                       int dayInterval) {
-        this.title = title;
-        this.content = content;
-        this.type = type;
-        this.imageUrl = imageUrl;
-        this.defaultNote = note;
+    public TaskCreator(Task metaTask, long startTime, long timeLength, int count, int dayInterval) {
+        super(metaTask);
         this.startTime = startTime;
         this.timeLength = timeLength;
         this.count = count;
         this.dayInterval = dayInterval;
     }
 
+    public TaskCreator(String title, String content, String type, String imageUrl, String defaultNote, long startTime, long timeLength, int count, int dayInterval) {
+        super(title, content, type, imageUrl, defaultNote);
+        this.startTime = startTime;
+        this.timeLength = timeLength;
+        this.count = count;
+        this.dayInterval = dayInterval;
+    }
 }

@@ -118,6 +118,9 @@ public class SquarePresenter implements SquareContract.Presenter {
         metaTask.title = "再见手机";
         metaTask.content = ResourceUtils.readStringFromRawResource(App.getContext().getResources(), R.raw.enough_sleep_step_1_content);
         plan.taskCreators.add(new TaskCreator(metaTask, TimeUtils.secondsInDay(22, 0, 0), 8 * 3600, 4, 1));
+        plan.taskCreators.add(new TaskCreator(metaTask, TimeUtils.secondsInDay(22, 0, 0), 8 * 3600, 4, 1));
+        plan.taskCreators.add(new TaskCreator(metaTask, TimeUtils.secondsInDay(22, 0, 0), 8 * 3600, 4, 1));
+        plan.taskCreators.add(new TaskCreator(metaTask, TimeUtils.secondsInDay(22, 0, 0), 8 * 3600, 4, 1));
         return plan;
     }
 
