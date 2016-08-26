@@ -50,6 +50,10 @@ public enum  TaskDataBase {
     public final static String COLUMN_NAME_NOTE = "note";
     public final static String COLUMN_NAME_MD5 = "md5";
 
+    public final static String HASH_TABLE_NAME = "hash";
+
+    public final static String COLUMN_NAME_HASH = "hash";
+
     public class OpenHelper extends SQLiteOpenHelper {
 
         private final static String TASK_TABLE_CREATE_SQL = "CREATE TABLE " + TASK_TABLE_NAME + " (" +
@@ -66,6 +70,10 @@ public enum  TaskDataBase {
                 COLUMN_NAME_MD5 + " TEXT UNIQUE" +
                 ")";
 
+        private final static String HASH_TABLE_CREATE_SQL = "CREATE TABLE " + HASH_TABLE_NAME + " (" +
+                HASH_TABLE_NAME + " TEXT PRIMARY" +
+                ")";
+
         public OpenHelper(Context context) {
             super(context, TASK_DATABASE_NAME, null, TASK_DATABASE_VERSION);
         }
@@ -73,6 +81,7 @@ public enum  TaskDataBase {
         @Override
         public void onCreate(SQLiteDatabase sqLiteDatabase) {
             sqLiteDatabase.execSQL(TASK_TABLE_CREATE_SQL);
+            sqLiteDatabase.execSQL(HASH_TABLE_CREATE_SQL);
         }
 
         @Override

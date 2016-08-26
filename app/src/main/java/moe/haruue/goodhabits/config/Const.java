@@ -6,6 +6,10 @@ package moe.haruue.goodhabits.config;
 
 public class Const {
 
+    public final static String DATABASE_NAME = "task.db";
+
+    public final static int DATABASE_VERSION = 1;
+
     public final static String TASK_TYPE_SCHOOL_COURSE = "type_school_course";
 
     public final static String TASK_TYPE_USER_ADD = "type_user_add";
