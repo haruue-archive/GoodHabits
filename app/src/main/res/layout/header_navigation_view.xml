@@ -2,7 +2,30 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
               android:orientation="vertical"
               android:layout_width="match_parent"
-              android:layout_height="180dp"
-              android:background="@color/colorPrimary">
+              android:layout_height="160dp"
+              android:background="@drawable/bg_nav_header">
+
+    <moe.haruue.goodhabits.ui.widget.StatusBarMarginView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"/>
+
+    <de.hdodenhof.circleimageview.CircleImageView
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="40dp"
+        android:src="@drawable/ic_friend_1"/>
+
+    <TextView
+        android:id="@+id/navigation_tv_username"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/account"
+        android:layout_marginTop="10dp"
+        android:layout_marginLeft="40dp"
+        android:layout_marginBottom="10dp"
+        android:textSize="16sp"
+        android:textStyle="bold"
+        android:textColor="@color/material_color_white"/>
 
 </LinearLayout>
