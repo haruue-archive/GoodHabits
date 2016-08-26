@@ -34,6 +34,7 @@ import moe.haruue.goodhabits.ui.BaseFragment;
 import moe.haruue.goodhabits.ui.calendar.TaskFinishEvent;
 import moe.haruue.goodhabits.ui.taskdetail.TaskDetailActivity;
 import moe.haruue.goodhabits.ui.widget.NavigationBarMarginView;
+import moe.haruue.goodhabits.util.ResourceUtils;
 
 /**
  * MainActivity 的第 1 个 tab
@@ -80,6 +81,8 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUserEvent(MessageGoneEvent event) {
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mCvMessage, "scaleY", 1f, 0, 1f);
+        objectAnimator.setDuration(500).start();
         mCvMessage.setVisibility(View.GONE);
     }
 
@@ -98,12 +101,21 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
         super.onViewCreated(view, savedInstanceState);
         EventBus.getDefault().register(this);
         init();
+        String context = ResourceUtils.readStringFromRawResource(getResources(), R.raw.read_me);
+        if (!mPresenter.isRead(context.hashCode())) {
+            tipsCardControl(context);
+            Log.d(TAG, "onViewCreated: "+mPresenter.isRead(context.hashCode()));
+        }
+        if (mPresenter.isFirstTimeTOTHeFragment()) {
+            tipsCardControl(context);
+        }
     }
 
     private void init() {
         //mSrwTasks = new SwipeRefreshLayout(getContext());
         mLayoutManager = new LinearLayoutManager(getContext());
         mRvTasks.setLayoutManager(mLayoutManager);
+        mCvMessage.setVisibility(View.GONE);
         //mSrwTasks.setOnRefreshListener(this);
     }
 
