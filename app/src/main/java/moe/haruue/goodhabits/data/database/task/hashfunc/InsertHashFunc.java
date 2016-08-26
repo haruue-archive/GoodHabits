@@ -15,9 +15,15 @@ public class InsertHashFunc implements Func1<Integer, Integer> {
     @Override
     public Integer call(Integer integer) {
         BriteDatabase database = TaskDataBase.getInstance().getDatabase();
-        ContentValues values = new ContentValues();
-        values.put(TaskDataBase.COLUMN_NAME_HASH, integer);
-        database.insert(TaskDataBase.HASH_TABLE_NAME, values);
+        BriteDatabase.Transaction transaction = database.newTransaction();
+        try {
+            ContentValues values = new ContentValues();
+            values.put(TaskDataBase.COLUMN_NAME_HASH, integer);
+            database.insert(TaskDataBase.HASH_TABLE_NAME, values);
+            transaction.markSuccessful();
+        } finally {
+            transaction.end();
+        }
         return integer;
     }
 }
