@@ -107,13 +107,13 @@ public class SquareFragment extends BaseFragment implements SquareContract.View 
                         relativeLayout.setBackground(getResources().getDrawable(R.drawable.img_goal_3));
                         break;
                     case 1:
-                        relativeLayout.setBackground(getResources().getDrawable(R.drawable.img_goal_1));
-                        break;
-                    case 2:
                         relativeLayout.setBackground(getResources().getDrawable(R.drawable.img_goal_2));
                         break;
-                    case 3:
+                    case 2:
                         relativeLayout.setBackground(getResources().getDrawable(R.drawable.img_goal_4));
+                        break;
+                    case 3:
+                        relativeLayout.setBackground(getResources().getDrawable(R.drawable.img_goal_1));
                         break;
                 }
             }

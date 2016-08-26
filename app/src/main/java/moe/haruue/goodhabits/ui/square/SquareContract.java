@@ -18,6 +18,9 @@ public class SquareContract {
     interface Presenter extends BasePresenter {
 
         void getPlans(Callback callback);
+
+        int getNowPlanId();
+
     }
 
     interface Callback {
