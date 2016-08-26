@@ -75,17 +75,19 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.MyHold
                 tv.setTextColor(mContext.getResources().getColor(R.color.material_color_black));
                 break;
         }
-        if (position >= 7) {
-            int position1 = position - 7;
-            if ((position1 >= 0 && position1 < statrt) || (position1 > end)) {
-                tv.setText("");
-            } else {
-                if (position1 > mHashMap.size()) {
-                    tv.setFinish(false);
+        if (mHashMap != null) {
+            if (position >= 7) {
+                int position1 = position - 7;
+                if ((position1 >= 0 && position1 < statrt) || (position1 > end)) {
+                    tv.setText("");
                 } else {
-                    tv.setFinish((Boolean) mHashMap.get(position1));
+                    if (position1 > mHashMap.size()) {
+                        tv.setFinish(false);
+                    } else {
+                        tv.setFinish((Boolean) mHashMap.get(position1));
+                    }
+                    tv.setText(String.valueOf(position1 - statrt + 1));
                 }
-                tv.setText(String.valueOf(position1 - statrt + 1));
             }
         }
     }
