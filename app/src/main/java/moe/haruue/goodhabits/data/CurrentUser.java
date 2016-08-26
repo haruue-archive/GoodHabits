@@ -44,4 +44,8 @@ public enum CurrentUser {
         return (String) AVUser.getCurrentUser().get("stuNum");
     }
 
+    public void logout() {
+        AVUser.logOut();
+    }
+
 }
