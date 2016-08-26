@@ -22,6 +22,7 @@ public interface SettingsContract {
 
         boolean isStuNumModified(String stuNum);
         void applyStuNumModify(String stuNum);
+        void doLogout();
 
     }
 }

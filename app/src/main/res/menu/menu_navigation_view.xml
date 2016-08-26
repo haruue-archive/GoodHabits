@@ -8,6 +8,8 @@
         android:icon="@drawable/ic_home_black_24dp"
         android:checked="true"/>
 
+    <!--
+
     <group>
         <item
             android:id="@+id/item_account"
@@ -15,6 +17,8 @@
             android:icon="@drawable/ic_account_circle_black_24dp"
             android:checkable="false"/>
     </group>
+
+    -->
 
     <item android:title="@string/setting">
         <menu>

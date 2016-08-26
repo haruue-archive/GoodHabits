@@ -19,8 +19,6 @@ public class SquareContract {
 
         void getPlans(Callback callback);
 
-        int getNowPlanId();
-
     }
 
     interface Callback {
