@@ -4,14 +4,12 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 
-import moe.haruue.goodhabits.R;
 import moe.haruue.goodhabits.ui.calendar.CalendarFragment;
 import moe.haruue.goodhabits.ui.calendar.CalendarPresneter;
 import moe.haruue.goodhabits.ui.square.SquareFragment;
 import moe.haruue.goodhabits.ui.square.SquarePresenter;
 import moe.haruue.goodhabits.ui.task.TaskFragment;
 import moe.haruue.goodhabits.ui.task.TaskPresenter;
-import moe.haruue.goodhabits.util.ResourcesLoader;
 
 /**
  * MainActivity 中的 ViewPager 使用的 Adapter
@@ -59,11 +57,11 @@ public class MainViewPagerAdapter extends FragmentStatePagerAdapter {
     public CharSequence getPageTitle(int position) {
         switch (position) {
             case TAB_ID_TASK:
-                return ResourcesLoader.getString(R.string.task);
+                return "今天";
             case TAB_ID_CALENDAR:
-                return ResourcesLoader.getString(R.string.calendar);
+                return "统计";
             case TAB_ID_SQUARE:
-                return ResourcesLoader.getString(R.string.square);
+                return "旅程";
             default:
                 return "";
         }
