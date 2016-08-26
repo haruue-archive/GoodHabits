@@ -71,7 +71,7 @@ public enum  TaskDataBase {
                 ")";
 
         private final static String HASH_TABLE_CREATE_SQL = "CREATE TABLE " + HASH_TABLE_NAME + " (" +
-                HASH_TABLE_NAME + " TEXT PRIMARY" +
+                HASH_TABLE_NAME + " INTEGER PRIMARY KEY" +
                 ")";
 
         public OpenHelper(Context context) {
