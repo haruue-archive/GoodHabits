@@ -31,6 +31,8 @@ public class Plan<T extends BaseStep> implements Serializable {
     public String author = "";
     // 此 Plan 是否在进行
     public boolean isDoing = false;
+    // 此 Plan 是否已被用户完成
+    public boolean isFinish = false;
 
     // 此 Plan 中拥有的 Step/Task 这类东西
     public List<T> array = new ArrayList<>(0);
