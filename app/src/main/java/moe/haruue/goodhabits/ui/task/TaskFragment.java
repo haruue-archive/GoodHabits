@@ -64,8 +64,8 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
     private String mContext;
 
     private void tipsCardControl(String context) {
+        mCvMessage.setVisibility(View.GONE);
         if (!mPresenter.isRead(context.hashCode())) {
-            Log.d(TAG, "tipsCardControl: " + !mPresenter.isRead(context.hashCode()));
             mCvMessage.setOnClickListener(view1 -> {
                 mContext = context;
                 Intent intent = new Intent();
@@ -153,7 +153,6 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
     @Override
     public void onRefresh(boolean isSomeNews, ArrayList<Task> newTasks) {
         //mSrwTasks.setRefreshing(false);
-        Log.d(TAG, "onRefresh: ");
     }
 
     public void notTimeToFinish() {

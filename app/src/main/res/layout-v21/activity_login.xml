@@ -78,7 +78,7 @@
         android:transitionName="登录按钮"
         app:cpb_textIdle="开始全新的旅程"
         android:textColor="@color/material_color_white"
-        android:background="@color/colorPrimaryDark"
+        android:background="@color/material_color_red_600"
         android:id="@+id/login_submit"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
