@@ -26,6 +26,7 @@ import moe.haruue.goodhabits.R;
 import moe.haruue.goodhabits.model.Task;
 import moe.haruue.goodhabits.ui.BaseFragment;
 import moe.haruue.goodhabits.ui.calendar.TaskFinishEvent;
+import moe.haruue.goodhabits.ui.widget.NavigationBarMarginView;
 
 /**
  * MainActivity 的第 1 个 tab
@@ -119,7 +120,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
     }
 
     // TODO: 2016/8/20 weak references~~~
-    public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.ViewHolder> {
+    public class TaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
 
         private ArrayList<Task> mTasks;
         private static final float NORMAL_Z = 8;
@@ -139,12 +140,25 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
         }
 
         @Override
-        public ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_task, parent, false);
-            return new ViewHolder(view);
+        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            switch (viewType) {
+                case VIEW_TYPE_TASK_ITEM:
+                    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_task, parent, false);
+                    return new ViewHolder(view);
+                case VIEW_TYPE_FOOTER:
+                    return new NavigationMarginFooterViewHolder(new NavigationBarMarginView(getContext()));
+            }
+            return null;
         }
 
         @Override
+        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
+            if (holder instanceof ViewHolder) {
+                onBindViewHolder((ViewHolder) holder, position);
+            }
+        }
+
+
         public void onBindViewHolder(ViewHolder holder, int position) {
             TextView tvTitle = holder.mTvTitle;
             TextView tvHint = holder.mTvHint;
@@ -250,7 +264,19 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
 
         @Override
         public int getItemCount() {
-            return mTasks.size();
+            return mTasks.size() + 1;
+        }
+
+        private final static int VIEW_TYPE_TASK_ITEM = 0;
+        private final static int VIEW_TYPE_FOOTER = 1;
+
+        @Override
+        public int getItemViewType(int position) {
+            if (position < mTasks.size()) {
+                return VIEW_TYPE_TASK_ITEM;
+            } else {
+                return VIEW_TYPE_FOOTER;
+            }
         }
 
         public class ViewHolder extends RecyclerView.ViewHolder {
@@ -277,6 +303,13 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
                 //mRvNote = (RelativeLayout) itemView.findViewById(R.id.rl_task_note);
                 //mEditText = (EditText) itemView.findViewById(R.id.et_task_note);
                 //mSave = (TextView) itemView.findViewById(R.id.tv_task_note_save);
+            }
+        }
+
+        private class NavigationMarginFooterViewHolder extends RecyclerView.ViewHolder {
+
+            public NavigationMarginFooterViewHolder(NavigationBarMarginView itemView) {
+                super(itemView);
             }
         }
     }

@@ -7,6 +7,7 @@ import java.util.List;
 
 import moe.haruue.goodhabits.data.database.task.func.InsertTasksOperateFunc;
 import moe.haruue.goodhabits.data.file.plan.func.GetPlanByPlanIdFunc;
+import moe.haruue.goodhabits.data.file.plan.func.StoragePlanFunc;
 import moe.haruue.goodhabits.data.func.PlanToTasksFunc;
 import moe.haruue.goodhabits.model.Plan;
 import moe.haruue.goodhabits.model.Task;
@@ -65,15 +66,17 @@ public class GoalDetailPresenter implements GoalDetailContract.Presenter {
     public void saveThePlan(String planId) {
         Observable.just(Plan.newEmptyPlanWithPlanId(planId))
                 .map(new GetPlanByPlanIdFunc())
-                .subscribeOn(Schedulers.io())
                 .map(new Func1<Plan, Plan>() {
                     @Override
                     public Plan call(Plan plan) {
                         plan.timeRangeStart = TimeUtils.getTimeStampOf(new GregorianCalendar());
                         plan.timeRangeEnd = Long.MAX_VALUE;
+                        plan.isDoing = true;
                         return plan;
                     }
                 })
+                .map(new StoragePlanFunc(true))
+                .subscribeOn(Schedulers.io())
                 .map(new PlanToTasksFunc())
                 .subscribeOn(Schedulers.computation())
                 .map(new InsertTasksOperateFunc())
