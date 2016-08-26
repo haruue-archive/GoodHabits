@@ -105,7 +105,10 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
             mTasks = tasks;
             mAdapter = new TaskAdapter(mTasks);
             mRvTasks.setAdapter(mAdapter);
-            Log.d(TAG, "onGetTodayTasks: "+tasks.size());
+            for (Task task :
+                    tasks) {
+                Log.d(TAG, "onGetTodayTasks:type: "+task.type);
+            }
         } else {
             Snackbar.make(mRvTasks, "遇到错误，设置里重置课程表试试", Snackbar.LENGTH_LONG).show();
         }
