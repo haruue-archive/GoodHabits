@@ -304,5 +304,9 @@
 
     <color name="darkOrange">#ed8faf</color>
     <color name="pink">#ff258e</color>
+    <color name="goal_1">#607D8B</color>
+    <color name="goal_2">#00BCD4</color>
+    <color name="finish">#DF0051</color>
+    <color name="task">#33AFC9</color>
 
 </resources>
