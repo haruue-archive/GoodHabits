@@ -1,5 +1,6 @@
 package moe.haruue.goodhabits.ui.task;
 
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.content.Intent;
 import android.os.Build;
@@ -83,7 +84,27 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
     public void onUserEvent(MessageGoneEvent event) {
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mCvMessage, "scaleY", 1f, 0, 1f);
         objectAnimator.setDuration(500).start();
-        mCvMessage.setVisibility(View.GONE);
+        objectAnimator.addListener(new Animator.AnimatorListener() {
+            @Override
+            public void onAnimationStart(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animator animator) {
+                mCvMessage.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationCancel(Animator animator) {
+
+            }
+
+            @Override
+            public void onAnimationRepeat(Animator animator) {
+
+            }
+        });
     }
 
     @Nullable
@@ -102,13 +123,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
         EventBus.getDefault().register(this);
         init();
         String context = ResourceUtils.readStringFromRawResource(getResources(), R.raw.read_me);
-        if (!mPresenter.isRead(context.hashCode())) {
-            tipsCardControl(context);
-            Log.d(TAG, "onViewCreated: "+mPresenter.isRead(context.hashCode()));
-        }
-        if (mPresenter.isFirstTimeTOTHeFragment()) {
-            tipsCardControl(context);
-        }
+        tipsCardControl(context);
     }
 
     private void init() {
