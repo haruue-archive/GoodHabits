@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -126,6 +127,10 @@ public class MainActivity extends BaseActivity {
                 case R.id.item_settings:
                     SettingsActivity.start(MainActivity.this);
                     break;
+                case R.id.item_about:
+                    Intent intent = new Intent(Intent.ACTION_VIEW);
+                    intent.setData(Uri.parse("https://github.com/haruue/GoodHabits"));
+                    startActivity(intent);
             }
             return true;
         }

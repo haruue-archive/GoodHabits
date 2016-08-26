@@ -2,8 +2,6 @@ package moe.haruue.goodhabits.ui.square;
 
 import android.util.Log;
 
-import com.jude.utils.JUtils;
-
 import java.util.List;
 
 import moe.haruue.goodhabits.App;
@@ -92,13 +90,11 @@ public class SquarePresenter implements SquareContract.Presenter {
                 .subscribe(new Subscriber<Plan>() {
                     @Override
                     public void onCompleted() {
-                        JUtils.Toast("Debug Plan Write Complete");
                     }
 
                     @Override
                     public void onError(Throwable e) {
                         Log.e("SquarePresenter", "writeDebugPlan", e);
-                        JUtils.ToastLong(e.toString());
                     }
 
                     @Override

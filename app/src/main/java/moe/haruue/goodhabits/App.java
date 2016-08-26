@@ -10,7 +10,6 @@ import com.jude.utils.JUtils;
 import com.nostra13.universalimageloader.core.ImageLoader;
 import com.nostra13.universalimageloader.core.ImageLoaderConfiguration;
 
-import im.fir.sdk.FIR;
 import moe.haruue.goodhabits.data.database.task.TaskDataBase;
 import moe.haruue.goodhabits.util.ResourcesLoader;
 
@@ -32,8 +31,6 @@ public class App extends Application {
         registerActivityLifecycleCallbacks(JActivityManager.getActivityLifecycleCallbacks());
         // ResourceLoader
         ResourcesLoader.initialize(this);
-        // BugHD
-        FIR.init(this);
         // LeanCloud
         AVOSCloud.initialize(this, "OLR6WcgAdRG09PKf2dnkN4ab-gzGzoHsz", "IxmvxbCw28dGnQNpbLFQsjHt");
         // Universal-Image-Loader
