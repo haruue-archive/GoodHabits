@@ -56,6 +56,7 @@ public class SquarePresenter implements SquareContract.Presenter {
         arrayList.add(plan3);
         callback.onSuccess(arrayList);
     }*/
+    
     @Override
     public void getPlans(SquareContract.Callback callback) {
         Observable.just(Plan.newEmptyPlanWithPlanId(""))
@@ -80,11 +81,6 @@ public class SquarePresenter implements SquareContract.Presenter {
                         callback.onSuccess(plen);
                     }
                 });
-    }
-
-    @Override
-    public int getNowPlanId() {
-        return 0;
     }
 
     public static void writeDebugPlan() {

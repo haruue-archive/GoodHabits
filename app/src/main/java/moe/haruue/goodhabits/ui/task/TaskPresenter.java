@@ -166,6 +166,11 @@ public class TaskPresenter implements TaskContract.Presenter {
                 });
     }
 
+    @Override
+    public boolean isRead(int hashCode) {
+        return false;
+    }
+
     /**
      * 找出 c1 - c2 即 c1 中 c2 没有的部分
      * @param c1 被减集合

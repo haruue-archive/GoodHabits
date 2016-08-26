@@ -35,5 +35,7 @@ public class TaskContract {
 
         void saveNote(int id,String note);
 
+        boolean isRead(int hashCode);
+
     }
 }

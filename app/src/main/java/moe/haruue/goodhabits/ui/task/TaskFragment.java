@@ -1,6 +1,8 @@
 package moe.haruue.goodhabits.ui.task;
 
 import android.animation.ObjectAnimator;
+import android.content.Intent;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
@@ -17,6 +19,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -28,6 +32,7 @@ import moe.haruue.goodhabits.R;
 import moe.haruue.goodhabits.model.Task;
 import moe.haruue.goodhabits.ui.BaseFragment;
 import moe.haruue.goodhabits.ui.calendar.TaskFinishEvent;
+import moe.haruue.goodhabits.ui.taskdetail.TaskDetailActivity;
 import moe.haruue.goodhabits.ui.widget.NavigationBarMarginView;
 
 /**
@@ -41,6 +46,10 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
 
     @BindView(R.id.rv_tasks)
     RecyclerView mRvTasks;
+    @BindView(R.id.tv_message)
+    TextView mTvMessage;
+    @BindView(R.id.cv_message)
+    CardView mCvMessage;
     //@BindView(R.id.srw_tasks)
     //SwipeRefreshLayout mSrwTasks;
     private TaskContract.Presenter mPresenter;
@@ -49,11 +58,17 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
     private TaskAdapter mAdapter;
 
     public static final String TAG = "TaskFragment";
+    public static final String EXTRA_CONTEXT = "task_fragment_context";
 
     @Override
     public void onResume() {
         super.onResume();
         mTasks = new ArrayList<>();
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUserEvent(MessageGoneEvent event) {
+        mCvMessage.setVisibility(View.GONE);
     }
 
     @Nullable
@@ -69,7 +84,15 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
     @Override
     public void onViewCreated(View view, @Nullable Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        EventBus.getDefault().register(this);
         init();
+
+        mCvMessage.setOnClickListener(view1 -> {
+            Intent intent = new Intent();
+            intent.putExtra(EXTRA_CONTEXT,"## text");
+            intent.setClass(getActivity(), TaskDetailActivity.class);
+            startActivity(intent);
+        });
     }
 
     private void init() {
@@ -100,6 +123,12 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
 
     public void saveNote(int id, String note) {
         mPresenter.saveNote(id, note);
+    }
+
+    @Override
+    public void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
     }
 
     @Override
@@ -187,7 +216,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
             } else {
                 ivTask.setImageResource(R.drawable.ic_custom);
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
-                String date = simpleDateFormat.format(task.startTime*1000);
+                String date = simpleDateFormat.format(task.startTime * 1000);
                 tvHint.setText(date);
             }
 
@@ -221,7 +250,6 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
             }
 
 
-
             if (task.id == latelyTaskId) {
                 animationUp(cardView);
                 ivTask.setImageResource(R.drawable.ic_todo);
@@ -250,7 +278,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
 
         private void animationUp(View view) {
             int nowZ = 0;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 nowZ = (int) view.getElevation();
             }
             float afterZ = 0;
@@ -270,7 +298,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
 
         private void animationDown(View view) {
             float nowZ = 0;
-            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.LOLLIPOP) {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 nowZ = view.getElevation();
             }
             view.invalidate();

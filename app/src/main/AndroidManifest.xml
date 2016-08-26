@@ -52,6 +52,15 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="moe.haruue.goodhabits.ui.main.MainActivity"/>
         </activity>
+        <activity
+            android:name=".ui.taskdetail.TaskDetailActivity"
+            android:label="爱的指引"
+            android:parentActivityName=".ui.main.MainActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="moe.haruue.goodhabits.ui.main.MainActivity"/>
+        </activity>
     </application>
 
 </manifest>
