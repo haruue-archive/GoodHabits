@@ -52,15 +52,18 @@ public class TaskDetailActivity extends AppCompatActivity implements TaskDetailC
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
 
+        Intent intent = getIntent();
+        String context = intent.getStringExtra(TaskFragment.EXTRA_CONTEXT);
+        RichText.fromMarkdown(context).into(mTvContext);
+
         mFab.setOnClickListener(view -> {
+            mPresenter.saveIsRead(context.hashCode());
             EventBus.getDefault().post(new MessageGoneEvent());
             finish();
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
 
-        Intent intent = getIntent();
-        String context = intent.getStringExtra(TaskFragment.EXTRA_CONTEXT);
-        RichText.fromMarkdown(context).into(mTvContext);
+
     }
 
     @Override

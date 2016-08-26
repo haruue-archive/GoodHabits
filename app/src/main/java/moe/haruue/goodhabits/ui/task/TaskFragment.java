@@ -33,6 +33,7 @@ import moe.haruue.goodhabits.R;
 import moe.haruue.goodhabits.model.Task;
 import moe.haruue.goodhabits.ui.BaseFragment;
 import moe.haruue.goodhabits.ui.calendar.TaskFinishEvent;
+import moe.haruue.goodhabits.ui.settings.CourseReloadedEvent;
 import moe.haruue.goodhabits.ui.taskdetail.TaskDetailActivity;
 import moe.haruue.goodhabits.ui.widget.NavigationBarMarginView;
 import moe.haruue.goodhabits.util.ResourceUtils;
@@ -60,11 +61,13 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
     private ArrayList<Task> mTasks;
     private RecyclerView.LayoutManager mLayoutManager;
     private TaskAdapter mAdapter;
+    private String mContext;
 
     private void tipsCardControl(String context) {
-        mCvMessage.setVisibility(View.GONE);
         if (!mPresenter.isRead(context.hashCode())) {
+            Log.d(TAG, "tipsCardControl: " + !mPresenter.isRead(context.hashCode()));
             mCvMessage.setOnClickListener(view1 -> {
+                mContext = context;
                 Intent intent = new Intent();
                 intent.putExtra(EXTRA_CONTEXT, context);
                 intent.setClass(getActivity(), TaskDetailActivity.class);
@@ -74,6 +77,10 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
         }
     }
 
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUserEvent(CourseReloadedEvent event) {
+        mPresenter.getTodayTasks();
+    }
     @Override
     public void onResume() {
         super.onResume();
@@ -82,8 +89,8 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUserEvent(MessageGoneEvent event) {
-        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mCvMessage, "scaleY", 1f, 0, 1f);
-        objectAnimator.setDuration(500).start();
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mCvMessage, "alpha", 1f, 0f);
+        objectAnimator.setDuration(1000).start();
         objectAnimator.addListener(new Animator.AnimatorListener() {
             @Override
             public void onAnimationStart(Animator animator) {
