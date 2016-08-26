@@ -18,6 +18,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import moe.haruue.goodhabits.R;
 import moe.haruue.goodhabits.ui.main.MainActivity;
+import moe.haruue.goodhabits.ui.square.SquarePresenter;
 
 public class LoginActivity extends AppCompatActivity implements LoginContract.View {
 
@@ -54,6 +55,8 @@ public class LoginActivity extends AppCompatActivity implements LoginContract.Vi
         setContentView(R.layout.activity_login);
         ButterKnife.bind(this);
         mLoginSubmit.setIndeterminateProgressMode(true);
+        // TODO: 2016/8/26 check there
+        SquarePresenter.writeDebugPlan();
         new LoginPresenter(this);
     }
 

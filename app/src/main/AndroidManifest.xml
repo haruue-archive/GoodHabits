@@ -45,7 +45,7 @@
             android:theme="@style/Transparent"/>
         <activity
             android:name=".ui.goaldetail.GoalDetailActivity"
-            android:label="@string/title_activity_goal_detail"
+            android:label="任务清单"
             android:parentActivityName=".ui.main.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
             <meta-data
