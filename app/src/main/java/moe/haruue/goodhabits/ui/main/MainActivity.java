@@ -19,8 +19,14 @@ import android.view.ViewTreeObserver;
 
 import com.jude.utils.JUtils;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import moe.haruue.goodhabits.R;
 import moe.haruue.goodhabits.ui.BaseActivity;
+import moe.haruue.goodhabits.ui.login.LoginActivity;
+import moe.haruue.goodhabits.ui.settings.LogoutEvent;
 import moe.haruue.goodhabits.ui.settings.SettingsActivity;
 import moe.haruue.goodhabits.util.BitmapUtils;
 
@@ -38,6 +44,7 @@ public class MainActivity extends BaseActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         JUtils.Log("MainActivity#onCreate()");
+        EventBus.getDefault().register(this);
         setContentView(R.layout.activity_main);
         initializeDrawerLayout();
         initializeNavigationView();
@@ -118,6 +125,18 @@ public class MainActivity extends BaseActivity {
             }
             return true;
         }
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
+        EventBus.getDefault().unregister(this);
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onLogoutEvent(LogoutEvent event) {
+        finish();
+        LoginActivity.start(this);
     }
 
     public static void start(Context context) {

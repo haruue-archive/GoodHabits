@@ -10,6 +10,7 @@ import java.util.List;
 
 import moe.haruue.goodhabits.config.Const;
 import moe.haruue.goodhabits.data.CurrentUser;
+import moe.haruue.goodhabits.data.database.task.func.DeleteAllTasksOperateFunc;
 import moe.haruue.goodhabits.data.database.task.func.DeleteTasksByTaskTypeOperateFunc;
 import moe.haruue.goodhabits.model.Task;
 import moe.haruue.goodhabits.network.RequestManager;
@@ -82,6 +83,35 @@ public class SettingsPresenter implements SettingsContract.Presenter {
             CurrentUser.getInstance().setStuNum(stuNum);
             RequestManager.getInstance().reloadFullSchoolCourseAndStorageAsTask(subscriber, stuNum, "0");
         }
+    }
+
+    @Override
+    public void doLogout() {
+        CurrentUser.getInstance().logout();
+        List<Task> tempList = new ArrayList<>(0);
+        tempList.add(Task.newEmptyTaskWithId(0));
+        Observable.just(tempList)
+                .map(new DeleteAllTasksOperateFunc())
+                .subscribeOn(Schedulers.io())
+                .unsubscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(new Subscriber<List<Task>>() {
+                    @Override
+                    public void onCompleted() {
+                        EventBus.getDefault().post(new LogoutEvent());
+                    }
+
+                    @Override
+                    public void onError(Throwable e) {
+                        Log.e("SettingsPresenter", "doLogout", e);
+                        EventBus.getDefault().post(new LogoutEvent());
+                    }
+
+                    @Override
+                    public void onNext(List<Task> tasks) {
+
+                    }
+                });
     }
 
 }

@@ -17,4 +17,13 @@
 
     </PreferenceCategory>
 
+    <PreferenceCategory
+        android:title="@string/account">
+
+        <Preference
+            android:title="@string/logout"
+            android:key="@string/key_logout"/>
+
+    </PreferenceCategory>
+
 </PreferenceScreen>

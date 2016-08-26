@@ -24,6 +24,7 @@ public class SettingsFragment extends android.preference.PreferenceFragment {
 
     Preference reloadSchoolCoursePreference;
     EditTextPreference stuNumPreference;
+    Preference logoutPreference;
 
     SettingsContract.Presenter presenter;
 
@@ -41,6 +42,8 @@ public class SettingsFragment extends android.preference.PreferenceFragment {
         reloadSchoolCoursePreference = $(R.string.key_reload_school_course);
         stuNumPreference = $(R.string.key_stu_num);
         stuNumPreference.setDefaultValue(StandardUtils.checkNullWithDefaultValue(CurrentUser.getInstance().getStuNum(), ""));
+        logoutPreference = $(getString(R.string.key_logout));
+        logoutPreference.setOnPreferenceClickListener(listener);
     }
 
     private void refreshPreferenceEnableState() {
@@ -67,7 +70,7 @@ public class SettingsFragment extends android.preference.PreferenceFragment {
         getPreferenceScreen().getSharedPreferences().unregisterOnSharedPreferenceChangeListener(listener);
     }
 
-    class Listener implements SharedPreferences.OnSharedPreferenceChangeListener, SettingsContract.View {
+    class Listener implements SharedPreferences.OnSharedPreferenceChangeListener, SettingsContract.View, Preference.OnPreferenceClickListener {
 
         @Override
         public void onSharedPreferenceChanged(SharedPreferences sharedPreferences, String s) {
@@ -123,6 +126,29 @@ public class SettingsFragment extends android.preference.PreferenceFragment {
             JUtils.Toast(getString(R.string.failure));
             refreshPreferenceEnableState();
             refreshPreferenceSummary();
+        }
+
+        @Override
+        public boolean onPreferenceClick(Preference preference) {
+            if (getString(R.string.key_logout).equals(preference.getKey())) {
+                showLogoutConfirmDialog();
+                return true;
+            }
+            return false;
+        }
+
+        private void showLogoutConfirmDialog() {
+            new AlertDialog.Builder(getActivity())
+                    .setTitle(getString(R.string.logout))
+                    .setMessage(R.string.tip_confirm_logout)
+                    .setCancelable(true)
+                    .setPositiveButton(R.string.ok, (dialog, which) -> {
+                        dialog.dismiss();
+                        getActivity().finish();
+                        presenter.doLogout();
+                    })
+                    .setNegativeButton(R.string.cancel, (dialog, which) -> dialog.cancel())
+                    .create().show();
         }
     }
 

@@ -4,6 +4,7 @@ import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.GregorianCalendar;
 import java.util.HashSet;
 import java.util.List;
@@ -62,6 +63,7 @@ public class TaskPresenter implements TaskContract.Presenter {
 
                     @Override
                     public void onNext(List<Task> tasks) {
+                        Collections.sort(tasks);
                         TaskPresenter.this.tasks.addAll(tasks);
                         mView.onGetTodayTasks(new ArrayList<>(tasks), true);
                     }
