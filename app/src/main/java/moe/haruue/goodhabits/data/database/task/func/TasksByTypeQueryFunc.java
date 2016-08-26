@@ -7,7 +7,7 @@ import moe.haruue.goodhabits.model.Task;
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */
 
-public class TaskByTypeQueryFunc extends BaseTasksQueryFunc {
+public class TasksByTypeQueryFunc extends BaseTasksQueryFunc {
     @Override
     protected String querySql() {
         return "SELECT * FROM " + TaskDataBase.TASK_TABLE_NAME + " WHERE " + TaskDataBase.COLUMN_NAME_TYPE + "=?";

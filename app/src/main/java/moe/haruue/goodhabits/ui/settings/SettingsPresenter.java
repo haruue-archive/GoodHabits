@@ -3,6 +3,8 @@ package moe.haruue.goodhabits.ui.settings;
 import android.app.ProgressDialog;
 import android.util.Log;
 
+import org.greenrobot.eventbus.EventBus;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -49,6 +51,7 @@ public class SettingsPresenter implements SettingsContract.Presenter {
         Subscriber<List<Task>> subscriber = new Subscriber<List<Task>>() {
             @Override
             public void onCompleted() {
+                EventBus.getDefault().post(new CourseReloadedEvent());
                 view.onReLoadSchoolCourseSuccess(dialog);
             }
 

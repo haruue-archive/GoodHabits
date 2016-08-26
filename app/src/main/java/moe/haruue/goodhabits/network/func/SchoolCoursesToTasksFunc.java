@@ -46,7 +46,7 @@ public class SchoolCoursesToTasksFunc implements Func1<List<SchoolCourse>, List<
         task.startTime = timeStampSchoolCourseStart(week, course.hash_day, course.begin_lesson) + 86400;
         task.endTime = timeStampSchoolCourseEnd(task.startTime);
         task.plan = Const.TASK_TYPE_SCHOOL_COURSE;
-        task.isFinish = task.endTime < TimeUtils.getTimeStampOf(new GregorianCalendar());
+        task.isFinish = task.endTime < TimeUtils.getTimeStampOf(TimeUtils.getDayStartOf(new GregorianCalendar()));
         return task;
     }
 

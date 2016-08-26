@@ -9,7 +9,7 @@ import java.util.HashMap;
 import java.util.List;
 
 import moe.haruue.goodhabits.config.Const;
-import moe.haruue.goodhabits.data.database.task.func.TaskByTypeQueryFunc;
+import moe.haruue.goodhabits.data.FirstTime;
 import moe.haruue.goodhabits.data.database.task.func.TasksByTimeQueryFunc;
 import moe.haruue.goodhabits.model.Task;
 import moe.haruue.goodhabits.util.TimeUtils;
@@ -39,7 +39,8 @@ public class CalendarPresneter implements CalendarContract.Presenter {
 
     @Override
     public void getFinishedPer(CalendarContract.Callback callback) {
-        Observable.just(Task.newEmptyTaskWithStartTimeAndEndTime(0, TimeUtils.getTimeStampOf(new GregorianCalendar())))
+        Observable.just(Task.newEmptyTaskWithStartTimeAndEndTime(TimeUtils.timeStampToDayStart(FirstTime.getFirstTimeLoginTimeStamp()),
+                                                                 TimeUtils.getTimeStampOf(new GregorianCalendar())))
                 .map(new TasksByTimeQueryFunc())
                 .map(tasks -> {
                     int finishedTastCount = 0;
@@ -94,7 +95,7 @@ public class CalendarPresneter implements CalendarContract.Presenter {
                         long endTimeStamp = startTimeStamp + 86400;
                         List<Task> tasksInDay = new TasksByTimeQueryFunc().call(Task.newEmptyTaskWithStartTimeAndEndTime(startTimeStamp, endTimeStamp));
                         boolean isFinishDay = true;
-                        if (tasksInDay.isEmpty()) {
+                        if (tasksInDay.isEmpty() || TimeUtils.getTimeStampOf(d) < TimeUtils.timeStampToDayStart(FirstTime.getFirstTimeLoginTimeStamp())) {
                             isFinishDay = false;
                         } else {
                             for (Task t : tasksInDay) {
@@ -132,16 +133,19 @@ public class CalendarPresneter implements CalendarContract.Presenter {
 
     @Override
     public void getSkipPer(CalendarContract.Callback callback) {
-        Observable.just(Task.newEmptyTaskWithType(Const.TASK_TYPE_SCHOOL_COURSE))
-                .map(new TaskByTypeQueryFunc())
+        Observable.just(Task.newEmptyTaskWithStartTimeAndEndTime(TimeUtils.timeStampToDayStart(FirstTime.getFirstTimeLoginTimeStamp()),
+                                                                 TimeUtils.getTimeStampOf(new GregorianCalendar())))
+                .map(new TasksByTimeQueryFunc())
                 .map(new Func1<List<Task>, Integer>() {
                     @Override
                     public Integer call(List<Task> tasks) {
                         int courseCount = 0, skipedCourseCount = 0;
                         for (Task t: tasks) {
-                            courseCount++;
-                            if (!t.isFinish) {
-                                skipedCourseCount++;
+                            if (Const.TASK_TYPE_SCHOOL_COURSE.equals(t.type)) {
+                                courseCount++;
+                                if (!t.isFinish) {
+                                    skipedCourseCount++;
+                                }
                             }
                         }
                         if (courseCount == 0) {
