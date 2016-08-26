@@ -5,7 +5,6 @@ import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
-import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
@@ -16,12 +15,11 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
-import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import moe.haruue.goodhabits.R;
-import moe.haruue.goodhabits.model.Step;
+import moe.haruue.goodhabits.model.BaseStep;
 import moe.haruue.goodhabits.ui.square.SquareFragment;
 
 public class GoalDetailActivity extends AppCompatActivity implements GoalDetailContract.View {
@@ -32,8 +30,12 @@ public class GoalDetailActivity extends AppCompatActivity implements GoalDetailC
     RelativeLayout mRlSquare;
     @BindView(R.id.cv_goal)
     CardView mCvGoal;
-    @BindView(R.id.rv_goal_detail)
-    RecyclerView mRvGoalDetail;
+    //@BindView(R.id.rv_goal_detail)
+    //RecyclerView mRvGoalDetail;
+    @BindView(R.id.toolbar)
+    Toolbar mToolbar;
+    @BindView(R.id.fab_detail)
+    FloatingActionButton mFabDetail;
     private GoalDetailContract.Presenter mPresenter;
 
     public static final String TAG = "GoalDetailActivity";
@@ -49,31 +51,38 @@ public class GoalDetailActivity extends AppCompatActivity implements GoalDetailC
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal_detail);
         ButterKnife.bind(this);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
+        setSupportActionBar(mToolbar);
 
-        Intent intent = new Intent();
+        Intent intent = getIntent();
         String id = intent.getStringExtra(SquareFragment.EXTRA_PLAN_ID);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab_detail);
-        fab.setOnClickListener(view -> mPresenter.saveThePlan(id));
-        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+        mFabDetail.setOnClickListener(view -> {
+            mPresenter.saveThePlan(id);
+            Log.d(TAG, "onCreate: " + id);
+            finish();
+        });
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
         new GoalDetailPresenter(this);
 
-        mRvGoalDetail.setLayoutManager(new LinearLayoutManager(this));
+        // mRvGoalDetail.setLayoutManager(new LinearLayoutManager(this));
 
-        mPresenter.getSteps(id, new GoalDetailContract.Callback() {
+/*        mPresenter.getSteps(id, new GoalDetailContract.Callback() {
             @Override
-            public void onFinish(List<Step> mSteps) {
-                mRvGoalDetail.setAdapter(new MyAdapter((ArrayList<Step>) mSteps));
+            public void onFinish(List<BaseStep> mSteps) {
+                mRvGoalDetail.setAdapter(new MyAdapter((ArrayList<BaseStep>) mSteps));
+                Log.d(TAG, "onFinish: " + mSteps.size());
+                for (BaseStep b :
+                        mSteps) {
+                    Log.d(TAG, "onFinish: "+b.title);
+                }
             }
 
             @Override
             public void onError(String error) {
-                Log.d(TAG, "onError: " + error);
+
             }
-        });
+        });*/
     }
 
     @Override
@@ -83,9 +92,9 @@ public class GoalDetailActivity extends AppCompatActivity implements GoalDetailC
 
     class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder> {
 
-        private ArrayList<Step> mSteps;
+        private ArrayList<BaseStep> mSteps;
 
-        public MyAdapter(ArrayList<Step> steps) {
+        public MyAdapter(ArrayList<BaseStep> steps) {
             mSteps = steps;
         }
 
@@ -98,7 +107,7 @@ public class GoalDetailActivity extends AppCompatActivity implements GoalDetailC
 
         @Override
         public void onBindViewHolder(ViewHolder holder, int position) {
-            Step step = mSteps.get(position);
+            BaseStep step = mSteps.get(position);
             TextView textView = holder.mTvItemGoalDetail;
             textView.setText(step.title);
         }

@@ -9,6 +9,7 @@ import android.support.v4.app.ActivityOptionsCompat;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -57,6 +58,7 @@ public class SquareFragment extends BaseFragment implements SquareContract.View 
             @Override
             public void onSuccess(List<Plan> plans) {
                 mRvSquare.setAdapter(new MyAdapter((ArrayList<Plan>) plans));
+                Log.d(TAG, "onSuccess: " + plans.size());
             }
 
             @Override
@@ -119,10 +121,11 @@ public class SquareFragment extends BaseFragment implements SquareContract.View 
                 Intent intent = new Intent();
                 intent.setClass(getActivity(), GoalDetailActivity.class);
                 intent.putExtra(EXTRA_PLAN_ID, plan.planId);
+                Log.d(TAG, "onBindViewHolder: ID:" + plan.planId);
                 ActivityOptionsCompat optionsCompat =
                         ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
                                 cv.findViewById(R.id.cv_goal), "goal_card");
-                ActivityCompat.startActivity(getActivity(),intent,optionsCompat.toBundle());
+                ActivityCompat.startActivity(getActivity(), intent, optionsCompat.toBundle());
             });
         }
 
