@@ -16,6 +16,7 @@ import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewTreeObserver;
+import android.widget.TextView;
 
 import com.jude.utils.JUtils;
 
@@ -24,6 +25,7 @@ import org.greenrobot.eventbus.Subscribe;
 import org.greenrobot.eventbus.ThreadMode;
 
 import moe.haruue.goodhabits.R;
+import moe.haruue.goodhabits.data.CurrentUser;
 import moe.haruue.goodhabits.ui.BaseActivity;
 import moe.haruue.goodhabits.ui.login.LoginActivity;
 import moe.haruue.goodhabits.ui.settings.LogoutEvent;
@@ -60,6 +62,8 @@ public class MainActivity extends BaseActivity {
         navigationView = $(R.id.navigation_view);
         navigationView.setCheckedItem(R.id.item_main_page);
         navigationView.setNavigationItemSelectedListener(listener);
+        TextView usernameTextView = (TextView) navigationView.getHeaderView(0).findViewById(R.id.navigation_tv_username);
+        usernameTextView.setText(CurrentUser.getInstance().getUserName());
     }
 
     private void initializeToolbar() {

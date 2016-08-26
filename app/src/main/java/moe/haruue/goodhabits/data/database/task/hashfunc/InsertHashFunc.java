@@ -1,6 +1,7 @@
 package moe.haruue.goodhabits.data.database.task.hashfunc;
 
 import android.content.ContentValues;
+import android.util.Log;
 
 import com.squareup.sqlbrite.BriteDatabase;
 
