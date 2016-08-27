@@ -18,6 +18,7 @@ public class AlarmReceiver extends BroadcastReceiver {
 
     @Override
     public void onReceive(Context context, Intent intent) {
+        //需要List<Task> mTasks
         if (intent.getAction().equals("android.intent.action.BOOT_COMPLETED")) {
             /*mAlarmManager = (AlarmManager) context.getSystemService(Context.ALARM_SERVICE);
             Intent intent1 = new Intent(context, PushReceiver.class);
