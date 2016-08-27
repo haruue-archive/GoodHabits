@@ -32,7 +32,8 @@ public enum CurrentUser {
     }
 
     public boolean getIsCQUPT() {
-        return AVUser.getCurrentUser().get("school").equals("CQUPT");
+        String school = (String) AVUser.getCurrentUser().get("school");
+        return school != null && AVUser.getCurrentUser().get("school").equals("CQUPT");
     }
 
     public void setStuNum(String stuNum) {

@@ -63,8 +63,10 @@ public class MainActivity extends BaseActivity {
         navigationView = $(R.id.navigation_view);
         navigationView.setCheckedItem(R.id.item_main_page);
         navigationView.setNavigationItemSelectedListener(listener);
-        TextView usernameTextView = (TextView) navigationView.getHeaderView(0).findViewById(R.id.navigation_tv_username);
+        View navigattionHeader = navigationView.getHeaderView(0);
+        TextView usernameTextView = (TextView) navigattionHeader.findViewById(R.id.navigation_tv_username);
         usernameTextView.setText(CurrentUser.getInstance().getUserName());
+        navigattionHeader.setOnClickListener(v -> SettingsActivity.start(MainActivity.this));
     }
 
     private void initializeToolbar() {
