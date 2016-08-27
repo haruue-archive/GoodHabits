@@ -45,34 +45,28 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.MyHold
     @Override
     public void onBindViewHolder(MyHolder holder, int position) {
         CalendarTextView tv = holder.mCalendarTextView;
+        tv.setTextColor(mContext.getResources().getColor(R.color.material_color_white));
         switch (position) {
             case 0:
                 tv.setText("日");
-                tv.setTextColor(mContext.getResources().getColor(R.color.material_color_black));
                 break;
             case 1:
                 tv.setText("一");
-                tv.setTextColor(mContext.getResources().getColor(R.color.material_color_black));
                 break;
             case 2:
                 tv.setText("二");
-                tv.setTextColor(mContext.getResources().getColor(R.color.material_color_black));
                 break;
             case 3:
                 tv.setText("三");
-                tv.setTextColor(mContext.getResources().getColor(R.color.material_color_black));
                 break;
             case 4:
                 tv.setText("四");
-                tv.setTextColor(mContext.getResources().getColor(R.color.material_color_black));
                 break;
             case 5:
                 tv.setText("五");
-                tv.setTextColor(mContext.getResources().getColor(R.color.material_color_black));
                 break;
             case 6:
                 tv.setText("六");
-                tv.setTextColor(mContext.getResources().getColor(R.color.material_color_black));
                 break;
         }
         if (mHashMap != null) {

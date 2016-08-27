@@ -18,6 +18,7 @@
             card_view:cardElevation="6dp">
 
             <RelativeLayout
+                android:background="@color/material_color_blue_600"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent">
 
@@ -26,7 +27,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
                     android:gravity="center_vertical"
-                    android:background="@color/material_color_pink_600"
                     android:paddingLeft="16dp"
                     android:textColor="@color/material_color_white"
                     android:textSize="18sp"/>

@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    android:orientation="vertical"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    app:layout_behavior="@string/appbar_scrolling_view_behavior"
+    tools:context="moe.haruue.goodhabits.ui.about.AboutActivity"
+    tools:showIn="@layout/activity_about">
+    <ImageView
+        android:layout_margin="16dp"
+        android:paddingTop="@dimen/activity_vertical_margin"
+        android:src="@drawable/bg_about"
+        android:layout_width="match_parent"
+        android:layout_height="120dp"/>
+    <TextView
+        android:layout_margin="16dp"
+        android:id="@+id/tv_about"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"/>
+
+</LinearLayout>

@@ -4,7 +4,6 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.BitmapDrawable;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.AppBarLayout;
@@ -28,6 +27,7 @@ import org.greenrobot.eventbus.ThreadMode;
 import moe.haruue.goodhabits.R;
 import moe.haruue.goodhabits.data.CurrentUser;
 import moe.haruue.goodhabits.ui.BaseActivity;
+import moe.haruue.goodhabits.ui.about.AboutActivity;
 import moe.haruue.goodhabits.ui.login.LoginActivity;
 import moe.haruue.goodhabits.ui.settings.LogoutEvent;
 import moe.haruue.goodhabits.ui.settings.SettingsActivity;
@@ -130,8 +130,8 @@ public class MainActivity extends BaseActivity {
                     SettingsActivity.start(MainActivity.this);
                     break;
                 case R.id.item_about:
-                    Intent intent = new Intent(Intent.ACTION_VIEW);
-                    intent.setData(Uri.parse("https://github.com/haruue/GoodHabits"));
+                    Intent intent = new Intent();
+                    intent.setClass(MainActivity.this, AboutActivity.class);
                     startActivity(intent);
             }
             return true;

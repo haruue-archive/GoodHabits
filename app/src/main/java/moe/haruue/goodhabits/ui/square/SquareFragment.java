@@ -19,6 +19,10 @@ import android.widget.TextView;
 
 import com.jude.utils.JUtils;
 
+import org.greenrobot.eventbus.EventBus;
+import org.greenrobot.eventbus.Subscribe;
+import org.greenrobot.eventbus.ThreadMode;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,6 +31,7 @@ import butterknife.ButterKnife;
 import moe.haruue.goodhabits.R;
 import moe.haruue.goodhabits.model.Plan;
 import moe.haruue.goodhabits.ui.BaseFragment;
+import moe.haruue.goodhabits.ui.goaldetail.GoalChooseEvent;
 import moe.haruue.goodhabits.ui.goaldetail.GoalDetailActivity;
 
 /**
@@ -41,6 +46,8 @@ public class SquareFragment extends BaseFragment implements SquareContract.View 
     @BindView(R.id.rv_square)
     RecyclerView mRvSquare;
     private SquareContract.Presenter mPresenter;
+    private MyAdapter mMyAdapter;
+    private ArrayList<Plan> mPlen;
 
     public static final String TAG = "SquareFragment";
     public static final String EXTRA_PLAN_ID = "square_adapter_intent";
@@ -50,7 +57,14 @@ public class SquareFragment extends BaseFragment implements SquareContract.View 
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fragment_square, container, false);
         ButterKnife.bind(this, view);
+        EventBus.getDefault().register(this);
         return view;
+    }
+
+    @Subscribe(threadMode = ThreadMode.MAIN)
+    public void onUserEvent(GoalChooseEvent event) {
+        mPlen.get(0).isDoing = true;
+        mMyAdapter.notifyItemChanged(0);
     }
 
     @Override
@@ -60,8 +74,9 @@ public class SquareFragment extends BaseFragment implements SquareContract.View 
         mPresenter.getPlans(new SquareContract.Callback() {
             @Override
             public void onSuccess(List<Plan> plans) {
-                mRvSquare.setAdapter(new MyAdapter((ArrayList<Plan>) plans));
-                Log.d(TAG, "onSuccess: " + plans.size());
+                mPlen = (ArrayList<Plan>) plans;
+                mMyAdapter = new MyAdapter(mPlen);
+                mRvSquare.setAdapter(mMyAdapter);
             }
 
             @Override
@@ -69,6 +84,10 @@ public class SquareFragment extends BaseFragment implements SquareContract.View 
 
             }
         });
+    }
+
+    private void settingRv(ArrayList<Plan> plen) {
+
     }
 
     @Override
@@ -141,6 +160,8 @@ public class SquareFragment extends BaseFragment implements SquareContract.View 
                 }
             });
         }
+
+
 
         @Override
         public int getItemCount() {

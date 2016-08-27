@@ -2,7 +2,7 @@
 <resources>
     <color name="colorPrimary">#ff007b</color>
     <color name="colorPrimaryDark">#ff007b</color>
-    <color name="colorAccent">#ff007b</color>
+    <color name="colorAccent">#d10165</color>
 
     <!-- material design colors -->
     <!-- see: https://www.google.com/design/spec/style/color.html#color-color-palette -->

@@ -102,7 +102,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
 
             @Override
             public void onAnimationCancel(Animator animator) {
-
+                mCvMessage.setVisibility(View.GONE);
             }
 
             @Override
@@ -127,7 +127,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
         super.onViewCreated(view, savedInstanceState);
         EventBus.getDefault().register(this);
         init();
-        String context = ResourceUtils.readStringFromRawResource(getResources(), R.raw.read_me);
+        String context = ResourceUtils.readStringFromRawResource(getResources(), R.raw.guide);
         tipsCardControl(context);
     }
 

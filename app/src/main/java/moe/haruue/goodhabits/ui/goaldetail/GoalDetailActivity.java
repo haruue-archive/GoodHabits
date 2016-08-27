@@ -7,12 +7,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
+import org.greenrobot.eventbus.EventBus;
 
 import java.util.ArrayList;
 
@@ -58,7 +59,7 @@ public class GoalDetailActivity extends AppCompatActivity implements GoalDetailC
 
         mFabDetail.setOnClickListener(view -> {
             mPresenter.saveThePlan(id);
-            Log.d(TAG, "onCreate: " + id);
+            EventBus.getDefault().post(new GoalChooseEvent());
             finish();
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);

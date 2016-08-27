@@ -26,9 +26,11 @@
                   android:title="@string/setting"
                   android:icon="@drawable/ic_settings_black_24dp"
                   android:checkable="false"
-                  app:showAsAction="always"/>
+                  app:showAsAction="ifRoom"/>
             <item android:id="@+id/item_about"
                   android:title="@string/about"
+                  app:showAsAction="ifRoom"
+                  android:icon="@drawable/ic_about"
                   android:checkable="false"/>
         </menu>
     </item>
