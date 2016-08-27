@@ -1,6 +1,6 @@
 ~~GoodHabits~~ Better
 ======================
-__本文是项目的 README ，关于 APP 的说明请阅读 simonla 写的 <big>[关于](ABOUT_APP.md)<big>__
+### 本文是项目的 README ，关于 APP 的说明请阅读 simonla 写的 [关于](ABOUT_APP.md)
 
 ## 概览
 这是一个帮助你规划生活，改掉坏习惯的 APP    
