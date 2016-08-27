@@ -43,6 +43,7 @@ public class MainActivity extends BaseActivity {
     private AppBarLayout appBarLayout;
     private NavigationView navigationView;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -53,7 +54,9 @@ public class MainActivity extends BaseActivity {
         initializeNavigationView();
         initializeToolbar();
         initializeTabLayout();
+
     }
+
 
     private void initializeDrawerLayout() {
         drawerLayout = $(R.id.drawer_layout);

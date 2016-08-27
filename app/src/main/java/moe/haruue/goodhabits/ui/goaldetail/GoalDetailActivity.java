@@ -53,22 +53,21 @@ public class GoalDetailActivity extends AppCompatActivity implements GoalDetailC
         setContentView(R.layout.activity_goal_detail);
         ButterKnife.bind(this);
         setSupportActionBar(mToolbar);
-
+        new GoalDetailPresenter(this);
         Intent intent = getIntent();
         String id = intent.getStringExtra(SquareFragment.EXTRA_PLAN_ID);
-
-        if (id.equals(mPresenter.getNowPlan())) {
-            mFabDetail.hide();
-        }
 
         mFabDetail.setOnClickListener(view -> {
             mPresenter.saveThePlan(id);
             EventBus.getDefault().post(new GoalChooseEvent());
             finish();
         });
+
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
-        new GoalDetailPresenter(this);
+        if (id.equals(mPresenter.getNowPlan())) {
+            mFabDetail.hide();
+        }
 
         // mRvGoalDetail.setLayoutManager(new LinearLayoutManager(this));
 
