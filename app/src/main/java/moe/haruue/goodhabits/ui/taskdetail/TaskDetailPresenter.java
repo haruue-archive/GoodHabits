@@ -2,7 +2,11 @@ package moe.haruue.goodhabits.ui.taskdetail;
 
 import android.util.Log;
 
+import java.util.List;
+
 import moe.haruue.goodhabits.data.database.task.hashfunc.InsertHashFunc;
+import moe.haruue.goodhabits.data.file.plan.func.GetAllPlanFunc;
+import moe.haruue.goodhabits.model.Plan;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
@@ -50,6 +54,17 @@ public class TaskDetailPresenter implements TaskDetailContract.Presenter {
 
                     }
                 });
+    }
+
+    @Override
+    public Plan getNowPlan() {
+        List<Plan> plen = new GetAllPlanFunc().call(null);
+        for (Plan p: plen) {
+            if (p.isDoing) {
+                return p;
+            }
+        }
+        return null;
     }
 
 }
