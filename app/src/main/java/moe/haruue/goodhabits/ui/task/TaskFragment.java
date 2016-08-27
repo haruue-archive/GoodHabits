@@ -2,9 +2,13 @@ package moe.haruue.goodhabits.ui.task;
 
 import android.animation.Animator;
 import android.animation.ObjectAnimator;
+import android.app.AlarmManager;
+import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.SystemClock;
 import android.support.annotation.Nullable;
 import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
@@ -29,6 +33,7 @@ import butterknife.BindView;
 import butterknife.ButterKnife;
 import moe.haruue.goodhabits.R;
 import moe.haruue.goodhabits.model.Task;
+import moe.haruue.goodhabits.receiver.PushReceiver;
 import moe.haruue.goodhabits.ui.BaseFragment;
 import moe.haruue.goodhabits.ui.calendar.TaskFinishEvent;
 import moe.haruue.goodhabits.ui.settings.CourseReloadedEvent;
@@ -47,6 +52,10 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
 
     public static final String TAG = "TaskFragment";
     public static final String EXTRA_CONTEXT = "task_fragment_context";
+    public static final String EXTRA_PUSH = "task_fragment_push";
+    public static final String EXTRA_LAST_TIME = "task_fragment_time";
+    public static final String EXTRA_PUSH_CONTEXT = "task_fragment_push_context";
+
     @BindView(R.id.rv_tasks)
     RecyclerView mRvTasks;
     @BindView(R.id.tv_message)
@@ -60,6 +69,10 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
     private RecyclerView.LayoutManager mLayoutManager;
     private TaskAdapter mAdapter;
     private String mContext;
+
+    private AlarmManager mAlarmManager;
+    private PendingIntent mPendingIntent;
+
 
     private void tipsCardControl(String context) {
         mCvMessage.setVisibility(View.GONE);
@@ -79,6 +92,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
     public void onUserEvent(CourseReloadedEvent event) {
         mPresenter.getTodayTasks();
     }
+
     @Override
     public void onResume() {
         super.onResume();
@@ -131,6 +145,30 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
         tipsCardControl(context);
     }
 
+    private void settingAlarm() {
+        mAlarmManager = (AlarmManager) getContext().getSystemService(Context.ALARM_SERVICE);
+        long nowTime = System.currentTimeMillis() / 1000;
+        long intervalTime = 1800;
+        for (int i = 0; i < mTasks.size(); i++) {
+            mPendingIntent = PendingIntent.getBroadcast(getContext(), 0, intentMaker().get(i), 0);
+            mAlarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
+                    SystemClock.elapsedRealtime()+mTasks.get(i).startTime-nowTime-intervalTime,mPendingIntent);
+        }
+    }
+
+    private ArrayList<Intent> intentMaker() {
+        ArrayList<Intent> mInatent = new ArrayList<>();
+        for (int i = 0; i < mTasks.size(); i++) {
+            Intent intent = new Intent(getContext(), PushReceiver.class);
+            intent.putExtra(EXTRA_PUSH, mTasks.get(i).title);
+            intent.putExtra(EXTRA_LAST_TIME, mTasks.get(i).startTime);
+            intent.putExtra(EXTRA_PUSH_CONTEXT, mTasks.get(i).content);
+            mInatent.add(intent);
+        }
+        return mInatent;
+    }
+
+
     private void init() {
         //mSrwTasks = new SwipeRefreshLayout(getContext());
         mLayoutManager = new LinearLayoutManager(getContext());
@@ -173,6 +211,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
             mTasks = tasks;
             mAdapter = new TaskAdapter(mTasks);
             mRvTasks.setAdapter(mAdapter);
+            settingAlarm();
         } else {
             Snackbar.make(mRvTasks, "遇到错误，设置里重置课程表试试", Snackbar.LENGTH_LONG).show();
         }
