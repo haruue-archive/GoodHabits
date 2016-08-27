@@ -57,6 +57,7 @@ public class GoalDetailActivity extends AppCompatActivity implements GoalDetailC
         Intent intent = getIntent();
         String id = intent.getStringExtra(SquareFragment.EXTRA_PLAN_ID);
 
+        new GoalDetailPresenter(this);
         if (id.equals(mPresenter.getNowPlan())) {
             mFabDetail.hide();
         }
@@ -68,7 +69,6 @@ public class GoalDetailActivity extends AppCompatActivity implements GoalDetailC
         });
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
 
-        new GoalDetailPresenter(this);
 
         // mRvGoalDetail.setLayoutManager(new LinearLayoutManager(this));
 
