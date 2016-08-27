@@ -56,15 +56,5 @@ public class TaskDetailPresenter implements TaskDetailContract.Presenter {
                 });
     }
 
-    @Override
-    public Plan getNowPlan() {
-        List<Plan> plen = new GetAllPlanFunc().call(null);
-        for (Plan p: plen) {
-            if (p.isDoing) {
-                return p;
-            }
-        }
-        return null;
-    }
 
 }

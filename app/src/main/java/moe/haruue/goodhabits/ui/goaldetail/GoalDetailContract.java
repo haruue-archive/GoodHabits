@@ -19,6 +19,8 @@ public class GoalDetailContract {
     interface Presenter extends BasePresenter {
         void getSteps(String planId, Callback callback);
 
+        String getNowPlan();
+
         void saveThePlan(String planId);
 
     }

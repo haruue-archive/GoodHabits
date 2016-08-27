@@ -15,7 +15,5 @@ public class TaskDetailContract {
 
     interface Presenter extends BasePresenter {
         void saveIsRead(int hashCode);
-
-        Plan getNowPlan();
     }
 }

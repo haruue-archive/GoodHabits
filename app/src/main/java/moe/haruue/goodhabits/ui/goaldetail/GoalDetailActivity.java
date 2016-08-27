@@ -57,6 +57,10 @@ public class GoalDetailActivity extends AppCompatActivity implements GoalDetailC
         Intent intent = getIntent();
         String id = intent.getStringExtra(SquareFragment.EXTRA_PLAN_ID);
 
+        if (id.equals(mPresenter.getNowPlan())) {
+            mFabDetail.hide();
+        }
+
         mFabDetail.setOnClickListener(view -> {
             mPresenter.saveThePlan(id);
             EventBus.getDefault().post(new GoalChooseEvent());

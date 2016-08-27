@@ -6,6 +6,7 @@ import java.util.GregorianCalendar;
 import java.util.List;
 
 import moe.haruue.goodhabits.data.database.task.func.InsertTasksOperateFunc;
+import moe.haruue.goodhabits.data.file.plan.func.GetAllPlanFunc;
 import moe.haruue.goodhabits.data.file.plan.func.GetPlanByPlanIdFunc;
 import moe.haruue.goodhabits.data.file.plan.func.StoragePlanFunc;
 import moe.haruue.goodhabits.data.func.PlanToTasksFunc;
@@ -97,4 +98,16 @@ public class GoalDetailPresenter implements GoalDetailContract.Presenter {
                 });
 
     }
+
+    @Override
+    public String getNowPlan() {
+        List<Plan> plen = new GetAllPlanFunc().call(null);
+        for (Plan p: plen) {
+            if (p.isDoing) {
+                return p.planId;
+            }
+        }
+        return "";
+    }
+
 }
