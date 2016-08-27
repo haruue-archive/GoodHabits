@@ -146,6 +146,4 @@ public class SquarePresenter implements SquareContract.Presenter {
         plan.planId = "better_absorbed";
         return plan;
     }
-
-
 }
