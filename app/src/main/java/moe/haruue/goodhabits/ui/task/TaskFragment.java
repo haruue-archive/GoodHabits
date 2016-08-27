@@ -10,7 +10,6 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -233,7 +232,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
             TextView tvClick = holder.mTvClick;
             ImageView ivTask = holder.mIvTask;
             CardView cardView = holder.mCardView;
-            RelativeLayout rvTask = holder.mRelativeLayout;
+            RelativeLayout rlTask = holder.mRelativeLayout;
             RelativeLayout rvNote = holder.mRvNote;
             TextView tvNoteSave = holder.mSave;
             EditText editText = holder.mEditText;
@@ -246,6 +245,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
 
             if (Objects.equals(task.type, "type_school_course")) {
                 ivTask.setImageResource(R.drawable.ic_task_1);
+                rlTask.setBackgroundColor(getResources().getColor(R.color.task));
                 tvHint.setText(task.content);
             } else {
                 ivTask.setImageResource(R.drawable.ic_custom);
@@ -262,6 +262,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
                 cardView.setCardElevation(FINISHED_Z);
                 tvClick.setClickable(false);
                 ivTask.setImageResource(R.drawable.ic_finish);
+                rlTask.setBackgroundColor(getResources().getColor(R.color.finish));
             } else {
                 tvClick.setText("未完成");
                 isFinish = false;
@@ -277,6 +278,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
                         finishTheTask(task.id);
                         tvClick.setText("已完成");
                         ivTask.setImageResource(R.drawable.ic_finish);
+                        rlTask.setBackgroundColor(getResources().getColor(R.color.finish));
                         animationDown(cardView);
                     } else {
                         notTimeToFinish();
@@ -288,6 +290,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
             if (task.id == latelyTaskId) {
                 animationUp(cardView);
                 ivTask.setImageResource(R.drawable.ic_todo);
+                rlTask.setBackgroundColor(getResources().getColor(R.color.goal_2));
             }
 
           /*  if (startTime - nowTime <= 7200) {
@@ -378,6 +381,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
                 mTvHint = (TextView) itemView.findViewById(R.id.tv_task_hint);
                 mTvClick = (TextView) itemView.findViewById(R.id.tv_task_finish);
                 mCardView = (CardView) itemView.findViewById(R.id.cv_task);
+                mRelativeLayout = (RelativeLayout) itemView.findViewById(R.id.rl_task);
                 //mRelativeLayout = (RelativeLayout) itemView.findViewById(R.id.rl_task);
                 //mRvNote = (RelativeLayout) itemView.findViewById(R.id.rl_task_note);
                 //mEditText = (EditText) itemView.findViewById(R.id.et_task_note);

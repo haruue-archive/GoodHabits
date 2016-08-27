@@ -17,30 +17,30 @@
             card_view:cardCornerRadius="2dp"
             card_view:cardElevation="6dp">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="match_parent">
 
                 <TextView
-                    android:layout_gravity="center_vertical"
                     android:id="@+id/tv_calendar_title"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:gravity="center_vertical"
                     android:background="@color/material_color_pink_600"
-                    android:padding="8dp"
+                    android:paddingLeft="16dp"
                     android:textColor="@color/material_color_white"
-                    android:textSize="20sp"/>
+                    android:textSize="18sp"/>
 
                 <android.support.v7.widget.RecyclerView
                     android:id="@+id/rv_calendar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_below="@id/tv_calendar_title"
                     android:paddingBottom="@dimen/activity_vertical_margin"
                     android:paddingLeft="@dimen/activity_horizontal_margin"
                     android:paddingRight="@dimen/activity_horizontal_margin"/>
 
-            </LinearLayout>
+            </RelativeLayout>
         </android.support.v7.widget.CardView>
 
         <android.support.v7.widget.CardView
@@ -50,31 +50,34 @@
             card_view:cardCornerRadius="2dp"
             card_view:cardElevation="6dp">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="match_parent">
 
                 <TextView
                     android:id="@+id/tv_pie_title"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
-                    android:background="@color/material_color_pink_600"
-                    android:padding="8dp"
-                    android:text="完成率"
                     android:layout_gravity="center_vertical"
+                    android:background="@color/material_color_pink_600"
+                    android:paddingLeft="16dp"
+                    android:text="完成率"
+                    android:gravity="center_vertical"
                     android:textColor="@color/material_color_white"
-                    android:textSize="20sp"/>
+                    android:textSize="18sp"/>
 
                 <moe.haruue.goodhabits.ui.calendar.PieView
                     android:id="@+id/pv_per_finish"
+                    android:layout_below="@id/tv_pie_title"
                     android:layout_width="200dp"
                     android:layout_height="200dp"
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:textColor="@color/material_color_black"
-                    android:textSize="36sp"/>
-            </LinearLayout>
+                    android:textSize="36sp"
+                    android:layout_alignParentBottom="true"
+                    android:layout_centerHorizontal="true"/>
+            </RelativeLayout>
 
         </android.support.v7.widget.CardView>
 
@@ -85,18 +88,17 @@
             card_view:cardCornerRadius="2dp"
             card_view:cardElevation="6dp">
 
-            <LinearLayout
+            <RelativeLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:orientation="vertical">
+                android:layout_height="match_parent">
 
                 <TextView
                     android:id="@+id/tv_pie_skip"
                     android:layout_width="match_parent"
                     android:layout_height="50dp"
+                    android:gravity="center_vertical"
+                    android:paddingLeft="16dp"
                     android:background="@color/material_color_pink_600"
-                    android:padding="8dp"
-                    android:layout_gravity="center_vertical"
                     android:text="逃课率"
                     android:textColor="@color/material_color_white"
                     android:textSize="20sp"/>
@@ -108,18 +110,22 @@
                     android:layout_gravity="center"
                     android:gravity="center"
                     android:textColor="@color/material_color_black"
-                    android:textSize="36sp"/>
+                    android:textSize="36sp"
+                    android:layout_below="@+id/tv_pie_skip"
+                    android:layout_centerHorizontal="true"/>
 
                 <TextView
                     android:id="@+id/tv_calendar_per_more_than"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:text="a"
+                    android:layout_below="@id/pv_per_skip"
                     android:layout_gravity="center"
                     android:layout_margin="16dp"
                     android:gravity="center_horizontal"
                     android:textColor="@color/material_color_black"
                     android:textSize="18sp"/>
-            </LinearLayout>
+            </RelativeLayout>
 
         </android.support.v7.widget.CardView>
 

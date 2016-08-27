@@ -15,7 +15,6 @@ import moe.haruue.goodhabits.util.TimeUtils;
 import rx.Observable;
 import rx.Subscriber;
 import rx.android.schedulers.AndroidSchedulers;
-import rx.functions.Func1;
 import rx.schedulers.Schedulers;
 
 /**
@@ -66,14 +65,11 @@ public class GoalDetailPresenter implements GoalDetailContract.Presenter {
     public void saveThePlan(String planId) {
         Observable.just(Plan.newEmptyPlanWithPlanId(planId))
                 .map(new GetPlanByPlanIdFunc())
-                .map(new Func1<Plan, Plan>() {
-                    @Override
-                    public Plan call(Plan plan) {
-                        plan.timeRangeStart = TimeUtils.getTimeStampOf(new GregorianCalendar());
-                        plan.timeRangeEnd = Long.MAX_VALUE;
-                        plan.isDoing = true;
-                        return plan;
-                    }
+                .map(plan -> {
+                    plan.timeRangeStart = TimeUtils.getTimeStampOf(new GregorianCalendar());
+                    plan.timeRangeEnd = Long.MAX_VALUE;
+                    plan.isDoing = true;
+                    return plan;
                 })
                 .map(new StoragePlanFunc(true))
                 .subscribeOn(Schedulers.io())
