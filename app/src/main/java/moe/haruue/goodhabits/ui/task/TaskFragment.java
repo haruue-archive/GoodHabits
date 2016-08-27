@@ -24,7 +24,6 @@ import org.greenrobot.eventbus.ThreadMode;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Objects;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
@@ -243,7 +242,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
 
             Task task = mTasks.get(holder.getAdapterPosition());
 
-            if (Objects.equals(task.type, "type_school_course")) {
+            if ("type_school_course".equals(task.type)) {
                 ivTask.setImageResource(R.drawable.ic_task_1);
                 rlTask.setBackgroundColor(getResources().getColor(R.color.task));
                 tvHint.setText(task.content);
