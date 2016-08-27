@@ -25,10 +25,10 @@ public class TaskPlanToTasksFunc implements Func1<TaskPlan, List<Task>> {
 
     @Override
     public List<Task> call(TaskPlan taskPlan) {
-        planStart = taskPlan.timeRangeStart;
-        planEnd = taskPlan.timeRangeEnd;
-        taskCreatorStart = taskPlan.timeRangeStart;
-        taskCreatorEnd = taskPlan.timeRangeEnd;
+        planStart = TimeUtils.timeStampToDayStart(taskPlan.timeRangeStart);
+        planEnd = TimeUtils.timeStampToDayStart(taskPlan.timeRangeEnd);
+        taskCreatorStart = TimeUtils.timeStampToDayStart(taskPlan.timeRangeStart);
+        taskCreatorEnd = TimeUtils.timeStampToDayStart(taskPlan.timeRangeEnd);
         planId = taskPlan.planId;
         List<Task> tasks = new ArrayList<>(0);
         for (TaskCreator c: taskPlan.taskCreators) {
