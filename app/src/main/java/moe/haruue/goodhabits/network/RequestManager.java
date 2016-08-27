@@ -58,9 +58,7 @@ public enum RequestManager {
 
     RequestManager() {
         retrofit = new Retrofit.Builder()
-                // TODO: change to true api before release
-//                .baseUrl(Const.REDROCK_BASE_URL)
-                .baseUrl(Const.HARUUE_API_BASE_URL)
+                .baseUrl(Const.REDROCK_BASE_URL)
                 .addConverterFactory(GsonConverterFactory.create())
                 .addCallAdapterFactory(RxJavaCallAdapterFactory.create())
                 .build();
