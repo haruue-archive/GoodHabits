@@ -26,12 +26,14 @@
 
 ## 下载
 
+<!--
 <a href='https://play.google.com/store/apps/details?id=moe.haruue.goodhabits&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='即刻获取 Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/zh-cn_badge_web_generic.png' width="215.33333333333333333333333333333" height="83.333333333333333333333333333333"/></a>
-
+-->
 [或点击此处直接下载 APK 安装包](app/app-release.apk?raw=true)
 
 ## 考核
 这个项目作为红岩移动开发部 Android 方向的最终考核。
++ 目前此考核已结束。
 
 ## License
 
