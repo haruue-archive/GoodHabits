@@ -140,7 +140,7 @@ public class CalendarFragment extends BaseFragment implements CalendarContract.V
                 calendar.get(GregorianCalendar.DAY_OF_MONTH) + "日");
 
         ArrayList<Boolean> arrayList = new ArrayList<>();
-        for (int i = 0; i < 42; i++) {
+        for (int i = 0; i < 49; i++) {
             if (i % 2 == 0) {
                 arrayList.add(i, true);
             } else {

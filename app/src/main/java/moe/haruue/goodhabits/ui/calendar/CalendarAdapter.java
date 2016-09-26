@@ -2,6 +2,7 @@ package moe.haruue.goodhabits.ui.calendar;
 
 import android.content.Context;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -22,18 +23,23 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.MyHold
     private ArrayList<Boolean> mBooleen;
     private Context mContext;
     private HashMap mHashMap;
+    private int[] mDate;
 
-    private int statrt;
-    private int end;
+    private int mStart;
+    private int mEnd;
 
     public static final String TAG = "MyAdapter";
 
     public CalendarAdapter(ArrayList<Boolean> boole, Context context, HashMap hashMap) {
         mContext = context;
         mBooleen = boole;
-        statrt = getStart();
-        end = getEnd();
+        mStart = getStart();
+        mEnd = getEnd();
         mHashMap = hashMap;
+        mDate = new int[50];
+        for (int i = 0; i < 50; i++) {
+            mDate[i] = i + 1;
+        }
     }
 
     @Override
@@ -71,8 +77,8 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.MyHold
         }
         if (mHashMap != null) {
             if (position >= 7) {
-                int position1 = position - 7;
-                if ((position1 >= 0 && position1 < statrt) || (position1 > end)) {
+                int position1 = position - 7 + 1;
+                if ((position1 >= 0 && position1 < mStart) || (position1 >= mEnd + mStart)) {
                     tv.setText("");
                 } else {
                     if (position1 > mHashMap.size()) {
@@ -80,7 +86,8 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.MyHold
                     } else {
                         tv.setFinish((Boolean) mHashMap.get(position1));
                     }
-                    tv.setText(String.valueOf(position1 - statrt + 1));
+                    Log.d(TAG, "onBindViewHolder: pos=====>>" + (position1 - mStart));
+                    tv.setText(mDate[position1 - mStart] + "");
                 }
             }
         }
@@ -88,7 +95,7 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.MyHold
 
     private int getEnd() {
         Calendar calendar = Calendar.getInstance();
-        int month = calendar.get(GregorianCalendar.MONTH);
+        int month = calendar.get(GregorianCalendar.MONTH) + 1;
         int year = calendar.get(GregorianCalendar.YEAR);
         if (month == 1 || month == 3 || month == 5 || month == 7 || month == 8 || month == 10 || month == 12) {
             return 31;
@@ -99,8 +106,9 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.MyHold
                 } else {
                     return 28;
                 }
+            } else {
+                return 30;
             }
-            return 30;
         }
     }
 
@@ -108,7 +116,11 @@ public class CalendarAdapter extends RecyclerView.Adapter<CalendarAdapter.MyHold
         Calendar calendar = Calendar.getInstance();
         int dayOfWeek = calendar.get(GregorianCalendar.DAY_OF_WEEK);
         int dayOfMonth = calendar.get(GregorianCalendar.DAY_OF_MONTH);
-        return dayOfWeek - dayOfMonth % 7;
+        if (dayOfWeek - dayOfMonth % 7 <= 0) {
+            return dayOfWeek+1;
+        } else {
+            return dayOfWeek - dayOfMonth % 7+1;
+        }
     }
 
     @Override

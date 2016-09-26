@@ -1,11 +1,11 @@
 package moe.haruue.goodhabits.ui.task;
 
-import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -14,11 +14,13 @@ import android.support.design.widget.Snackbar;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -37,8 +39,6 @@ import moe.haruue.goodhabits.receiver.PushReceiver;
 import moe.haruue.goodhabits.ui.BaseFragment;
 import moe.haruue.goodhabits.ui.calendar.TaskFinishEvent;
 import moe.haruue.goodhabits.ui.settings.CourseReloadedEvent;
-import moe.haruue.goodhabits.ui.taskdetail.TaskDetailActivity;
-import moe.haruue.goodhabits.ui.widget.NavigationBarMarginView;
 import moe.haruue.goodhabits.util.ResourceUtils;
 
 /**
@@ -58,12 +58,10 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
 
     @BindView(R.id.rv_tasks)
     RecyclerView mRvTasks;
-    @BindView(R.id.tv_message)
-    TextView mTvMessage;
-    @BindView(R.id.cv_message)
-    CardView mCvMessage;
-    //@BindView(R.id.srw_tasks)
-    //SwipeRefreshLayout mSrwTasks;
+    //  @BindView(R.id.tv_message)
+    // TextView mTvMessage;
+    // @BindView(R.id.cv_message)
+    // CardView mCvMessage;
     private TaskContract.Presenter mPresenter;
     private ArrayList<Task> mTasks;
     private RecyclerView.LayoutManager mLayoutManager;
@@ -74,7 +72,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
     private PendingIntent mPendingIntent;
 
 
-    private void tipsCardControl(String context) {
+/*    private void tipsCardControl(String context) {
         mCvMessage.setVisibility(View.GONE);
         if (!mPresenter.isRead(context.hashCode())) {
             mCvMessage.setOnClickListener(view1 -> {
@@ -86,7 +84,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
             });
             mCvMessage.setVisibility(View.VISIBLE);
         }
-    }
+    }*/
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUserEvent(CourseReloadedEvent event) {
@@ -99,7 +97,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
         mTasks = new ArrayList<>();
     }
 
-    @Subscribe(threadMode = ThreadMode.MAIN)
+/*    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUserEvent(MessageGoneEvent event) {
         ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mCvMessage, "alpha", 1f, 0f);
         objectAnimator.setDuration(1000).start();
@@ -124,7 +122,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
 
             }
         });
-    }
+    }*/
 
     @Nullable
     @Override
@@ -142,7 +140,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
         EventBus.getDefault().register(this);
         init();
         String context = ResourceUtils.readStringFromRawResource(getResources(), R.raw.guide);
-        tipsCardControl(context);
+        //   tipsCardControl(context);
     }
 
     private void settingAlarm() {
@@ -152,7 +150,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
         for (int i = 0; i < mTasks.size(); i++) {
             mPendingIntent = PendingIntent.getBroadcast(getContext(), 0, intentMaker().get(i), 0);
             mAlarmManager.set(AlarmManager.ELAPSED_REALTIME_WAKEUP,
-                    SystemClock.elapsedRealtime()+mTasks.get(i).startTime-nowTime-intervalTime,mPendingIntent);
+                    SystemClock.elapsedRealtime() + mTasks.get(i).startTime - nowTime - intervalTime, mPendingIntent);
         }
     }
 
@@ -168,12 +166,11 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
         return mInatent;
     }
 
-
     private void init() {
         //mSrwTasks = new SwipeRefreshLayout(getContext());
         mLayoutManager = new LinearLayoutManager(getContext());
         mRvTasks.setLayoutManager(mLayoutManager);
-        mCvMessage.setVisibility(View.GONE);
+        //    mCvMessage.setVisibility(View.GONE);
         //mSrwTasks.setOnRefreshListener(this);
     }
 
@@ -192,7 +189,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
     }
 
     public void notTimeToFinish() {
-        Snackbar.make(mRvTasks, "因为你内裤没有穿外面，所以你现在不能完成这件事 ", Snackbar.LENGTH_SHORT).show();
+        Snackbar.make(mRvTasks, "现在不能完成这件事 ", Snackbar.LENGTH_SHORT).show();
     }
 
     public void saveNote(int id, String note) {
@@ -211,10 +208,25 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
             mTasks = tasks;
             mAdapter = new TaskAdapter(mTasks);
             mRvTasks.setAdapter(mAdapter);
+            View header = LayoutInflater.from(getContext()).inflate(R.layout.header_task, mRvTasks,
+                    false);
+            mAdapter.setHeader(header);
+            View footer = LayoutInflater.from(getContext()).inflate(R.layout.footer_task, mRvTasks,
+                    false);
+            footer.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    getNavigationBarHeight()));
+            mAdapter.setFooter(footer);
             settingAlarm();
         } else {
             Snackbar.make(mRvTasks, "遇到错误，设置里重置课程表试试", Snackbar.LENGTH_LONG).show();
         }
+    }
+
+    private int getNavigationBarHeight() {
+        Resources resources = this.getResources();
+        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+        int height = resources.getDimensionPixelSize(resourceId);
+        return height;
     }
 
     @Override
@@ -225,13 +237,52 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
     }
 
     // TODO: 2016/8/20 weak references~~~
-    public class TaskAdapter extends RecyclerView.Adapter<RecyclerView.ViewHolder> {
+    public class TaskAdapter extends RecyclerView.Adapter<TaskAdapter.MyViewHolder> {
+
+        public static final int TYPE_HEADER = 0;
+        public static final int TYPE_FOOTER = 1;
+        public static final int TYPE_NORMAL = 2;
 
         private ArrayList<Task> mTasks;
         private static final float NORMAL_Z = 8;
         private static final float TODO_Z = 20;
         private static final float FINISHED_Z = 2;
         private int latelyTaskId = 0;
+
+        private View mHeader;
+        private View mFooter;
+
+        public View getFooter() {
+            return mFooter;
+        }
+
+        public void setFooter(View footer) {
+            mFooter = footer;
+            notifyItemInserted(getItemCount() - 1);
+        }
+
+        public View getHeader() {
+            return mHeader;
+        }
+
+        public void setHeader(View header) {
+            mHeader = header;
+            notifyItemInserted(0);
+        }
+
+        @Override
+        public int getItemViewType(int position) {
+            if (mHeader == null && mFooter == null) {
+                return TYPE_NORMAL;
+            }
+            if (position == 0) {
+                return TYPE_HEADER;
+            }
+            if (position == getItemCount() - 1) {
+                return TYPE_FOOTER;
+            }
+            return TYPE_NORMAL;
+        }
 
         public TaskAdapter(ArrayList<Task> tasks) {
             mTasks = tasks;
@@ -245,26 +296,35 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
         }
 
         @Override
-        public RecyclerView.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-            switch (viewType) {
-                case VIEW_TYPE_TASK_ITEM:
-                    View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_task, parent, false);
-                    return new ViewHolder(view);
-                case VIEW_TYPE_FOOTER:
-                    return new NavigationMarginFooterViewHolder(new NavigationBarMarginView(getContext()));
+        public MyViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
+            if (mHeader != null && viewType == TYPE_HEADER) {
+                return new MyViewHolder(mHeader);
             }
-            return null;
+            if (mFooter != null && viewType == TYPE_FOOTER) {
+                return new MyViewHolder(mFooter);
+            }
+            View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.item_task, parent, false);
+            return new MyViewHolder(view);
         }
 
         @Override
-        public void onBindViewHolder(RecyclerView.ViewHolder holder, int position) {
-            if (holder instanceof ViewHolder) {
-                onBindViewHolder((ViewHolder) holder, position);
+        public void onBindViewHolder(MyViewHolder holder, int position) {
+            if (getItemViewType(position) == TYPE_NORMAL) {
+                load(holder, position);
+            } else if (getItemViewType(position) == TYPE_HEADER) {
+                Log.d(TAG, "onBindViewHolder: head");
+                mHeader.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+
+                    }
+                });
+            } else {
+                Log.d(TAG, "onBindViewHolder: foot");
             }
         }
 
-
-        public void onBindViewHolder(ViewHolder holder, int position) {
+        private void load(MyViewHolder holder, int position) {
             TextView tvTitle = holder.mTvTitle;
             TextView tvHint = holder.mTvHint;
             TextView tvClick = holder.mTvClick;
@@ -276,11 +336,9 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
             EditText editText = holder.mEditText;
             Boolean isFinish;
 
-            //rvNote.setVisibility(View.GONE);
             cardView.setCardElevation(NORMAL_Z);
-
-            Task task = mTasks.get(holder.getAdapterPosition());
-
+            Task task = mTasks.get(position - 1);
+            Log.d(TAG, "onBindViewHolder: " + task.title);
             if ("type_school_course".equals(task.type)) {
                 ivTask.setImageResource(R.drawable.ic_task_1);
                 rlTask.setBackgroundColor(getResources().getColor(R.color.task));
@@ -290,7 +348,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
                 SimpleDateFormat simpleDateFormat = new SimpleDateFormat("HH:mm:ss");
                 String date = simpleDateFormat.format(task.startTime * 1000);
                 tvHint.setText(date);
-                tipsCardControl(task.content);
+                // tipsCardControl(task.content);
             }
 
             tvTitle.setText(task.title);
@@ -324,27 +382,11 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
                 });
             }
 
-
             if (task.id == latelyTaskId) {
                 animationUp(cardView);
                 ivTask.setImageResource(R.drawable.ic_todo);
                 rlTask.setBackgroundColor(getResources().getColor(R.color.goal_2));
             }
-
-          /*  if (startTime - nowTime <= 7200) {
-                animationUp(cardView);
-            }*/
-
-           /* cardView.setOnClickListener(view -> {
-                rvTask.setVisibility(View.GONE);
-                rvNote.setVisibility(View.VISIBLE);
-            });*/
-
-           /* tvNoteSave.setOnClickListener(view -> {
-                saveNote(task.id, editText.getText().toString());
-                rvTask.setVisibility(View.VISIBLE);
-                rvNote.setVisibility(View.GONE);
-            });*/
         }
 
         private void animationExpand(View view) {
@@ -384,22 +426,18 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
 
         @Override
         public int getItemCount() {
-            return mTasks.size() + 1;
-        }
-
-        private final static int VIEW_TYPE_TASK_ITEM = 0;
-        private final static int VIEW_TYPE_FOOTER = 1;
-
-        @Override
-        public int getItemViewType(int position) {
-            if (position < mTasks.size()) {
-                return VIEW_TYPE_TASK_ITEM;
+            if (mHeader == null && mFooter == null) {
+                return mTasks.size();
+            } else if (mHeader == null && mFooter != null) {
+                return mTasks.size() + 1;
+            } else if (mHeader != null && mFooter == null) {
+                return mTasks.size() + 1;
             } else {
-                return VIEW_TYPE_FOOTER;
+                return mTasks.size() + 2;
             }
         }
 
-        public class ViewHolder extends RecyclerView.ViewHolder {
+        public class MyViewHolder extends RecyclerView.ViewHolder {
 
             private TextView mTvTitle;
             private TextView mTvHint;
@@ -411,9 +449,15 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
             private EditText mEditText;
             private TextView mSave;
 
-            public ViewHolder(View itemView) {
+            public MyViewHolder(View itemView) {
                 super(itemView);
                 ButterKnife.bind(this, itemView);
+                if (itemView == mHeader) {
+                    return;
+                }
+                if (itemView == mFooter) {
+                    return;
+                }
                 mIvTask = (ImageView) itemView.findViewById(R.id.iv_task_hint);
                 mTvTitle = (TextView) itemView.findViewById(R.id.tv_task_title);
                 mTvHint = (TextView) itemView.findViewById(R.id.tv_task_hint);
@@ -424,13 +468,6 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
                 //mRvNote = (RelativeLayout) itemView.findViewById(R.id.rl_task_note);
                 //mEditText = (EditText) itemView.findViewById(R.id.et_task_note);
                 //mSave = (TextView) itemView.findViewById(R.id.tv_task_note_save);
-            }
-        }
-
-        private class NavigationMarginFooterViewHolder extends RecyclerView.ViewHolder {
-
-            public NavigationMarginFooterViewHolder(NavigationBarMarginView itemView) {
-                super(itemView);
             }
         }
     }

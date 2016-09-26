@@ -31,7 +31,6 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:gravity="center_vertical"
-            android:text="高数课"
             android:textColor="@color/material_color_white"
             android:textSize="19sp"
             android:layout_alignParentTop="true"
@@ -48,7 +47,6 @@
             android:layout_marginStart="20dp"
             android:maxLines="2"
             android:ellipsize="end"
-            android:text="啥你高数还没过？"
             android:layout_below="@+id/tv_task_title"
             android:layout_toRightOf="@+id/iv_task_hint"
             android:layout_toEndOf="@+id/iv_task_hint"/>
