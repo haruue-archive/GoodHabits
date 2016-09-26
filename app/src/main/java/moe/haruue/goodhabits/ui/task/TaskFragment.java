@@ -5,6 +5,7 @@ import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.res.Resources;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.SystemClock;
@@ -19,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -206,14 +208,25 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
             mTasks = tasks;
             mAdapter = new TaskAdapter(mTasks);
             mRvTasks.setAdapter(mAdapter);
-            View header = LayoutInflater.from(getContext()).inflate(R.layout.header_task, mRvTasks, false);
+            View header = LayoutInflater.from(getContext()).inflate(R.layout.header_task, mRvTasks,
+                    false);
             mAdapter.setHeader(header);
-            View footer = LayoutInflater.from(getContext()).inflate(R.layout.foot_task, mRvTasks, false);
+            View footer = LayoutInflater.from(getContext()).inflate(R.layout.footer_task, mRvTasks,
+                    false);
+            footer.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
+                    getNavigationBarHeight()));
             mAdapter.setFooter(footer);
             settingAlarm();
         } else {
             Snackbar.make(mRvTasks, "遇到错误，设置里重置课程表试试", Snackbar.LENGTH_LONG).show();
         }
+    }
+
+    private int getNavigationBarHeight() {
+        Resources resources = this.getResources();
+        int resourceId = resources.getIdentifier("navigation_bar_height", "dimen", "android");
+        int height = resources.getDimensionPixelSize(resourceId);
+        return height;
     }
 
     @Override
@@ -297,7 +310,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
         @Override
         public void onBindViewHolder(MyViewHolder holder, int position) {
             if (getItemViewType(position) == TYPE_NORMAL) {
-                    load(holder, position);
+                load(holder, position);
             } else if (getItemViewType(position) == TYPE_HEADER) {
                 Log.d(TAG, "onBindViewHolder: head");
                 mHeader.setOnClickListener(new View.OnClickListener() {
