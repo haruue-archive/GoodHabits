@@ -59,7 +59,7 @@ public class GuideActivity extends AppCompatActivity {
         fragment2.setArguments(bundle2);
         Bundle bundle3 = new Bundle();
         bundle3.putInt(GuideFragment.ARGUMENT_DRAWABLE, R.drawable.start4);
-        bundle3.putSerializable(GuideFragment.ARGUMENT_STRING, "开始全新的旅程");
+        bundle3.putSerializable(GuideFragment.ARGUMENT_STRING, getString(R.string.guide_last));
         fragment3.setArguments(bundle3);
         mFragments.add(fragment);
         mFragments.add(fragment1);
@@ -131,7 +131,6 @@ public class GuideActivity extends AppCompatActivity {
 
         @Override
         public void onPageSelected(int position) {
-
         }
 
         @Override

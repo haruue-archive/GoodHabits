@@ -38,6 +38,7 @@ public class GuideFragment extends Fragment {
                              @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.fratgment_guide_page, container, false);
         ButterKnife.bind(this, view);
+        mBtGuide.setVisibility(View.GONE);
         return view;
     }
 
@@ -46,17 +47,15 @@ public class GuideFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
         mTvGuide.setText(getArguments().getString(ARGUMENT_STRING));
         mIvGuide.setImageResource(getArguments().getInt(ARGUMENT_DRAWABLE));
+        if (getString(R.string.guide_last).equals(getArguments().getString(ARGUMENT_STRING))) {
+            mBtGuide.setVisibility(View.VISIBLE);
+        }
         AlphaAnimation alphaAnimation = new AlphaAnimation(0, 1);
         alphaAnimation.setDuration(500);
         mBtGuide.setAnimation(alphaAnimation);
         mBtGuide.setOnClickListener(view1 -> {
             Intent intent = new Intent();
-            intent.setClass(getActivity(), LoginActivity.class);/*
-            ActivityOptionsCompat optionsCompat =
-                    ActivityOptionsCompat.makeSceneTransitionAnimation(getActivity(),
-                            view1.findViewById(R.id.bt_guide), "登录按钮");
-
-            ActivityCompat.startActivity(getActivity(),intent,optionsCompat.toBundle());*/
+            intent.setClass(getActivity(), LoginActivity.class);
             startActivity(intent);
             getActivity().finish();
         });
