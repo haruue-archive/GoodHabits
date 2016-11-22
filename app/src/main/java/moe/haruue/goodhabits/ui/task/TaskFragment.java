@@ -1,5 +1,6 @@
 package moe.haruue.goodhabits.ui.task;
 
+import android.animation.Animator;
 import android.animation.ObjectAnimator;
 import android.app.AlarmManager;
 import android.app.PendingIntent;
@@ -39,6 +40,7 @@ import moe.haruue.goodhabits.receiver.PushReceiver;
 import moe.haruue.goodhabits.ui.BaseFragment;
 import moe.haruue.goodhabits.ui.calendar.TaskFinishEvent;
 import moe.haruue.goodhabits.ui.settings.CourseReloadedEvent;
+import moe.haruue.goodhabits.ui.taskdetail.TaskDetailActivity;
 import moe.haruue.goodhabits.util.ResourceUtils;
 
 /**
@@ -72,19 +74,18 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
     private PendingIntent mPendingIntent;
 
 
-/*    private void tipsCardControl(String context) {
-        mCvMessage.setVisibility(View.GONE);
-        if (!mPresenter.isRead(context.hashCode())) {
-            mCvMessage.setOnClickListener(view1 -> {
-                mContext = context;
+    private void tipsCardControl(String tips) {
+        if (!mPresenter.isRead(tips.hashCode())) {
+            setHeader();
+            mAdapter.getHeader().setOnClickListener(view1 -> {
+                mContext = tips;
                 Intent intent = new Intent();
-                intent.putExtra(EXTRA_CONTEXT, context);
+                intent.putExtra(EXTRA_CONTEXT, tips);
                 intent.setClass(getActivity(), TaskDetailActivity.class);
                 startActivity(intent);
             });
-            mCvMessage.setVisibility(View.VISIBLE);
         }
-    }*/
+    }
 
     @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUserEvent(CourseReloadedEvent event) {
@@ -97,9 +98,9 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
         mTasks = new ArrayList<>();
     }
 
-/*    @Subscribe(threadMode = ThreadMode.MAIN)
+    @Subscribe(threadMode = ThreadMode.MAIN)
     public void onUserEvent(MessageGoneEvent event) {
-        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(mCvMessage, "alpha", 1f, 0f);
+        ObjectAnimator objectAnimator = ObjectAnimator.ofFloat(this.mAdapter.getHeader(), "alpha", 1f, 0f);
         objectAnimator.setDuration(1000).start();
         objectAnimator.addListener(new Animator.AnimatorListener() {
             @Override
@@ -109,12 +110,12 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
 
             @Override
             public void onAnimationEnd(Animator animator) {
-                mCvMessage.setVisibility(View.GONE);
+                mAdapter.cancleHeader();
             }
 
             @Override
             public void onAnimationCancel(Animator animator) {
-                mCvMessage.setVisibility(View.GONE);
+                mAdapter.cancleHeader();
             }
 
             @Override
@@ -122,7 +123,7 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
 
             }
         });
-    }*/
+    }
 
     @Nullable
     @Override
@@ -139,8 +140,6 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
         super.onViewCreated(view, savedInstanceState);
         EventBus.getDefault().register(this);
         init();
-        String context = ResourceUtils.readStringFromRawResource(getResources(), R.raw.guide);
-        //   tipsCardControl(context);
     }
 
     private void settingAlarm() {
@@ -202,21 +201,25 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
         EventBus.getDefault().unregister(this);
     }
 
+    public void setHeader() {
+        View header = LayoutInflater.from(getContext()).inflate(R.layout.header_task, mRvTasks,
+                false);
+        mAdapter.setHeader(header);
+    }
+
     @Override
     public void onGetTodayTasks(ArrayList<Task> tasks, boolean isSuccess) {
         if (isSuccess) {
             mTasks = tasks;
             mAdapter = new TaskAdapter(mTasks);
             mRvTasks.setAdapter(mAdapter);
-            View header = LayoutInflater.from(getContext()).inflate(R.layout.header_task, mRvTasks,
-                    false);
-            mAdapter.setHeader(header);
             View footer = LayoutInflater.from(getContext()).inflate(R.layout.footer_task, mRvTasks,
                     false);
             footer.setLayoutParams(new LinearLayout.LayoutParams(ViewGroup.LayoutParams.MATCH_PARENT,
                     getNavigationBarHeight()));
             mAdapter.setFooter(footer);
-            settingAlarm();
+            tipsCardControl(ResourceUtils.
+                    readStringFromRawResource(getResources(), R.raw.guide));
         } else {
             Snackbar.make(mRvTasks, "遇到错误，设置里重置课程表试试", Snackbar.LENGTH_LONG).show();
         }
@@ -270,12 +273,17 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
             notifyItemInserted(0);
         }
 
+        public void cancleHeader() {
+            mHeader = null;
+            notifyItemRangeRemoved(0,1);
+        }
+
         @Override
         public int getItemViewType(int position) {
             if (mHeader == null && mFooter == null) {
                 return TYPE_NORMAL;
             }
-            if (position == 0) {
+            if (mHeader!=null&&position == 0) {
                 return TYPE_HEADER;
             }
             if (position == getItemCount() - 1) {
@@ -312,13 +320,6 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
             if (getItemViewType(position) == TYPE_NORMAL) {
                 load(holder, position);
             } else if (getItemViewType(position) == TYPE_HEADER) {
-                Log.d(TAG, "onBindViewHolder: head");
-                mHeader.setOnClickListener(new View.OnClickListener() {
-                    @Override
-                    public void onClick(View v) {
-
-                    }
-                });
             } else {
                 Log.d(TAG, "onBindViewHolder: foot");
             }
@@ -336,8 +337,12 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
             EditText editText = holder.mEditText;
             Boolean isFinish;
 
+            if (mHeader != null) {
+                position--;
+            }
+
             cardView.setCardElevation(NORMAL_Z);
-            Task task = mTasks.get(position - 1);
+            Task task = mTasks.get(position);
             Log.d(TAG, "onBindViewHolder: " + task.title);
             if ("type_school_course".equals(task.type)) {
                 ivTask.setImageResource(R.drawable.ic_task_1);
@@ -389,11 +394,6 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
             }
         }
 
-        private void animationExpand(View view) {
-            ObjectAnimator expand = ObjectAnimator.ofFloat(view, "height", 2);
-            expand.setDuration(300).start();
-        }
-
         private void animationUp(View view) {
             int nowZ = 0;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
@@ -426,12 +426,8 @@ public class TaskFragment extends BaseFragment implements TaskContract.View {
 
         @Override
         public int getItemCount() {
-            if (mHeader == null && mFooter == null) {
-                return mTasks.size();
-            } else if (mHeader == null && mFooter != null) {
-                return mTasks.size() + 1;
-            } else if (mHeader != null && mFooter == null) {
-                return mTasks.size() + 1;
+            if (mHeader == null) {
+                return mTasks.size()+1;
             } else {
                 return mTasks.size() + 2;
             }

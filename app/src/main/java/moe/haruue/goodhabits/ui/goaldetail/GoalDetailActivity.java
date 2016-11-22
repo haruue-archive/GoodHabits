@@ -3,6 +3,7 @@ package moe.haruue.goodhabits.ui.goaldetail;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.CardView;
 import android.support.v7.widget.RecyclerView;
@@ -47,12 +48,24 @@ public class GoalDetailActivity extends AppCompatActivity implements GoalDetailC
         mPresenter.start();
     }
 
+    public void initToolbar() {
+        setSupportActionBar(mToolbar);
+        mToolbar.setNavigationOnClickListener(v -> {
+            this.finish();
+        });
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeButtonEnabled(true);
+        }
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_goal_detail);
         ButterKnife.bind(this);
-        setSupportActionBar(mToolbar);
+        initToolbar();
         new GoalDetailPresenter(this);
         Intent intent = getIntent();
         String id = intent.getStringExtra(SquareFragment.EXTRA_PLAN_ID);
