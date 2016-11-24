@@ -1,5 +1,7 @@
 package moe.haruue.goodhabits.model;
 
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
@@ -12,7 +14,7 @@ import java.io.Serializable;
  * @author Haruue Icymoon haruue@caoyue.com.cn
  */
 
-public class Task implements Comparable<Task>, Serializable, Cloneable {
+public class Task implements Comparable<Task>, Serializable, Cloneable, Parcelable {
 
     public String title = "";
     public String content = "";
@@ -24,6 +26,35 @@ public class Task implements Comparable<Task>, Serializable, Cloneable {
     public long endTime;
     public boolean isFinish;
     public String note = "";
+
+    public Task() {
+
+    }
+
+    protected Task(Parcel in) {
+        title = in.readString();
+        content = in.readString();
+        type = in.readString();
+        plan = in.readString();
+        id = in.readInt();
+        imageUrl = in.readString();
+        startTime = in.readLong();
+        endTime = in.readLong();
+        isFinish = in.readByte() != 0;
+        note = in.readString();
+    }
+
+    public static final Creator<Task> CREATOR = new Creator<Task>() {
+        @Override
+        public Task createFromParcel(Parcel in) {
+            return new Task(in);
+        }
+
+        @Override
+        public Task[] newArray(int size) {
+            return new Task[size];
+        }
+    };
 
     public static Task newEmptyTaskWithId(int id) {
         Task task = new Task();
@@ -125,5 +156,24 @@ public class Task implements Comparable<Task>, Serializable, Cloneable {
         task.endTime = endTime;
         task.note = note;
         return task;
+    }
+
+    @Override
+    public int describeContents() {
+        return 0;
+    }
+
+    @Override
+    public void writeToParcel(Parcel parcel, int i) {
+        parcel.writeString(title);
+        parcel.writeString(content);
+        parcel.writeString(type);
+        parcel.writeString(plan);
+        parcel.writeInt(id);
+        parcel.writeString(imageUrl);
+        parcel.writeLong(startTime);
+        parcel.writeLong(endTime);
+        parcel.writeByte((byte) (isFinish ? 1 : 0));
+        parcel.writeString(note);
     }
 }

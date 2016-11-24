@@ -31,4 +31,5 @@ public class Const {
     public static final String KEY_FIRST_INTO_TASK_FRAGMENT = "first_time_in_task_activity";
 
     public static final String WEATHER_API = " https://api.heweather.com/x3/weather?cityid=CN101040100&key=51dc6c000e12459eb87d31f2971441c0";
+    public static final String APP_WIDGET_CACHE_FILE_NAME = "app_widget_cache.json";
 }
